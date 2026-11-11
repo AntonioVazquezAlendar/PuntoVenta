@@ -1,0 +1,10 @@
+Options -Indexes
+
+# Solo public debe ser accesible desde el navegador.
+RewriteEngine On
+RewriteRule ^$ public/ [R=302,L]
+RewriteRule ^(?!public(?:/|$)).+ - [F,L,NC]
+
+<FilesMatch "^(?:composer\.(?:json|lock)|\.env.*)$">
+    Require all denied
+</FilesMatch>

@@ -1,0 +1,21 @@
+[10-Nov-2026 17:53:29 UTC] Error: Class 'finfo' not found in C:\AppServ\www\PuntoVenta\app\Models\Empresa.php:38
+Stack trace:
+#0 C:\AppServ\www\PuntoVenta\app\Controllers\EmpresaController.php(22): Empresa->guardar(Array, Array)
+#1 C:\AppServ\www\PuntoVenta\app\Routes\api.php(26): EmpresaController->guardar()
+#2 C:\AppServ\www\PuntoVenta\public\index.php(22): require('C:\\AppServ\\www\\...')
+#3 {main}
+[10-Nov-2026 19:52:40 UTC] PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'nombre_original' in 'field list' in C:\AppServ\www\PuntoVenta\app\Models\ProductoImagen.php:23
+Stack trace:
+#0 C:\AppServ\www\PuntoVenta\app\Models\ProductoImagen.php(23): PDOStatement->execute(Array)
+#1 C:\AppServ\www\PuntoVenta\app\Models\Producto.php(156): ProductoImagen->guardar('73', Array, Array)
+#2 C:\AppServ\www\PuntoVenta\app\Controllers\ProductoController.php(32): Producto->guardar(Array, '73', Array)
+#3 C:\AppServ\www\PuntoVenta\app\Routes\api.php(228): ProductoController->guardar(Array, NULL, Array)
+#4 C:\AppServ\www\PuntoVenta\public\index.php(22): require('C:\\AppServ\\www\\...')
+#5 {main}
+[11-Nov-2026 16:46:20 UTC] PDOException: SQLSTATE[40001]: Serialization failure: 1213 Deadlock found when trying to get lock; try restarting transaction in C:\AppServ\www\PuntoVenta\app\Services\Auth.php:101
+Stack trace:
+#0 C:\AppServ\www\PuntoVenta\app\Services\Auth.php(101): PDOStatement->execute(Array)
+#1 C:\AppServ\www\PuntoVenta\app\Controllers\UsuarioController.php(33): Auth->login(Array)
+#2 C:\AppServ\www\PuntoVenta\app\Routes\api.php(219): UsuarioController->login(Array)
+#3 C:\AppServ\www\PuntoVenta\public\index.php(22): require('C:\\AppServ\\www\\...')
+#4 {main}

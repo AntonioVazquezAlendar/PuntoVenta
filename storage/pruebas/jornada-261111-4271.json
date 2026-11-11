@@ -1,0 +1,1396 @@
+{
+  "tag": "261111-4271",
+  "label": "PRUEBA Jornada 261111-4271",
+  "admin_login": "prueba_admin_261111_4271",
+  "cashier_login": "prueba_cajero_261111_4271",
+  "entities": {
+    "admin": "430",
+    "role": "268",
+    "cashier": "431",
+    "warehouse": "215",
+    "shop": "216",
+    "damaged": "217",
+    "supplier": "10",
+    "client": "178",
+    "unit": "1",
+    "tax": "1",
+    "methods": {
+      "efectivo": "1",
+      "tarjeta": "2",
+      "credito": "6"
+    },
+    "product": "318",
+    "variant": "495",
+    "expense_category": "19",
+    "today": "2026-11-11",
+    "purchase": "51",
+    "purchase_folio": "C-00000051",
+    "transfer_folio": "TR-00000063",
+    "box": "177",
+    "turn": "191",
+    "opening_version": "95bf5d5e9455f79514a08db0ea826b3339cbfe066c3cd005c761c5831146e630",
+    "venta_efectivo": "450",
+    "venta_efectivo_folio": "V-00000450",
+    "venta_mixta": "451",
+    "venta_mixta_folio": "V-00000451",
+    "venta_credito": "452",
+    "venta_credito_folio": "V-00000452",
+    "venta_cancelar": "453",
+    "venta_cancelar_folio": "V-00000453",
+    "expense_folio": "G-00000112",
+    "installment_folio": "A-00000016",
+    "payment_folio": "PP-00000013",
+    "refund_folio": "D-00000126",
+    "cancellation_folio": "C-00000127"
+  },
+  "results": {
+    "role": {
+      "id": "268",
+      "nombre": "PRUEBA Jornada 261111-4271 Cajero",
+      "permisos": {
+        "ver_productos": false,
+        "editar_productos": false,
+        "vender": true,
+        "ver_ventas": true,
+        "dar_descuento": false,
+        "cambiar_precio": false,
+        "cancelar_venta": true,
+        "hacer_devoluciones": true,
+        "ver_clientes": false,
+        "editar_clientes": false,
+        "ver_inventario": false,
+        "ver_alertas_inventario": false,
+        "configurar_minimos": false,
+        "ajustar_inventario": false,
+        "administrar_ubicaciones": false,
+        "realizar_traspasos": false,
+        "registrar_mermas": false,
+        "hacer_compras": false,
+        "operar_caja": true,
+        "supervisar_caja": false,
+        "administrar_cajas": false,
+        "ver_gastos": true,
+        "registrar_gastos": true,
+        "ver_cuentas_pagar": true,
+        "pagar_proveedores": true,
+        "vender_credito": true,
+        "ver_creditos": true,
+        "cobrar_abonos": true,
+        "ver_reportes": true
+      }
+    },
+    "cashier": {
+      "id": "431",
+      "rol_id": "268",
+      "nombre": "PRUEBA Jornada 261111-4271 · Cajero",
+      "nombre_usuario": "prueba_cajero_261111_4271",
+      "activo": "1",
+      "ultimo_acceso": null,
+      "creado_en": "2026-11-11 14:35:10",
+      "rol_nombre": "PRUEBA Jornada 261111-4271 Cajero",
+      "permisos": {
+        "vender": true,
+        "ver_gastos": true,
+        "ver_ventas": true,
+        "operar_caja": true,
+        "ver_clientes": false,
+        "ver_creditos": true,
+        "ver_reportes": true,
+        "cobrar_abonos": true,
+        "dar_descuento": false,
+        "hacer_compras": false,
+        "ver_productos": false,
+        "cambiar_precio": false,
+        "cancelar_venta": true,
+        "vender_credito": true,
+        "ver_inventario": false,
+        "editar_clientes": false,
+        "supervisar_caja": false,
+        "editar_productos": false,
+        "registrar_gastos": true,
+        "registrar_mermas": false,
+        "administrar_cajas": false,
+        "pagar_proveedores": true,
+        "ver_cuentas_pagar": true,
+        "ajustar_inventario": false,
+        "configurar_minimos": false,
+        "hacer_devoluciones": true,
+        "realizar_traspasos": false,
+        "ver_alertas_inventario": false,
+        "administrar_ubicaciones": false
+      }
+    },
+    "warehouse": {
+      "id": "215"
+    },
+    "shop": {
+      "id": "216"
+    },
+    "damaged": {
+      "id": "217"
+    },
+    "supplier": {
+      "id": "10"
+    },
+    "client": {
+      "id": "178"
+    },
+    "credit_config": {
+      "cliente_id": "178"
+    },
+    "product": {
+      "id": "318"
+    },
+    "minimum_warehouse": {
+      "version": 1,
+      "minimo": "5.0000",
+      "usar_general": false
+    },
+    "minimum_shop": {
+      "version": 1,
+      "minimo": "6.0000",
+      "usar_general": false
+    },
+    "expense_category": {
+      "id": "19"
+    },
+    "purchase": {
+      "id": "51",
+      "folio": "C-00000051",
+      "proveedor_id": "10",
+      "ubicacion_id": "215",
+      "estatus": "borrador",
+      "factura_proveedor": "PRUEBA-261111-4271",
+      "subtotal": "2000.00",
+      "impuesto_total": "320.00",
+      "total": "2320.00",
+      "notas": "Compra simulada de 20 termos a $100 más IVA; conservada para revisión.",
+      "creado_por": "430",
+      "recibido_por": null,
+      "creado_en": "2026-11-11 14:35:11",
+      "recibido_en": null,
+      "condicion_pago": "credito",
+      "vence": "2026-11-26",
+      "saldo_base": null,
+      "conciliacion": null,
+      "detalles": [
+        {
+          "id": "60",
+          "compra_id": "51",
+          "variante_id": "495",
+          "cantidad": "20.0000",
+          "costo_unitario": "100.0000",
+          "impuesto_id": "1",
+          "tasa_impuesto": "0.1600",
+          "subtotal_linea": "2000.00",
+          "impuesto_linea": "320.00",
+          "total_linea": "2320.00",
+          "sku": "PRUEBA-TERMO-261111-4271",
+          "variante_nombre": "Negro",
+          "producto_nombre": "PRUEBA Jornada 261111-4271 · Termo 750 ml",
+          "unidad_codigo": "pza",
+          "permite_decimales": "0",
+          "impuesto_nombre": "IVA 16%"
+        }
+      ],
+      "version": "1f28139a3e6ba90821ec9a55e0b027e8d0310dcec02faea2d1da20903efa4ce0",
+      "proveedor_nombre": "PRUEBA Jornada 261111-4271 · Proveedor",
+      "ubicacion_nombre": "PRUEBA Jornada 261111-4271 · Bodega",
+      "creado_por_nombre": "PRUEBA Jornada 261111-4271 · Administrador",
+      "recibido_por_nombre": null,
+      "creado_unix": "1794429311",
+      "recibido_unix": null
+    },
+    "ordered": {
+      "id": "51",
+      "folio": "C-00000051",
+      "proveedor_id": "10",
+      "ubicacion_id": "215",
+      "estatus": "pedida",
+      "factura_proveedor": "PRUEBA-261111-4271",
+      "subtotal": "2000.00",
+      "impuesto_total": "320.00",
+      "total": "2320.00",
+      "notas": "Compra simulada de 20 termos a $100 más IVA; conservada para revisión.",
+      "creado_por": "430",
+      "recibido_por": null,
+      "creado_en": "2026-11-11 14:35:11",
+      "recibido_en": null,
+      "condicion_pago": "credito",
+      "vence": "2026-11-26",
+      "saldo_base": null,
+      "conciliacion": null,
+      "detalles": [
+        {
+          "id": "61",
+          "compra_id": "51",
+          "variante_id": "495",
+          "cantidad": "20.0000",
+          "costo_unitario": "100.0000",
+          "impuesto_id": "1",
+          "tasa_impuesto": "0.1600",
+          "subtotal_linea": "2000.00",
+          "impuesto_linea": "320.00",
+          "total_linea": "2320.00",
+          "sku": "PRUEBA-TERMO-261111-4271",
+          "variante_nombre": "Negro",
+          "producto_nombre": "PRUEBA Jornada 261111-4271 · Termo 750 ml",
+          "unidad_codigo": "pza",
+          "permite_decimales": "0",
+          "impuesto_nombre": "IVA 16%"
+        }
+      ],
+      "version": "317c934bc182ec8b9606759e94cf908af23c94d9fe97db98ce121c82480b1718",
+      "proveedor_nombre": "PRUEBA Jornada 261111-4271 · Proveedor",
+      "ubicacion_nombre": "PRUEBA Jornada 261111-4271 · Bodega",
+      "creado_por_nombre": "PRUEBA Jornada 261111-4271 · Administrador",
+      "recibido_por_nombre": null,
+      "creado_unix": "1794429311",
+      "recibido_unix": null
+    },
+    "received": {
+      "id": "51",
+      "folio": "C-00000051",
+      "proveedor_id": "10",
+      "ubicacion_id": "215",
+      "estatus": "recibida",
+      "factura_proveedor": "PRUEBA-261111-4271",
+      "subtotal": "2000.00",
+      "impuesto_total": "320.00",
+      "total": "2320.00",
+      "notas": "Compra simulada de 20 termos a $100 más IVA; conservada para revisión.",
+      "creado_por": "430",
+      "recibido_por": "430",
+      "creado_en": "2026-11-11 14:35:11",
+      "recibido_en": "2026-11-11 14:35:11",
+      "condicion_pago": "credito",
+      "vence": "2026-11-26",
+      "saldo_base": "2320.00",
+      "conciliacion": null,
+      "detalles": [
+        {
+          "id": "61",
+          "compra_id": "51",
+          "variante_id": "495",
+          "cantidad": "20.0000",
+          "costo_unitario": "100.0000",
+          "impuesto_id": "1",
+          "tasa_impuesto": "0.1600",
+          "subtotal_linea": "2000.00",
+          "impuesto_linea": "320.00",
+          "total_linea": "2320.00",
+          "sku": "PRUEBA-TERMO-261111-4271",
+          "variante_nombre": "Negro",
+          "producto_nombre": "PRUEBA Jornada 261111-4271 · Termo 750 ml",
+          "unidad_codigo": "pza",
+          "permite_decimales": "0",
+          "impuesto_nombre": "IVA 16%"
+        }
+      ],
+      "version": "317c934bc182ec8b9606759e94cf908af23c94d9fe97db98ce121c82480b1718",
+      "proveedor_nombre": "PRUEBA Jornada 261111-4271 · Proveedor",
+      "ubicacion_nombre": "PRUEBA Jornada 261111-4271 · Bodega",
+      "creado_por_nombre": "PRUEBA Jornada 261111-4271 · Administrador",
+      "recibido_por_nombre": "PRUEBA Jornada 261111-4271 · Administrador",
+      "creado_unix": "1794429311",
+      "recibido_unix": "1794429311"
+    },
+    "transfer": {
+      "id": "63",
+      "folio": "TR-00000063",
+      "tipo": "traspaso",
+      "cantidad": "12.0000",
+      "origen_id": "215",
+      "destino_id": "216",
+      "origen_anterior": "20.0000",
+      "origen_nuevo": "8.0000",
+      "destino_anterior": "0.0000",
+      "destino_nuevo": "12.0000",
+      "movimientos": [
+        "1051",
+        "1052"
+      ]
+    },
+    "box": {
+      "id": "177"
+    },
+    "opening": {
+      "turno_id": "191",
+      "mensaje": "Turno abierto"
+    },
+    "venta_efectivo": {
+      "venta_id": "450",
+      "folio": "V-00000450",
+      "total": "600.00",
+      "cambio": "400.00"
+    },
+    "venta_mixta": {
+      "venta_id": "451",
+      "folio": "V-00000451",
+      "total": "400.00",
+      "cambio": "50.00"
+    },
+    "venta_credito": {
+      "venta_id": "452",
+      "folio": "V-00000452",
+      "total": "400.00",
+      "cambio": "0.00"
+    },
+    "venta_cancelar": {
+      "venta_id": "453",
+      "folio": "V-00000453",
+      "total": "200.00",
+      "cambio": "0.00"
+    },
+    "expense": {
+      "id": "112",
+      "folio": "G-00000112",
+      "monto": "40.00"
+    },
+    "installment": {
+      "abono_id": "16",
+      "folio": "A-00000016",
+      "monto": "100.00"
+    },
+    "supplier_payment": {
+      "pago_id": "13",
+      "folio": "PP-00000013",
+      "monto": "300.00"
+    },
+    "refund": {
+      "devolucion_id": "126",
+      "venta_id": "450",
+      "folio": "D-00000126",
+      "tipo": "devolucion",
+      "total": "200.00"
+    },
+    "cancellation": {
+      "devolucion_id": "127",
+      "venta_id": "453",
+      "folio": "C-00000127",
+      "tipo": "cancelacion",
+      "total": "200.00"
+    },
+    "closing": {
+      "turno_id": "191",
+      "esperado": "910.00",
+      "contado": "910.00",
+      "diferencia": "0.00"
+    }
+  },
+  "keys": {
+    "purchase": "cd43f947-cd37-4e92-85cc-5686bc1e5090",
+    "transfer": "2b6e423f-d4b4-415b-bedd-9c5accf6bf3f",
+    "opening": "0504463a-17c6-45f7-b816-8d11d960c7d2",
+    "venta_efectivo": "8b094ecd-bb6a-4703-8902-519ce77b175a",
+    "venta_mixta": "79325804-09c2-48cf-a172-6b35cce274d4",
+    "venta_credito": "7f075e31-ee96-490b-a22e-c1c1a9d625ef",
+    "venta_cancelar": "6dad63e1-3fe1-400d-9cac-578ca2d41b07",
+    "expense": "36073e29-6c3f-408b-8c95-e297b6eec906",
+    "installment": "badff25d-6400-420c-9fa3-dbbb38e60554",
+    "supplier_payment": "8bce7db7-b25d-491d-99f3-1073fea99ebd",
+    "refund": "17747d60-358b-4374-bfcd-ddd04f0b500a",
+    "cancellation": "99f33dab-d4d4-4c8d-a137-510a154d3b44",
+    "stale_close": "bfe0c891-3cac-4597-83b3-224db9f09557",
+    "closing": "d476e930-eb5e-4709-b997-68ace6b94f5c"
+  },
+  "checks": [
+    {
+      "fase": "Compra y recepción",
+      "control": "Total compra con IVA",
+      "esperado": "2320.00",
+      "obtenido": "2320.00",
+      "correcto": true
+    },
+    {
+      "fase": "Compra y recepción",
+      "control": "Bodega antes de recibir",
+      "esperado": "0.0000",
+      "obtenido": "0.0000",
+      "correcto": true
+    },
+    {
+      "fase": "Compra y recepción",
+      "control": "Estado de compra",
+      "esperado": "recibida",
+      "obtenido": "recibida",
+      "correcto": true
+    },
+    {
+      "fase": "Compra y recepción",
+      "control": "Bodega tras recepción",
+      "esperado": "20.0000",
+      "obtenido": "20.0000",
+      "correcto": true
+    },
+    {
+      "fase": "Compra y recepción",
+      "control": "Reintento de recepción no duplica compra",
+      "esperado": "51",
+      "obtenido": "51",
+      "correcto": true
+    },
+    {
+      "fase": "Compra y recepción",
+      "control": "Reintento no duplica existencias",
+      "esperado": "20.0000",
+      "obtenido": "20.0000",
+      "correcto": true
+    },
+    {
+      "fase": "Traspaso a tienda",
+      "control": "Bodega después del traspaso",
+      "esperado": "8.0000",
+      "obtenido": "8.0000",
+      "correcto": true
+    },
+    {
+      "fase": "Traspaso a tienda",
+      "control": "Tienda después del traspaso",
+      "esperado": "12.0000",
+      "obtenido": "12.0000",
+      "correcto": true
+    },
+    {
+      "fase": "Apertura de caja",
+      "control": "Fondo inicial",
+      "esperado": "500.00",
+      "obtenido": "500.00",
+      "correcto": true
+    },
+    {
+      "fase": "Ventas en efectivo, mixta y crédito",
+      "control": "Reintento de venta conserva folio",
+      "esperado": "450",
+      "obtenido": "450",
+      "correcto": true
+    },
+    {
+      "fase": "Ventas en efectivo, mixta y crédito",
+      "control": "Total venta_efectivo",
+      "esperado": "600.00",
+      "obtenido": "600.00",
+      "correcto": true
+    },
+    {
+      "fase": "Ventas en efectivo, mixta y crédito",
+      "control": "Cambio en venta de efectivo",
+      "esperado": "400.00",
+      "obtenido": "400.00",
+      "correcto": true
+    },
+    {
+      "fase": "Ventas en efectivo, mixta y crédito",
+      "control": "Total venta_mixta",
+      "esperado": "400.00",
+      "obtenido": "400.00",
+      "correcto": true
+    },
+    {
+      "fase": "Ventas en efectivo, mixta y crédito",
+      "control": "Cambio en venta mixta",
+      "esperado": "50.00",
+      "obtenido": "50.00",
+      "correcto": true
+    },
+    {
+      "fase": "Ventas en efectivo, mixta y crédito",
+      "control": "Total venta_credito",
+      "esperado": "400.00",
+      "obtenido": "400.00",
+      "correcto": true
+    },
+    {
+      "fase": "Ventas en efectivo, mixta y crédito",
+      "control": "Deuda inicial de cliente",
+      "esperado": "300.00",
+      "obtenido": "300.00",
+      "correcto": true
+    },
+    {
+      "fase": "Ventas en efectivo, mixta y crédito",
+      "control": "Total venta_cancelar",
+      "esperado": "200.00",
+      "obtenido": "200.00",
+      "correcto": true
+    },
+    {
+      "fase": "Ventas en efectivo, mixta y crédito",
+      "control": "Tienda después de cuatro ventas",
+      "esperado": "4.0000",
+      "obtenido": "4.0000",
+      "correcto": true
+    },
+    {
+      "fase": "Ventas en efectivo, mixta y crédito",
+      "control": "Efectivo bruto tras ventas",
+      "esperado": "1550.00",
+      "obtenido": "1550.00",
+      "correcto": true
+    },
+    {
+      "fase": "Gasto, abono y pago a proveedor",
+      "control": "Deuda tras abono",
+      "esperado": "200.00",
+      "obtenido": "200.00",
+      "correcto": true
+    },
+    {
+      "fase": "Gasto, abono y pago a proveedor",
+      "control": "Saldo de proveedor",
+      "esperado": "2020.00",
+      "obtenido": "2020.00",
+      "correcto": true
+    },
+    {
+      "fase": "Devolución y cancelación autorizadas",
+      "control": "Devolución sin autorización rechazada",
+      "esperado": 403,
+      "obtenido": 403,
+      "correcto": true
+    },
+    {
+      "fase": "Devolución y cancelación autorizadas",
+      "control": "Un termo en resguardo",
+      "esperado": "1.0000",
+      "obtenido": "1.0000",
+      "correcto": true
+    },
+    {
+      "fase": "Devolución y cancelación autorizadas",
+      "control": "Venta cancelada",
+      "esperado": "cancelada",
+      "obtenido": "cancelada",
+      "correcto": true
+    },
+    {
+      "fase": "Devolución y cancelación autorizadas",
+      "control": "Tienda al finalizar devoluciones",
+      "esperado": "5.0000",
+      "obtenido": "5.0000",
+      "correcto": true
+    },
+    {
+      "fase": "Corte de caja",
+      "control": "Corte: fondo_inicial",
+      "esperado": "500.00",
+      "obtenido": "500.00",
+      "correcto": true
+    },
+    {
+      "fase": "Corte de caja",
+      "control": "Corte: ventas_efectivo",
+      "esperado": "1050.00",
+      "obtenido": "1050.00",
+      "correcto": true
+    },
+    {
+      "fase": "Corte de caja",
+      "control": "Corte: abonos_efectivo",
+      "esperado": "100.00",
+      "obtenido": "100.00",
+      "correcto": true
+    },
+    {
+      "fase": "Corte de caja",
+      "control": "Corte: reembolsos_efectivo",
+      "esperado": "400.00",
+      "obtenido": "400.00",
+      "correcto": true
+    },
+    {
+      "fase": "Corte de caja",
+      "control": "Corte: salidas",
+      "esperado": "40.00",
+      "obtenido": "40.00",
+      "correcto": true
+    },
+    {
+      "fase": "Corte de caja",
+      "control": "Corte: gastos_incluidos_salidas",
+      "esperado": "40.00",
+      "obtenido": "40.00",
+      "correcto": true
+    },
+    {
+      "fase": "Corte de caja",
+      "control": "Corte: pagos_proveedores",
+      "esperado": "300.00",
+      "obtenido": "300.00",
+      "correcto": true
+    },
+    {
+      "fase": "Corte de caja",
+      "control": "Corte: esperado",
+      "esperado": "910.00",
+      "obtenido": "910.00",
+      "correcto": true
+    },
+    {
+      "fase": "Corte de caja",
+      "control": "Una sola salida de gasto",
+      "esperado": 1,
+      "obtenido": 1,
+      "correcto": true
+    },
+    {
+      "fase": "Corte de caja",
+      "control": "Sin tickets pendientes",
+      "esperado": 0,
+      "obtenido": 0,
+      "correcto": true
+    },
+    {
+      "fase": "Corte de caja",
+      "control": "Corte con versión antigua rechazado",
+      "esperado": 409,
+      "obtenido": 409,
+      "correcto": true
+    },
+    {
+      "fase": "Corte de caja",
+      "control": "Efectivo contado",
+      "esperado": "910.00",
+      "obtenido": "910.00",
+      "correcto": true
+    },
+    {
+      "fase": "Corte de caja",
+      "control": "Diferencia del corte",
+      "esperado": "0.00",
+      "obtenido": "0.00",
+      "correcto": true
+    },
+    {
+      "fase": "Corte de caja",
+      "control": "Turno cerrado",
+      "esperado": "cerrado",
+      "obtenido": "cerrado",
+      "correcto": true
+    },
+    {
+      "fase": "Conciliación y protección de datos previos",
+      "control": "Reporte: ventas brutas",
+      "esperado": "1600.00",
+      "obtenido": "1600.00",
+      "correcto": true
+    },
+    {
+      "fase": "Conciliación y protección de datos previos",
+      "control": "Reporte: devoluciones y cancelación",
+      "esperado": "400.00",
+      "obtenido": "400.00",
+      "correcto": true
+    },
+    {
+      "fase": "Conciliación y protección de datos previos",
+      "control": "Reporte: ventas netas",
+      "esperado": "1200.00",
+      "obtenido": "1200.00",
+      "correcto": true
+    },
+    {
+      "fase": "Conciliación y protección de datos previos",
+      "control": "Reporte: costo histórico neto",
+      "esperado": "600.00",
+      "obtenido": "600.00",
+      "correcto": true
+    },
+    {
+      "fase": "Conciliación y protección de datos previos",
+      "control": "Reporte: gastos",
+      "esperado": "40.00",
+      "obtenido": "40.00",
+      "correcto": true
+    },
+    {
+      "fase": "Conciliación y protección de datos previos",
+      "control": "Inventario final en bodega",
+      "esperado": "8.0000",
+      "obtenido": "8.0000",
+      "correcto": true
+    },
+    {
+      "fase": "Conciliación y protección de datos previos",
+      "control": "Inventario final en tienda",
+      "esperado": "5.0000",
+      "obtenido": "5.0000",
+      "correcto": true
+    },
+    {
+      "fase": "Conciliación y protección de datos previos",
+      "control": "Inventario final en dañados",
+      "esperado": "1.0000",
+      "obtenido": "1.0000",
+      "correcto": true
+    },
+    {
+      "fase": "Conciliación y protección de datos previos",
+      "control": "Crédito pendiente",
+      "esperado": "200.00",
+      "obtenido": "200.00",
+      "correcto": true
+    },
+    {
+      "fase": "Conciliación y protección de datos previos",
+      "control": "Proveedor pendiente",
+      "esperado": "2020.00",
+      "obtenido": "2020.00",
+      "correcto": true
+    },
+    {
+      "fase": "Conciliación y protección de datos previos",
+      "control": "Una alerta de mínimo para tienda",
+      "esperado": 1,
+      "obtenido": 1,
+      "correcto": true
+    },
+    {
+      "fase": "Conciliación y protección de datos previos",
+      "control": "Faltante para mínimo de tienda",
+      "esperado": "1.0000",
+      "obtenido": "1.0000",
+      "correcto": true
+    },
+    {
+      "fase": "Conciliación y protección de datos previos",
+      "control": "Bitácora: un gasto",
+      "esperado": 1,
+      "obtenido": 1,
+      "correcto": true
+    },
+    {
+      "fase": "Conciliación y protección de datos previos",
+      "control": "Bitácora: una devolución",
+      "esperado": 1,
+      "obtenido": 1,
+      "correcto": true
+    },
+    {
+      "fase": "Conciliación y protección de datos previos",
+      "control": "Bitácora: una cancelación",
+      "esperado": 1,
+      "obtenido": 1,
+      "correcto": true
+    },
+    {
+      "fase": "Conciliación y protección de datos previos",
+      "control": "Corte cerrado conserva su resumen",
+      "esperado": {
+        "salidas": "40.00",
+        "version": "cc6fa1f9db7a515419bb3e4c07e51938f584057c08b3bed772bdd5f02a34626b",
+        "entradas": "0.00",
+        "esperado": "910.00",
+        "fondo_inicial": "500.00",
+        "abonos_efectivo": "100.00",
+        "ventas_efectivo": "1050.00",
+        "pagos_proveedores": "300.00",
+        "ventas_pendientes": 0,
+        "reembolsos_efectivo": "400.00",
+        "gastos_incluidos_salidas": "40.00"
+      },
+      "obtenido": {
+        "salidas": "40.00",
+        "version": "cc6fa1f9db7a515419bb3e4c07e51938f584057c08b3bed772bdd5f02a34626b",
+        "entradas": "0.00",
+        "esperado": "910.00",
+        "fondo_inicial": "500.00",
+        "abonos_efectivo": "100.00",
+        "ventas_efectivo": "1050.00",
+        "pagos_proveedores": "300.00",
+        "ventas_pendientes": 0,
+        "reembolsos_efectivo": "400.00",
+        "gastos_incluidos_salidas": "40.00"
+      },
+      "correcto": true
+    },
+    {
+      "fase": "Conciliación y protección de datos previos",
+      "control": "Registros previos del negocio sin cambios",
+      "esperado": 0,
+      "obtenido": 0,
+      "correcto": true
+    }
+  ],
+  "completed": [
+    "Catálogos y permisos de prueba",
+    "Compra y recepción",
+    "Traspaso a tienda",
+    "Apertura de caja",
+    "Ventas en efectivo, mixta y crédito",
+    "Gasto, abono y pago a proveedor",
+    "Devolución y cancelación autorizadas",
+    "Corte de caja",
+    "Conciliación y protección de datos previos"
+  ],
+  "status": "COMPLETADA",
+  "baseline": {
+    "abonos_cliente": [],
+    "ajustes_inventario": {
+      "WyIxNDEiXQ==": "ecf2ca30c16c9508e6f520ce3b86dccd8c4dc78322fec84ede133862b11f97bf",
+      "WyIxNDIiXQ==": "aadb9c38c574beea38b246904c693575bf0c7e7f801b306d95495debfe13d802",
+      "WyIxNDMiXQ==": "de08338965090fa36c8fa84bd60f30dbc03b36e6b1c2b9b9238a3dbd0b3f8c3d",
+      "WyIxNDQiXQ==": "1440a18b0efc1aaa68882870c5a41fd421dbe76e9029b547ba8996481d071e8d",
+      "WyIxNDUiXQ==": "189815cb08fdf17d081b927cbc53ab813574fcb69b28e956928b6a46186aeaa3",
+      "WyIxNDYiXQ==": "5391ffb0e3b4a697f4a33f5a8034ac09b43e48a60d5621f389509c36e878f0df",
+      "WyIxNDciXQ==": "2ac1e21bc4a5348e58b67fee39f51b613d856ce08a0911a75ee4a59eb88bc7db",
+      "WyIxNDgiXQ==": "1afaac9a473720b5c961a3fe0287b945ce92e7d38e4352c965bfa0617457dfaa"
+    },
+    "bitacora_actividad": {
+      "WyIxIl0=": "c81ab51181e20809b1dd3edd2c756ed332927286ae93a2e90533fccb91515779",
+      "WyIyIl0=": "68220e9a46f4078b0d936f11aad1070c84de873c5bcc5ef9605e753394e81866",
+      "WyIzIl0=": "a0b84dd6f72278557eb9a20d247b678bb04f05a31d8ab115ae32778ab475f409",
+      "WyI0Il0=": "e030e8bd88afa01a3b5d278a7b3b78768906c1d973806c3676467c747ed43700",
+      "WyI1Il0=": "c1d1b2e00b0187791d008e2487d2617f173f25c726a09bfa28471c0a43beb440",
+      "WyI2Il0=": "75a370e85a7d5ddad27acdc68218bc3daf97f4003412537b0ee3055fdb9a5b96",
+      "WyI3Il0=": "424bdc619b195d4152c0cc8600f90117c167f249f13541de8d284d5e591b8e86",
+      "WyI4Il0=": "7af39e3a991f364344c11cd5cc738af49c4c194d1a23905717c07f7e0d45706c",
+      "WyI5Il0=": "f8756f86ee58b09f76b20d3363403e3e01c4b31fdbcf810e23f6622ac096eaaf",
+      "WyIxMCJd": "3690b9a497d73349c078dc1dca046782508d39c5b208e21cb3a01f06c69b6170"
+    },
+    "cajas": {
+      "WyIxIl0=": "a2aca7b3cbe15cfffa7ceb9864adaeaf4c44fb6f8fd2dac301b434ea78262c56",
+      "WyI2NiJd": "83ffff2811795486bb6b686af25270f46c15667586a86e8133f0ea9ac849cc0a"
+    },
+    "categorias": {
+      "WyIxIl0=": "0526b7732fe27a4a4c20a19f79071abc43cf59fae0c0502bd38ad88b5e1a1cac"
+    },
+    "categorias_gasto": {
+      "WyIxIl0=": "0ed287c349e7416bc182d896025721c829f4bb8f1f15ac59fb3eb4bc7bd9cd6f",
+      "WyIyIl0=": "e2f311cad190a6b112a58ae226448555312193864590906000cfe972e431acb1",
+      "WyIzIl0=": "86f1dbdfbddbb62c5f087e0361a0cec0f491e918525dfc3bcf09188b5a342f5c",
+      "WyI0Il0=": "27c5b3d87df6e5652c5ad3c62099214529dea504cd5d7a80ec518d135453af98",
+      "WyI1Il0=": "a2961330a77aef0a3c1ffb1942c0fdb2fe6eba416db94e28db224880a2a32213",
+      "WyI2Il0=": "fa0969f829316ddbdca6a2e8564c63cacf798c6eb79bff082f521b135313dc88"
+    },
+    "clientes": {
+      "WyIzNiJd": "a8317101998b513c9f256b5291d24f269441ee2e229fad3785cf7b49bfe943ae",
+      "WyIzNyJd": "5a161d22ce6ad97351c3badc04b54b7d8935cb9ea7b830f1217eb4cf9bd306b6"
+    },
+    "codigos_barras": [],
+    "compras": {
+      "WyIyOSJd": "04f925937c65d2ee95ee5873ccf70e3d1f9c64f6f7ede5b2074b9eb6bf1da4b2"
+    },
+    "configuracion_clientes": {
+      "WyIxIl0=": "0a9049f358be38463ef9434c499b4bf1db506900a17a1f9acf0d77f021792218"
+    },
+    "configuracion_credito_cliente": {
+      "WyIzNiJd": "d72cc3fb3749bd52b097f2652581bc32d33d3bb8bde28e5fd95a24f569873200",
+      "WyIzNyJd": "cfd75f9c64c4317ca65bf677401d8ce41354ad6b01df4ce8c1938064f790b2d7"
+    },
+    "creditos_venta": {
+      "WyIzMzUiXQ==": "4db82a945971c9bd3ea95dd5d59b2665a2d1ef10f1bd9872eb080956b433325b"
+    },
+    "detalle_compra": {
+      "WyIzNSJd": "80d9f270c680e90e5e7100c6e1684319bd33920dd56cbde4cd5c6cc70cc8a56d",
+      "WyIzNiJd": "76137a5f3d13ea4c4ff9ce191feb4bf9a32aecacbb0e06678223a578a10c5fd5"
+    },
+    "detalle_devolucion": {
+      "WyI0MSJd": "e08cb0447bb744047ea71ad62d67712217bbcc750400f18ad58286449884426f",
+      "WyI0MiJd": "17cc3df03015ee76bd202f798ceaaba0c1f8454ac8a6e08f51b3bfbfd58ecc0b",
+      "WyI0MyJd": "a2e8b6c273cda54ab771c2deb24dcdebe5af5fd3debac0458ba60f58166cf249",
+      "WyI0NCJd": "f16417ccc982d66292ff22697267b076de1b3e8df993d010a12f0dc68a4e9e1f"
+    },
+    "detalle_venta": {
+      "WyIzMCJd": "4e7569862cff4c98fa0d88c3ff8f7ef9ec3abbb92aec084a82103e4cb5353b91",
+      "WyIzMSJd": "2a9c8c9aa61f7c4a2155030ba72e9629abec1b8d6cb67bce005853e70a9b82e9",
+      "WyIzMiJd": "a3f4a186141513e6010c7342830d86dd8867d12b12f4045e4145cbc1528c287b",
+      "WyI2MyJd": "036bf856878d46a00555c3e560094cfeee3e0e5f6650aefa67e5ac47359505f7",
+      "WyI2NCJd": "be5583c51237b513e3f9c492e7bb15402a22303c79002d7dfa100379441a843f",
+      "WyI2NSJd": "a4c06fcd626750fc94df15991e080b8176bfbaef275cf929fef8654abaa1046b",
+      "WyIxNDciXQ==": "eed8b9f175ee6fbcb6d53af6691708b67e4b98eb34aba1492239676752c3f507",
+      "WyIxNDgiXQ==": "00efb6fc560031e27b22f51fa16f0dbb67abc4ac09cdd9941b12f010a65cd75f",
+      "WyIxNDkiXQ==": "cd97154af2526f3f4355715ee7115ebf17eabf4f440eddfefc304bc98ce2ca08",
+      "WyIxNTAiXQ==": "20ccb8e20e7ab96953b8d7325f2122e6de66909b882f1ba895b0dd5752a8a9e3",
+      "WyIxNTEiXQ==": "c0928172ef96fe63e1535ad34ba5921a21f4d493f59fdbd3c54ffff760e8caa8",
+      "WyI0MTIiXQ==": "b5d9712c80e92a857e5c65643c2657ff71363f6d08ec9337918bdfc82745ca60"
+    },
+    "devoluciones_venta": {
+      "WyIzNSJd": "203cd5b3b46c779b16867ce333acf15715fa204447cded6337ed9efd1e18a4b7",
+      "WyIzNiJd": "fdfd3f2a5f3b440a5e78bebf2e798f3374734f36eefc87a69795e8c45152eca1"
+    },
+    "empresa": {
+      "WyIxIl0=": "576b8b1fb9411a7260be8e8fc3af6dac725aeb913b91186e917f684bb506aee6"
+    },
+    "existencias": {
+      "WyIxMzEiXQ==": "d2c5d3647117b9521eb6ae536d3947e5d556adba650fa8c833a9cf63a60c73de",
+      "WyIxMzIiXQ==": "c3bb43edd854c6a86b609f2eb2bd6b41a5fb5691e8f5d009d9bd87d12229c37e",
+      "WyIxMzMiXQ==": "529d599156aaea02823049306e487217366b16f3a0cc6c9e6d77a61ad743c24f",
+      "WyIxMzQiXQ==": "e5c5152ae18ca853ad6577356a14d0d800dbb613a7a78f4daac4e61e3ae75e50",
+      "WyIxMzUiXQ==": "cac1558c09f75f5e18ee4f6d8891fc5c0a7063e835b94cf3c6a901872214ccbf",
+      "WyIxMzYiXQ==": "abb7554be5dbfdcaf0e98d2eecc5cb22e0c11f15d4d9489dda82b5184d269dd2",
+      "WyIxMzciXQ==": "b9925adc941a794e1f2d5a8a97441473b5a3a0967d94d8b8c3f1f5bee4139d5c",
+      "WyIxMzgiXQ==": "aaa7ab9a4687014dfe63f6f87c394ac1ac9e96183e87318fedc9f280d7d3f11f",
+      "WyI1MzAiXQ==": "12bb7913971161275cc0c557b4c87f71fd93331703f3e14d6c8d44e8de38b6f2",
+      "WyI1MzEiXQ==": "9e77b42102b282276bd763a813da99930811b1793e9162fc665a590cf08eca9d"
+    },
+    "gastos": [],
+    "imagenes_producto": {
+      "WyI4Il0=": "e19d38c076dff1c7ad2b18757f588ceb7ca3943b07ace16569b74821a6601b62",
+      "WyI5Il0=": "f5a238b1d4977d09999df58ed4261ba5e6c19e5588dfac24fe51ed5dbdc3ba48"
+    },
+    "impuestos": {
+      "WyIxIl0=": "b34c437044bb504d31c9cb36976d1c2cb1ef86e2be89a8fa7502012bcef0e083",
+      "WyIyIl0=": "712715daa2873b205a0c83cfd4db13764bf6a43bff899a202d3ee5ab70f46eed",
+      "WyIzIl0=": "f7f665160ab45b19fc49c7b613db45d3b2fa37a66f65f9dc2677f852acf0b763",
+      "WyI0Il0=": "88a77aabc6de4e77863640a752c641bb9e805d4eedec472f2689f46aa5567b24"
+    },
+    "metodos_pago": {
+      "WyIxIl0=": "4ec0be84cfca517aa8e5b7ee48d7e5e850362511b399523b73cd40487e7afe76",
+      "WyIyIl0=": "2e25533d80266e87be5a69b85fe5a0f6b12cad99f2d6e31ac14cd0354a953447",
+      "WyIzIl0=": "44e88ff63c82a02b079765508d510a988e9a3348db2eac9f910d1478b7c12031",
+      "WyI0Il0=": "a18ddb3a444ccf14329a06ca15b58a668305ba6888231272c356401b8910e135",
+      "WyI1Il0=": "eb921b84f002ae3391052bccbe05b23b4d6d1368af97d94d06cb8df8f56687d3",
+      "WyI2Il0=": "8ecbf98c8edfee73b90472adc425436d05921c693362d11169e5314236612814"
+    },
+    "minimos_inventario": [],
+    "movimientos_cuenta_cliente": [],
+    "movimientos_efectivo": [],
+    "movimientos_inventario": {
+      "WyIxMjEiXQ==": "d75545acac7cfb28aaa96863e4610c62a032d68761a41a76bdb33f45112dbec8",
+      "WyIxMjIiXQ==": "d856707e83b012585f25c958e734cbad885c3d99926f06f00be3b112c0dacd56",
+      "WyIxMjMiXQ==": "4dc30952b33fedb63cfdd3301a861fb66ffcc645704f929b08c55fea8773b84c",
+      "WyIxMjQiXQ==": "e52876cca4f5f49789b08d88c1e0e2bd767ec3d5bf2d11e1754a9e366252e8c6",
+      "WyIxMjUiXQ==": "c7ee776bee30f1839e6f691669602f2502135314dbcbaf1d6b6c00812c26062a",
+      "WyIxMjYiXQ==": "304c66c6766667ee7c2ebffd40ef4422ca56680c55b6ec73b12f91dc7224c330",
+      "WyIxMjciXQ==": "dbdfc018b0fe26d2832afd229eaad2c2fbe390ca7ce8f20be2909904c8812897",
+      "WyIxMjgiXQ==": "eb4b0c6ae0cf83ff7a6069b0516b2288e96fdf6518e33155ba9ccc1d0c784c06",
+      "WyI0MzEiXQ==": "8a0e9ea562821b782605d5a8dc1f1d6aad1b7cb51938dc5b0d2bb869221435f5",
+      "WyI0MzIiXQ==": "8f041c686c907cc8963705c269220728bdcc18b28d9a05e5ab718383713ca85f",
+      "WyI0MzMiXQ==": "0ac1624a29935f2b10a84ebec8f917168869e5b90dcf6560a910a1f4e2aa1fa3",
+      "WyI0NjciXQ==": "3286a5130d48a4d169ae5ab104eed3e7ab7ca5bf417ed3d9404940de654d6312",
+      "WyI0NjgiXQ==": "15255216096e2be53abbf54b6047aac0cb015c17d573059786f385f2477cd7d0",
+      "WyI0NjkiXQ==": "d09fae74abb994322eb17349845ec79c24b8a4850dfdae876c3ce5196ecee98d",
+      "WyI0OTIiXQ==": "d3db660baaf6de88cc42dc87847ba7deec390bf6e672d6e99c7af3473dd09fb2",
+      "WyI0OTMiXQ==": "5fd38f89b03997edf6bfec25ea71d5464207d0ff06a6b42fb3379962422ff02d",
+      "WyI1OTAiXQ==": "cf0b948330caba6e54657fb98cb303d88e01fb91c125d2bf1015c398ed8bc6df",
+      "WyI1OTEiXQ==": "2b639e244afd97ca35eb2a10f8344fc513abff07423d42ecec4103f722915c5d",
+      "WyI1OTIiXQ==": "88e586e3be0e1a33410062144fc466f851586cd30201ae2abb7f272f2c76db78",
+      "WyI1OTMiXQ==": "d73edd0d5d43a2a6857f27f78febfae08f1ea1f4832cb4d5f1e8c1ae1ac15a90",
+      "WyI1OTQiXQ==": "613a4ec510a6038ca19e798e17ba07362808228fda39e0cfe1f6d3c845184d11",
+      "WyI1OTUiXQ==": "83aad270b6716e1b7e4a10bf1dcaf1c925f6aad48951f23b573d49f21b7466f9",
+      "WyI1OTYiXQ==": "e851f82e563ef6cfc199cd50e4fb44443fb0892a116d328bc483e6e8a3c70a89",
+      "WyI1OTciXQ==": "c0ec913e0a058c83ce2c803505fcc73917fd0f6aad049e23f2cf2eb18ef2cce3",
+      "WyI1OTgiXQ==": "f4927c67ea6bbe5311b0d86ca55f4783368f0d0ea789f153ee0d5dec2528e507",
+      "WyI4MjYiXQ==": "76f97adae5458c8a2d2d22bcedb85ea51e891f2f6a661b9806e17f73e7a8bf6a"
+    },
+    "operaciones_almacen": [],
+    "pagos_devolucion": {
+      "WyIzMSJd": "57a52d30099c9703cb26c8f909cf7c3fb31e4b044c79b510000859e544989b5e",
+      "WyIzMiJd": "7d97207c1edea065543ecf0a295de3fa23c718b5d10dcb76ba2a6752c7192caa"
+    },
+    "pagos_proveedor": [],
+    "pagos_venta": {
+      "WyIyNiJd": "c4af72b52f800a16a1c84dd29398d94814ce3b656e27ed03c2c2210919b8069b",
+      "WyI0NSJd": "9480f724ea1638c7cdc30389d3906a39da8fd1360b08f0bd7dc781aa606e823a",
+      "WyIxMDciXQ==": "b8edf55a15d716de1a3c690c60bbfe408d891b70f1874e91c74e3701cb859a43",
+      "WyIxMDgiXQ==": "bccb97c508ffe95b78828c5269b95355703b9ffdeec1b0b05755762fdd5a441c",
+      "WyIyMzgiXQ==": "34f7d7534abd8391d848311fd84228a5d021657bdbe716d6c54ee3a6fb9f9fd5",
+      "WyIyMzkiXQ==": "8153d61cdb6c66f0e3a4f9d7a1a2059b81055d5e4f7e8940c089085a639312da"
+    },
+    "preferencias_pdv": [],
+    "productos": {
+      "WyI0Il0=": "6fbfd57f97eef7753875fa1ffd0aa3f36ecebb33b58afc50f7ce3f345e747537",
+      "WyI1Il0=": "a5af74a7b4b7e0bffbf4c558f0bbf0bd932782fccb53f960243492cba0d7bf79",
+      "WyI2Il0=": "435a6ad54ec0d5202d5475510f18251f0faf524dfa8c213e1217560296aca9d7",
+      "WyI3Il0=": "ab2d277a76fa7e36dbbfa34cb205e77d260ca79ee44956dcecab9e9a3b4d6264"
+    },
+    "proveedores": {
+      "WyI1Il0=": "085f7237ae9a99158e60ae0db318726d254ae35c277a25f498ddd1596683205c"
+    },
+    "roles": {
+      "WyIxIl0=": "b5016e41bd128fb0d152a28b0508592702f6780c1d8116699cb47bf209d2d34b",
+      "WyIyIl0=": "f8f8024f2aef82ccfbf80e83eca1129e7d5fd925ed64d10a9feb1dc2637a8bac",
+      "WyIzIl0=": "a3bdfe7f6a2c0dc5da5713604a00e7008aed5fc6edf2e616a58553896201c98d",
+      "WyIxMSJd": "ce5b7b9ab5a1585353c56c2332fe3375f7e4565deed05f7c6d821d8984339996"
+    },
+    "sistema_recuperacion": {
+      "WyI2NzhhNGU0NDQ2MGU5MzBjODdhYjc5MGI3OWUzYmI0OSJd": "d61adff561a4e91d843661baa0182454ff7a76c688c60658946e990db3433cdc"
+    },
+    "solicitudes_caja": {
+      "WyI1OSJd": "257089899d9557fad8f4ca53158d3a2803fb06ae7b794897d4caab3ee4157986",
+      "WyIxNzMiXQ==": "d5b8076bb14b80464e56f35084c0e97291de2be96df588dabbc483df6b3a8ac1"
+    },
+    "solicitudes_compra": {
+      "WyI0MSJd": "49ba560a4a259fa021191044d3ce14bbd4b9c3b9f5836bd3711a958e7df1025c"
+    },
+    "solicitudes_reembolso": {
+      "WyI1MCJd": "09040245a036f8c28599d0a9fa57c51829d5a68584ef762257db4c3800e1a0b1",
+      "WyI1MSJd": "aa2cc644cd8d58672b0a6f184f0deb4acf6265965923f7c51486a5e67cc1fe32"
+    },
+    "solicitudes_venta": {
+      "WyI0NiJd": "34877205cd21fc35808dfdfa8d468d594be5b8916770013e30c2b23d14164127",
+      "WyI5MyJd": "7ed074046007db057b9e63ae575944f20a0c3155f2e1350f0481124e994bfd99",
+      "WyIyMDMiXQ==": "7e92022d487d4da998417d685d1035ec33c36eacf0534701a5cc3adbd31982ad",
+      "WyIyMDQiXQ==": "ee7864d764c34c524d63c2b8fba81bc9bad99705e0281776ed702dbe72b80422",
+      "WyI0NjgiXQ==": "9647a269e3747233ff08a506b30c322b21b1b04a587d964aeed0af2cd9ae3461"
+    },
+    "turnos_caja": {
+      "WyIxMCJd": "f6da85f6c0a505fdffd6e360901827a8595447d083493850528066c96cf47420",
+      "WyI3NSJd": "91c3c1775bc7388f3fbda269bfaae0fad1e4d7a0263ed65ce8c3f1066602e598"
+    },
+    "ubicaciones": {
+      "WyIxIl0=": "f92c71d2de7442c2448bfcd8c7c37fa021a55bfe70495658f57b4a537ff51ab0",
+      "WyI1OSJd": "23dcd5819b0d625cd19f152b51599b1e892a696430cbb0da14b95612a1bd3ee8"
+    },
+    "unidades": {
+      "WyIxIl0=": "c0607a86163a6a43f103f6fe4997c0c076adb426ed4788d1718f9adfe81037da",
+      "WyIyIl0=": "4912a9bc8fd4060a45cb4144158f678c886cb8ec27ecc36a88def1582b013e57",
+      "WyIzIl0=": "0eb25364d5eb426eeb2eb4dc14e82ee5de651f0921d556652b1441f23b32553f",
+      "WyI0Il0=": "75d5413d6833d527838d37734787c88be3fccc5e8d1da871618ef42a0ba65dcd",
+      "WyI1Il0=": "90fb3f23f585b2c6c93f1d93818565411bab43e266f99353c5fcb879cc389f3b",
+      "WyI2Il0=": "4c92b5a606a22ce7f95547918ffc98ac569bf5ceac97da3ec0d11f4f970fc49e",
+      "WyI3Il0=": "d933a08257078c5e9a875c6194765629686a82aed955f082dc25acb9d0ae6561",
+      "WyI4Il0=": "2af369088904353ba0c934cb064655e31568911fe211c8f87a62b19b5017954a",
+      "WyI5Il0=": "b36a21f685a0e9c0324fbdc555b392889a56addf026704da34536a587560aa3b",
+      "WyIxMCJd": "c6f820a46d80248220b6fca3815c8305a3d49f0e20df0c36b1239edb88756d46"
+    },
+    "usuarios": {
+      "WyIxOSJd": "2e96ebf07fa6f6278c39d694e5c8ac2afad836f75a23a0f9c3c36c8acd376bdd",
+      "WyIyMCJd": "3d4b0fc8aa53033f8988ebe026460021ce3581eeeefaf2881ab1873a716c50dd",
+      "WyIyMSJd": "9d196f49692966845c98d50be0905cf117152ca1f1c5e12b04411f548a8e2e68"
+    },
+    "variantes_producto": {
+      "WyI0Il0=": "021a2dc3c8716d2716b4f5f954eeb70815ade9b746b7bd0a1a2acae76b7077fb",
+      "WyI1Il0=": "d03b47c1e4fdeb8b05e09b89f6983fa895e880221462e0b41ee7950273f002d0",
+      "WyI2Il0=": "5225b287bbca0602652816ef8d7627bab5ad142fe10b5a0b796ea9da1c858c7f",
+      "WyI3Il0=": "27533964e2b284979b6bcbc7241d77a83479908fdb2d2c5cff718b5de1596cc2",
+      "WyI4Il0=": "0b32b779157addf9ac7720f5dc4b003c878ea52f25efab324ad5464a941d0cc6",
+      "WyI5Il0=": "632d2161f790c7591780258f3b7570045afc58a37465c8e93adf593a8e0ce637",
+      "WyIxMCJd": "8611d5eafe1e5f3b8922f41d715b5b8934edefae7c840f38ef5e702686a5b6dc",
+      "WyIxMSJd": "803e77042199e8c6d40546e3f552de571db98d4c1da9be4b11d26c9c7e8720a4"
+    },
+    "ventas": {
+      "WyIyNiJd": "9a7a183890f6acb695506e38de31dc3d0607735e96079d69b78ad1d3f62e5a4c",
+      "WyI0OCJd": "78ba67dd62f8c6d4497aeefa28150863fbd301d5ac5cbcd8a681f06bcd741621",
+      "WyIxMTIiXQ==": "9db68e21fe08bc8f1dc989ecdf6c7456d8f2d48c1dfdf4f767066f550162cee0",
+      "WyIxMTMiXQ==": "89aa363f083e0435ec46552479b3e02d77aa015276e3ce448ee412b27101859c",
+      "WyIzMzUiXQ==": "095b419c079a139d68ee26287a254341a010df53c4e513a53b876464c11cdd27"
+    }
+  },
+  "cut": {
+    "id": "191",
+    "caja_id": "177",
+    "abierto_por": "431",
+    "cerrado_por": "431",
+    "estatus": "cerrado",
+    "monto_apertura": "500.00",
+    "monto_esperado": "910.00",
+    "monto_cierre": "910.00",
+    "diferencia": "0.00",
+    "notas": "PRUEBA: fondo inicial simulado de $500.",
+    "abierto_en": "2026-11-11 14:35:11",
+    "cerrado_en": "2026-11-11 14:35:39",
+    "ubicacion_id": "216",
+    "notas_cierre": "PRUEBA COMPLETA: efectivo contado de forma simulada; sin faltantes ni sobrantes.",
+    "caja_nombre": "PRUEBA Jornada 261111-4271 · Caja",
+    "ubicacion_nombre": "PRUEBA Jornada 261111-4271 · Tienda",
+    "responsable": "PRUEBA Jornada 261111-4271 · Cajero",
+    "cerrado_por_nombre": "PRUEBA Jornada 261111-4271 · Cajero",
+    "abierto_unix": "1794429311",
+    "cerrado_unix": "1794429339",
+    "movimientos": [
+      {
+        "id": "51",
+        "tipo": "salida",
+        "monto": "40.00",
+        "motivo": "G-00000112 · Gasto: PRUEBA: compra de garrafón de agua.",
+        "usuario_id": "431",
+        "usuario_nombre": "PRUEBA Jornada 261111-4271 · Cajero",
+        "creado_unix": "1794429338"
+      }
+    ],
+    "resumen": {
+      "salidas": "40.00",
+      "version": "cc6fa1f9db7a515419bb3e4c07e51938f584057c08b3bed772bdd5f02a34626b",
+      "entradas": "0.00",
+      "esperado": "910.00",
+      "fondo_inicial": "500.00",
+      "abonos_efectivo": "100.00",
+      "ventas_efectivo": "1050.00",
+      "pagos_proveedores": "300.00",
+      "ventas_pendientes": 0,
+      "reembolsos_efectivo": "400.00",
+      "gastos_incluidos_salidas": "40.00"
+    }
+  },
+  "report": {
+    "filtros": {
+      "desde": "2026-11-11",
+      "hasta": "2026-11-11",
+      "usuario_id": "431",
+      "caja_id": "177"
+    },
+    "todos": true,
+    "resumen": {
+      "tickets": "4",
+      "reembolsos": "2",
+      "ventas": "1600.00",
+      "devuelto": "400.00",
+      "neto": "1200.00",
+      "sin_impuestos": "1034.49",
+      "impuestos": "165.51",
+      "costo": "600.00",
+      "utilidad": "434.49",
+      "gastos": "40.00",
+      "resultado_despues_gastos": "394.49"
+    },
+    "dias": [
+      {
+        "dia": "2026-11-11",
+        "tickets": "4",
+        "reembolsos": "2",
+        "ventas": "1600.00",
+        "devuelto": "400.00",
+        "neto": "1200.00",
+        "sin_impuestos": "1034.49",
+        "impuestos": "165.51",
+        "costo": "600.00",
+        "utilidad": "434.49"
+      }
+    ],
+    "cajeros": [
+      {
+        "cajero_id": "431",
+        "nombre": "PRUEBA Jornada 261111-4271 · Cajero",
+        "tickets": "4",
+        "reembolsos": "2",
+        "ventas": "1600.00",
+        "devuelto": "400.00",
+        "neto": "1200.00",
+        "sin_impuestos": "1034.49",
+        "impuestos": "165.51",
+        "costo": "600.00",
+        "utilidad": "434.49"
+      }
+    ],
+    "cajas": [
+      {
+        "caja_id": "177",
+        "nombre": "PRUEBA Jornada 261111-4271 · Caja",
+        "tickets": "4",
+        "reembolsos": "2",
+        "ventas": "1600.00",
+        "devuelto": "400.00",
+        "neto": "1200.00",
+        "sin_impuestos": "1034.49",
+        "impuestos": "165.51",
+        "costo": "600.00",
+        "utilidad": "434.49"
+      }
+    ],
+    "pagos": [
+      {
+        "tipo_metodo": "credito",
+        "nombre": "Crédito (fiado)",
+        "cobrado": "300.00",
+        "devuelto": "0.00",
+        "neto": "300.00"
+      },
+      {
+        "tipo_metodo": "efectivo",
+        "nombre": "Efectivo",
+        "cobrado": "1050.00",
+        "devuelto": "400.00",
+        "neto": "650.00"
+      },
+      {
+        "tipo_metodo": "tarjeta",
+        "nombre": "Tarjeta de débito",
+        "cobrado": "250.00",
+        "devuelto": "0.00",
+        "neto": "250.00"
+      }
+    ],
+    "productos": [
+      {
+        "variante_id": "495",
+        "nombre": "PRUEBA Jornada 261111-4271 · Termo 750 ml · Negro",
+        "unidad": "pza",
+        "vendidas": "8.0000",
+        "devueltas": "2.0000",
+        "cantidad_neta": "6.0000",
+        "neto": "1200.00"
+      }
+    ],
+    "movimientos": [
+      {
+        "id": "127",
+        "tipo": "cancelacion",
+        "folio": "C-00000127",
+        "fecha": "2026-11-11 14:35:38",
+        "cajero": "PRUEBA Jornada 261111-4271 · Cajero",
+        "caja": "PRUEBA Jornada 261111-4271 · Caja",
+        "total": "-200.00",
+        "subtotal": "-172.41",
+        "impuestos": "-27.59",
+        "costo": "-100.00",
+        "utilidad": "-72.41"
+      },
+      {
+        "id": "126",
+        "tipo": "devolucion",
+        "folio": "D-00000126",
+        "fecha": "2026-11-11 14:35:38",
+        "cajero": "PRUEBA Jornada 261111-4271 · Cajero",
+        "caja": "PRUEBA Jornada 261111-4271 · Caja",
+        "total": "-200.00",
+        "subtotal": "-172.41",
+        "impuestos": "-27.59",
+        "costo": "-100.00",
+        "utilidad": "-72.41"
+      },
+      {
+        "id": "453",
+        "tipo": "venta",
+        "folio": "V-00000453",
+        "fecha": "2026-11-11 14:35:38",
+        "cajero": "PRUEBA Jornada 261111-4271 · Cajero",
+        "caja": "PRUEBA Jornada 261111-4271 · Caja",
+        "total": "200.00",
+        "subtotal": "172.41",
+        "impuestos": "27.59",
+        "costo": "100.00",
+        "utilidad": "72.41"
+      },
+      {
+        "id": "452",
+        "tipo": "venta",
+        "folio": "V-00000452",
+        "fecha": "2026-11-11 14:35:38",
+        "cajero": "PRUEBA Jornada 261111-4271 · Cajero",
+        "caja": "PRUEBA Jornada 261111-4271 · Caja",
+        "total": "400.00",
+        "subtotal": "344.83",
+        "impuestos": "55.17",
+        "costo": "200.00",
+        "utilidad": "144.83"
+      },
+      {
+        "id": "451",
+        "tipo": "venta",
+        "folio": "V-00000451",
+        "fecha": "2026-11-11 14:35:11",
+        "cajero": "PRUEBA Jornada 261111-4271 · Cajero",
+        "caja": "PRUEBA Jornada 261111-4271 · Caja",
+        "total": "400.00",
+        "subtotal": "344.83",
+        "impuestos": "55.17",
+        "costo": "200.00",
+        "utilidad": "144.83"
+      },
+      {
+        "id": "450",
+        "tipo": "venta",
+        "folio": "V-00000450",
+        "fecha": "2026-11-11 14:35:11",
+        "cajero": "PRUEBA Jornada 261111-4271 · Cajero",
+        "caja": "PRUEBA Jornada 261111-4271 · Caja",
+        "total": "600.00",
+        "subtotal": "517.24",
+        "impuestos": "82.76",
+        "costo": "300.00",
+        "utilidad": "217.24"
+      }
+    ],
+    "abonos": [
+      {
+        "tipo": "efectivo",
+        "recibos": "1",
+        "cobrado": "100.00"
+      }
+    ],
+    "pagos_proveedores": [
+      {
+        "origen": "caja",
+        "tipo": "efectivo",
+        "recibos": "1",
+        "pagado": "300.00"
+      }
+    ],
+    "gastos": [
+      {
+        "categoria": "PRUEBA Jornada 261111-4271 Gastos",
+        "origen": "caja",
+        "registros": "1",
+        "total": "40.00"
+      }
+    ],
+    "pagina": 1,
+    "paginas": 1,
+    "total_movimientos": 6
+  },
+  "alerts": {
+    "filas": [
+      {
+        "ubicacion_id": "216",
+        "ubicacion_nombre": "PRUEBA Jornada 261111-4271 · Tienda",
+        "variante_id": "495",
+        "producto_id": "318",
+        "producto_nombre": "PRUEBA Jornada 261111-4271 · Termo 750 ml",
+        "variante_nombre": "Negro",
+        "sku": "PRUEBA-TERMO-261111-4271",
+        "unidad_codigo": "pza",
+        "permite_decimales": "0",
+        "cantidad": "5.0000",
+        "minimo": "6.0000",
+        "minimo_general": "0.0000",
+        "minimo_local": "6.0000",
+        "version": "1",
+        "actualizado_en": "2026-11-11 14:35:11",
+        "faltante": "1.0000",
+        "estado": "bajo"
+      }
+    ],
+    "total": 1,
+    "pagina": 1,
+    "por_pagina": 50,
+    "actualizado_unix": 1794429350
+  },
+  "audit": {
+    "registros": [
+      {
+        "id": "295",
+        "usuario_id": "431",
+        "usuario_nombre": "PRUEBA Jornada 261111-4271 · Cajero",
+        "usuario_login": "prueba_cajero_261111_4271",
+        "tipo": "cancelacion",
+        "referencia": "C-00000127",
+        "resumen": "Ticket V-00000453",
+        "historico": "0",
+        "fecha_unix": "1794429338"
+      },
+      {
+        "id": "294",
+        "usuario_id": "431",
+        "usuario_nombre": "PRUEBA Jornada 261111-4271 · Cajero",
+        "usuario_login": "prueba_cajero_261111_4271",
+        "tipo": "devolucion",
+        "referencia": "D-00000126",
+        "resumen": "Ticket V-00000450",
+        "historico": "0",
+        "fecha_unix": "1794429338"
+      },
+      {
+        "id": "293",
+        "usuario_id": "431",
+        "usuario_nombre": "PRUEBA Jornada 261111-4271 · Cajero",
+        "usuario_login": "prueba_cajero_261111_4271",
+        "tipo": "gasto",
+        "referencia": "G-00000112",
+        "resumen": "PRUEBA: compra de garrafón de agua.",
+        "historico": "0",
+        "fecha_unix": "1794429338"
+      }
+    ],
+    "siguiente": null,
+    "filtros": {
+      "desde": "2026-11-11",
+      "hasta": "2026-11-11",
+      "usuario_id": "431",
+      "tipo": ""
+    }
+  },
+  "baseline_changes": [],
+  "report_path": "C:\\Users\\Antonio\\.codex\\visualizations\\2026\\11\\10\\01a1c675-2d82-7c03-93e8-9a8d4a9e1ffc\\prueba-compra-corte-261111-4271.html"
+}

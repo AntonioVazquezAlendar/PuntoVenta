@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS operaciones_almacen (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    folio VARCHAR(30) NULL UNIQUE,
+    tipo ENUM('traspaso','merma') NOT NULL,
+    usuario_id BIGINT UNSIGNED NOT NULL,
+    clave CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+    huella CHAR(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+    origen_id BIGINT UNSIGNED NULL,
+    destino_id BIGINT UNSIGNED NULL,
+    variante_id BIGINT UNSIGNED NULL,
+    cantidad DECIMAL(14,4) NOT NULL DEFAULT 0,
+    costo_unitario DECIMAL(14,4) NULL,
+    motivo VARCHAR(300) NOT NULL,
+    resultado JSON NULL,
+    creado_en TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uq_operacion_almacen (usuario_id,clave),
+    KEY idx_almacen_origen (origen_id,id),
+    KEY idx_almacen_destino (destino_id,id),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+    FOREIGN KEY (origen_id) REFERENCES ubicaciones(id),
+    FOREIGN KEY (destino_id) REFERENCES ubicaciones(id),
+    FOREIGN KEY (variante_id) REFERENCES variantes_producto(id)
+) ENGINE=InnoDB COMMENT='Traspasos inmediatos y mermas definitivas; documentos inmutables al confirmar';
