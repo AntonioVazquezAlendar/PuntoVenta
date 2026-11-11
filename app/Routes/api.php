@@ -12,6 +12,14 @@ if ($uri !== $base && strpos($uri, $base . '/') !== 0) {
 
 $path = substr($uri, strlen($base));
 
+$draftRoute=preg_match('#^/ventas/pendientes/([a-f0-9-]{36})(?:/(preparar-cobro|liberar-cobro|descartar))?$#D',$path,$draftMatch);
+if($path==='/ventas/pendientes'||$draftRoute){
+    $action=$draftRoute&&isset($draftMatch[2])?$draftMatch[2]:null;$allowed=$action?array('POST'):($draftRoute?array('GET','PUT'):array('GET'));if(!in_array($method,$allowed,true)){header('Allow: '.implode(', ',$allowed));throw new HttpError('Método no permitido.',405);}
+    $db=(new Database())->connect();$a=(new Auth($db))->usuario();if(empty($a['permisos']['todo'])&&empty($a['permisos']['vender'])&&empty($a['permisos']['ver_ventas']))throw new HttpError('No tienes permiso para consultar tickets pendientes.',403);require_once __DIR__.'/../Models/BorradorVenta.php';$m=new BorradorVenta($db);
+    if($method==='GET')Response::json(true,'Tickets pendientes.',$draftRoute?$m->obtener($draftMatch[1],$a):$m->listar($a,$_GET));Auth::csrf();$raw=file_get_contents('php://input',false,null,0,196609);if(strlen($raw)>196608)throw new HttpError('El ticket supera el tamaño permitido.',413);$d=json_decode($raw,true);if(!is_array($d)||substr(ltrim($raw),0,1)!=='{')throw new HttpError('Envía un objeto JSON válido.',400);
+    $r=$method==='PUT'?$m->guardar($draftMatch[1],$d,$a['id']):($action==='preparar-cobro'?$m->preparar($draftMatch[1],$d,$a['id']):$m->terminar($draftMatch[1],$d,$a['id'],$action==='descartar'));Response::json(true,'Ticket actualizado.',$r);
+}
+
 if(in_array($path,array('/bitacora','/bitacora/catalogos'),true)||preg_match('#^/bitacora/([1-9][0-9]*)$#D',$path,$auditMatch)){
     if($method!=='GET'){header('Allow: GET');throw new HttpError('La bitácora solo permite consultar registros.',405);}
     $db=(new Database())->connect();(new Auth($db))->administrador();require_once __DIR__.'/../Models/Bitacora.php';$model=new Bitacora($db);Response::json(true,'Actividad consultada.',$path==='/bitacora/catalogos'?$model->catalogos():($path==='/bitacora'?$model->listar($_GET):$model->detalle($auditMatch[1])));

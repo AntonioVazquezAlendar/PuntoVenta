@@ -35,7 +35,7 @@
                 showAccess(false);
                 $('global-status').textContent = 'Tu sesión terminó. Inicia sesión de nuevo.';
             }
-            throw new Error(result.message || 'No se pudo completar la operación.');
+            const error=new Error(result.message || 'No se pudo completar la operación.');error.status=response.status;throw error;
         }
         return result.data;
     }

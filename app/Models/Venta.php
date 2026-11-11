@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__.'/BorradorVenta.php';
 
 require_once __DIR__.'/Inventario.php';
 require_once __DIR__.'/Caja.php';
@@ -42,7 +43,7 @@ class Venta
         $puedeAbrir=!empty($actor['permisos']['todo'])||!empty($actor['permisos']['operar_caja']);$cajas=array();
         if(!$propio&&$puedeAbrir){$cajas=$this->db->query("SELECT c.id,c.nombre,l.nombre AS ubicacion_nombre FROM cajas c JOIN ubicaciones l ON l.id=c.ubicacion_id
             WHERE c.activo=1 AND l.activo=1 AND l.disponible_venta=1 AND NOT EXISTS (SELECT 1 FROM turnos_caja t WHERE t.caja_id=c.id AND t.estatus='abierto') ORDER BY c.nombre,c.id")->fetchAll();}
-        return array('cliente_predeterminado'=>Cliente::predeterminado($this->db),'vista'=>(new VentaCatalogo($this->db))->preferencia($actor['id']),'turnos'=>$turnos,'turno_id'=>$id,'mi_turno'=>$propio?:null,'puede_abrir_caja'=>$puedeAbrir,'cajas_disponibles'=>$cajas,'productos'=>$items,'codigos'=>$codigos,
+        return array('recovery_epoch'=>Auth::epoch(),'cliente_predeterminado'=>Cliente::predeterminado($this->db),'vista'=>(new VentaCatalogo($this->db))->preferencia($actor['id']),'turnos'=>$turnos,'turno_id'=>$id,'mi_turno'=>$propio?:null,'puede_abrir_caja'=>$puedeAbrir,'cajas_disponibles'=>$cajas,'productos'=>$items,'codigos'=>$codigos,
             'metodos'=>$this->db->query("SELECT id,nombre,tipo FROM metodos_pago WHERE activo=1".(!empty($actor['permisos']['todo'])||!empty($actor['permisos']['vender_credito'])?'':" AND tipo<>'credito'")." ORDER BY id")->fetchAll(),
             'puede_precio'=>!empty($actor['permisos']['todo'])||!empty($actor['permisos']['cambiar_precio']),
             'puede_descuento'=>!empty($actor['permisos']['todo'])||!empty($actor['permisos']['dar_descuento']));
@@ -128,14 +129,14 @@ class Venta
             $received=isset($pay['recibido'])&&$pay['recibido']!==''?Caja::centavos($pay['recibido']):null;
             $payments[]=array('metodo_pago_id'=>$method,'monto'=>Caja::dinero($amount),'recibido'=>$received===null?null:Caja::dinero($received),'referencia'=>Producto::texto($pay,'referencia',100,false));
         }usort($payments,function($a,$b){return (int)$a['metodo_pago_id']<=>(int)$b['metodo_pago_id'];});
-        $huella=hash('sha256',json_encode(array($input,$payments,$sello)));$this->db->exec('SET TRANSACTION ISOLATION LEVEL READ COMMITTED');$this->db->beginTransaction();
+        $hashData=array($input,$payments,$sello);if(isset($datos['borrador_id']))$hashData[]=array(BorradorVenta::uuid($datos['borrador_id']),isset($datos['borrador_version'])?(string)$datos['borrador_version']:'');$huella=hash('sha256',json_encode($hashData));$this->db->exec('SET TRANSACTION ISOLATION LEVEL READ COMMITTED');$this->db->beginTransaction();
         try{
             $actor=$this->autorizar($actorId);
             $this->db->prepare('INSERT IGNORE INTO solicitudes_venta (usuario_id,clave,huella) VALUES (?,?,?)')->execute(array($actorId,$key,$huella));
             $q=$this->db->prepare('SELECT id,huella,resultado FROM solicitudes_venta WHERE usuario_id=? AND clave=? FOR UPDATE');$q->execute(array($actorId,$key));$op=$q->fetch();
             if(!hash_equals($op['huella'],$huella)){throw new HttpError('Esa solicitud ya se usó con otros datos. Revisa la venta antes de volver a cobrar.',409);}
             if($op['resultado']!==null){$this->db->commit();return json_decode($op['resultado'],true);}
-            $turno=$this->turno($input['turno_id'],$actor,true);$quote=$this->resolver($input,$actor,$turno);
+            $turno=$this->turno($input['turno_id'],$actor,true);$draftId=BorradorVenta::verificarCobro($this->db,$datos,$actorId,$turno['id']);$quote=$this->resolver($input,$actor,$turno);
             if(!hash_equals($quote['sello'],$sello)){throw new HttpError('El catálogo o los importes cambiaron. Vuelve a calcular la venta y revisa los pagos.',409);}
             $sum=0;$cash=0;$change=0;$credito=0;$creditCount=0;
             foreach($payments as &$pay){
@@ -171,6 +172,7 @@ class Venta
             }
             $insert=$this->db->prepare('INSERT INTO pagos_venta (venta_id,metodo_pago_id,monto,recibido,cambio,referencia,tipo_metodo,nombre_metodo) VALUES (?,?,?,?,?,?,?,?)');
             foreach($payments as $pay){$insert->execute(array($id,$pay['metodo_pago_id'],$pay['monto'],$pay['recibido'],$pay['cambio'],$pay['referencia'],$pay['tipo'],$pay['nombre']));}
+            if($draftId!==null)$this->db->prepare("UPDATE borradores_venta SET estado='cobrado',venta_id=?,version=version+1,actualizado_en=CURRENT_TIMESTAMP WHERE id=?")->execute(array($id,$draftId));
             $result=array('venta_id'=>$id,'folio'=>$folio,'total'=>$quote['total'],'cambio'=>Caja::dinero($change));
             $this->db->prepare('UPDATE solicitudes_venta SET venta_id=?,resultado=? WHERE id=?')->execute(array($id,json_encode($result),$op['id']));$this->db->commit();return $result;
         }catch(Throwable $e){if($this->db->inTransaction())$this->db->rollBack();throw $e;}

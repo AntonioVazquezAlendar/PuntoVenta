@@ -21,6 +21,7 @@
     <script src="/PuntoVenta/public/assets/js/respaldos.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/respaldos.js') ?>" defer></script>
     <script src="/PuntoVenta/public/assets/js/inicio.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/inicio.js') ?>" defer></script>
     <script src="/PuntoVenta/public/assets/js/bitacora.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/bitacora.js') ?>" defer></script>
+    <script src="/PuntoVenta/public/assets/js/pos-borradores.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/pos-borradores.js') ?>" defer></script>
     <script src="/PuntoVenta/public/assets/js/ventas.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/ventas.js') ?>" defer></script>
 </head>
 <body>

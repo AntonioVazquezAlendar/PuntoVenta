@@ -81,9 +81,10 @@ class Caja
         $esperado=self::centavos($turno['monto_apertura'],true)+$ventas+$cobrado+$entradas-$salidas-$devuelto-$pagado;
         if(abs($esperado)>self::MAXIMO){throw new HttpError('El efectivo esperado supera el límite permitido.');}
         $q=$this->db->prepare("SELECT monto FROM gastos WHERE turno_id=? AND origen='caja'".($bloquear?' FOR SHARE':''));$q->execute(array($turno['id']));$gastoTotal=0;foreach($q->fetchAll(PDO::FETCH_COLUMN) as $g)$gastoTotal+=self::centavos($g);
+        $q=$this->db->prepare("SELECT id FROM borradores_venta WHERE turno_id=? AND estado IN ('en_curso','espera','cobrando') ORDER BY id".($bloquear?' FOR SHARE':''));$q->execute(array($turno['id']));$drafts=$q->fetchAll(PDO::FETCH_COLUMN);
         $data=array('gastos_incluidos_salidas'=>self::dinero($gastoTotal),'fondo_inicial'=>$turno['monto_apertura'],'pagos_proveedores'=>self::dinero($pagado),'abonos_efectivo'=>self::dinero($cobrado),'ventas_efectivo'=>self::dinero($ventas),'reembolsos_efectivo'=>self::dinero($devuelto),'entradas'=>self::dinero($entradas),'salidas'=>self::dinero($salidas),
-            'esperado'=>$turno['estatus']==='cerrado'?$turno['monto_esperado']:self::dinero($esperado),'ventas_pendientes'=>count($pendientes));
-        $data['version']=hash('sha256',json_encode(array($turno['id'],$turno['estatus'],$data,array_column($movimientos,'id'),array_column($pagos,'id'),array_column($reembolsos,'id'),array_column($abonos,'id'),array_column($proveedores,'id'),$pendientes)));
+            'esperado'=>$turno['estatus']==='cerrado'?$turno['monto_esperado']:self::dinero($esperado),'borradores_pendientes'=>count($drafts),'ventas_pendientes'=>count($pendientes)+count($drafts));
+        $data['version']=hash('sha256',json_encode(array($turno['id'],$turno['estatus'],$data,array_column($movimientos,'id'),array_column($pagos,'id'),array_column($reembolsos,'id'),array_column($abonos,'id'),array_column($proveedores,'id'),$pendientes,$drafts)));
         return $data;
     }
     // Solo para operaciones que ya bloquearon caja y turno dentro de su transacción.
@@ -152,7 +153,7 @@ class Caja
                 return $this->resultado($s,$id,array('turno_id'=>(string)$id,'movimiento_id'=>$this->db->lastInsertId(),'esperado'=>self::dinero($nuevo)));
             }
             if(!isset($datos['version'])||!is_string($datos['version'])||!hash_equals($resumen['version'],$datos['version'])){throw new HttpError('El efectivo o las ventas del turno cambiaron. Actualiza el turno y revisa el corte antes de cerrar.',409);}
-            if($resumen['ventas_pendientes']>0){throw new HttpError('Hay ventas abiertas o en espera en este turno. Complétalas o cancélalas antes de cerrar.',409);}
+            if($resumen['ventas_pendientes']>0){throw new HttpError('Hay tickets abiertos o pendientes en este turno. Cóbralos o descártalos desde Tickets pendientes antes de cerrar.',409);}
             $diferencia=$contado-$esperado;if(abs($diferencia)>self::MAXIMO){throw new HttpError('La diferencia del corte supera el límite permitido.');}
             if($diferencia!==0&&$notas===''){throw new HttpError('Escribe una nota para explicar el faltante o sobrante del corte.');}
             $this->db->prepare("UPDATE turnos_caja SET estatus='cerrado',cerrado_por=?,monto_esperado=?,monto_cierre=?,notas_cierre=?,resumen_cierre=?,cerrado_en=CURRENT_TIMESTAMP WHERE id=?")
