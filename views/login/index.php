@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/PuntoVenta/public/assets/css/admin.css?v=<?= filemtime(__DIR__ . '/../../public/assets/css/admin.css') ?>">
     <link id="brand-styles" rel="stylesheet" href="/PuntoVenta/public/api/empresa/tema.css">
     <script src="/PuntoVenta/public/assets/js/admin.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/admin.js') ?>" defer></script>
+    <script src="/PuntoVenta/public/assets/js/configuracion.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/configuracion.js') ?>" defer></script>
     <script src="/PuntoVenta/public/assets/js/catalogo.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/catalogo.js') ?>" defer></script>
     <script src="/PuntoVenta/public/assets/js/inventario.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/inventario.js') ?>" defer></script>
     <script src="/PuntoVenta/public/assets/js/alertas-inventario.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/alertas-inventario.js') ?>" defer></script>
@@ -31,7 +32,7 @@
     <div id="session-bar" hidden><span id="session-name"></span><button id="logout" data-icon="right-from-bracket" class="secondary" type="button">Cerrar sesión</button></div>
 </header>
 <aside id="app-sidebar" class="app-sidebar" hidden aria-label="Menú principal"><div class="sidebar-heading"><h2>Menú principal</h2><button id="menu-close" data-icon="xmark" class="secondary" type="button">Cerrar menú</button></div>
-    <nav id="admin-nav" class="admin-nav" aria-label="Secciones del sistema" hidden><button id="nav-home" data-icon="store" type="button" hidden>Inicio</button><button id="nav-sales" data-icon="cash-register" type="button" hidden>Punto de venta</button><button id="nav-products" data-icon="box" type="button" hidden>Productos</button><button id="nav-inventory" data-icon="boxes-stacked" type="button" hidden>Inventario</button><button id="nav-purchases" data-icon="cart-shopping" type="button" hidden>Compras</button><button id="nav-cash" data-icon="wallet" type="button" hidden>Caja</button><button id="nav-clients" data-icon="users" type="button" hidden>Clientes</button><button id="nav-expenses" data-icon="money-bill-transfer" type="button" hidden>Gastos del negocio</button><button id="nav-payables" data-icon="cart-shopping" type="button" hidden>Cuentas por pagar</button><button id="nav-credits" data-icon="money-bill-transfer" type="button" hidden>Crédito y abonos</button><button id="nav-reports" data-icon="receipt" type="button" hidden>Reportes de ventas</button><button id="nav-users" data-icon="user-shield" type="button" aria-current="page">Usuarios y acceso</button><button id="nav-permissions" data-icon="shield-halved" type="button">Roles y permisos</button><button id="nav-company" data-icon="store" type="button">Mi negocio</button><button id="nav-backups" data-icon="floppy-disk" type="button" hidden>Respaldos</button><button id="nav-audit" data-icon="receipt" type="button" hidden>Bitácora de actividad</button></nav>
+    <nav id="admin-nav" class="admin-nav" aria-label="Secciones del sistema" hidden><button id="nav-home" data-icon="store" type="button" hidden>Inicio</button><button id="nav-sales" data-icon="cash-register" type="button" hidden>Punto de venta</button><button id="nav-products" data-icon="box" type="button" hidden>Productos</button><button id="nav-inventory" data-icon="boxes-stacked" type="button" hidden>Inventario</button><button id="nav-purchases" data-icon="cart-shopping" type="button" hidden>Compras</button><button id="nav-cash" data-icon="wallet" type="button" hidden>Caja</button><button id="nav-clients" data-icon="users" type="button" hidden>Clientes</button><button id="nav-expenses" data-icon="money-bill-transfer" type="button" hidden>Gastos del negocio</button><button id="nav-payables" data-icon="cart-shopping" type="button" hidden>Cuentas por pagar</button><button id="nav-credits" data-icon="money-bill-transfer" type="button" hidden>Crédito y abonos</button><button id="nav-reports" data-icon="receipt" type="button" hidden>Reportes de ventas</button><button id="nav-users" data-icon="user-shield" type="button" aria-current="page">Usuarios y acceso</button><button id="nav-permissions" data-icon="shield-halved" type="button">Roles y permisos</button><button id="nav-company" data-icon="store" type="button">Configuración administrativa</button><button id="nav-backups" data-icon="floppy-disk" type="button" hidden>Respaldos</button><button id="nav-audit" data-icon="receipt" type="button" hidden>Bitácora de actividad</button></nav>
 </aside>
 <button id="menu-backdrop" class="menu-backdrop" type="button" aria-label="Cerrar menú lateral" hidden></button>
 <main>
@@ -101,7 +102,9 @@
         </div>
     </section>
     <section id="company-view" hidden aria-labelledby="company-title">
-        <div class="section-heading"><div><h1 id="company-title">Mi negocio</h1><p>Dale tu identidad al punto de venta. Los cambios también aparecen al iniciar sesión.</p></div></div>
+        <div class="section-heading"><div><h1 id="company-title">Configuración administrativa</h1><p>Configura tu negocio, los tickets y las formas de pago. Solo el administrador puede hacer cambios.</p></div></div>
+        <?php require __DIR__.'/../configuracion/datos.php'; ?>
+        <section id="config-identidad" class="config-block" aria-labelledby="config-identidad-title"><h2 id="config-identidad-title">Logo y colores</h2>
         <div class="company-layout">
             <form id="company-form" class="company-form">
                 <h2>Nombre y logo</h2>
@@ -119,6 +122,8 @@
             </form>
             <aside class="brand-preview" aria-labelledby="preview-title"><h2 id="preview-title">Vista previa</h2><p class="hint">Prueba los colores antes de guardar.</p><div class="preview-window"><div id="preview-header" class="preview-header"><img id="preview-logo" alt="" hidden><strong id="preview-name">Tu negocio</strong></div><div class="preview-content"><h3>Bienvenido a tu negocio</h3><p>Así se verá tu identidad en el sistema.</p><span id="preview-button" class="preview-button">Botón principal</span><div id="preview-detail" class="preview-detail"></div></div></div><p class="hint">El texto de los botones y del encabezado se ajusta automáticamente para conservar el contraste.</p><p id="company-dirty" class="hint" aria-live="polite">Todos los cambios están guardados.</p></aside>
         </div>
+        </section>
+        <?php require __DIR__.'/../configuracion/administracion.php'; ?>
     </section>
     <?php require __DIR__ . '/../productos/index.php'; ?>
     <?php require __DIR__ . '/../inventario/index.php'; ?>

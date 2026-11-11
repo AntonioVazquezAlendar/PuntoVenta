@@ -12,6 +12,16 @@ if ($uri !== $base && strpos($uri, $base . '/') !== 0) {
 
 $path = substr($uri, strlen($base));
 
+$configMethod=preg_match('#^/configuracion/metodos/([1-9][0-9]*)$#D',$path,$configMatch);
+if(in_array($path,array('/configuracion','/configuracion/metodos'),true)||$configMethod){
+    $allowed=$configMethod?array('PUT'):($path==='/configuracion'?array('GET','PUT'):array('POST'));
+    if(!in_array($method,$allowed,true)){header('Allow: '.implode(', ',$allowed));throw new HttpError('Método no permitido.',405);}
+    $db=(new Database())->connect();$actor=(new Auth($db))->administrador();require_once __DIR__.'/../Models/ConfiguracionAdmin.php';$model=new ConfiguracionAdmin($db);
+    if($method==='GET')Response::json(true,'Configuración administrativa.',$model->obtener());
+    Auth::csrf();$raw=file_get_contents('php://input',false,null,0,16385);if(strlen($raw)>16384)throw new HttpError('La configuración supera el tamaño permitido.',413);$data=json_decode($raw,true);if(!is_array($data)||substr(ltrim($raw),0,1)!=='{')throw new HttpError('Envía un objeto JSON válido.',400);
+    $result=$path==='/configuracion'?$model->guardar($data,$actor['id']):$model->metodo($configMethod?$configMatch[1]:null,$data,$actor['id']);Response::json(true,'Configuración guardada.',$result);
+}
+
 $draftRoute=preg_match('#^/ventas/pendientes/([a-f0-9-]{36})(?:/(preparar-cobro|liberar-cobro|descartar))?$#D',$path,$draftMatch);
 if($path==='/ventas/pendientes'||$draftRoute){
     $action=$draftRoute&&isset($draftMatch[2])?$draftMatch[2]:null;$allowed=$action?array('POST'):($draftRoute?array('GET','PUT'):array('GET'));if(!in_array($method,$allowed,true)){header('Allow: '.implode(', ',$allowed));throw new HttpError('Método no permitido.',405);}

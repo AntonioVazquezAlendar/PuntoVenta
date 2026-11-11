@@ -559,6 +559,7 @@
         api, status, current: () => current,
         apiBytes: async(path,body,offset)=>{const response=await fetch(base+path,{method:'POST',credentials:'same-origin',headers:{'X-CSRF-Token':csrf,'X-Backup-Offset':String(offset),'Content-Type':'application/octet-stream'},body});const result=await response.json();if(!response.ok||!result.success)throw new Error(result.message||'No se pudo cargar el archivo.');return result.data;},
         openCatalog: () => {
+            if(window.PuntoVenta.leaveConfiguration&&!window.PuntoVenta.leaveConfiguration()){return false;}
             if(window.PuntoVenta.leaveBackups&&!window.PuntoVenta.leaveBackups()){return false;}if(window.PuntoVenta.leaveExpenses&&!window.PuntoVenta.leaveExpenses()){return false;}if(window.PuntoVenta.leavePayables&&!window.PuntoVenta.leavePayables()){return false;}if(window.PuntoVenta.leaveCredits&&!window.PuntoVenta.leaveCredits()){return false;}if(window.PuntoVenta.leaveClients&&!window.PuntoVenta.leaveClients()){return false;}
             if(window.PuntoVenta.leaveSales&&!window.PuntoVenta.leaveSales()){return false;}
             if(window.PuntoVenta.leaveCash&&!window.PuntoVenta.leaveCash()){return false;}

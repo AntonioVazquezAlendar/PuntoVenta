@@ -1,0 +1,42 @@
+{
+  "abarrotes": {
+    "base": "pos_demo_abarrotes",
+    "nombre": "Minisúper La Esquina DEMO",
+    "productos": 33,
+    "variantes": 33,
+    "usuarios": 7,
+    "tablas": 47
+  },
+  "ropa": {
+    "base": "pos_demo_ropa",
+    "nombre": "Moda Nube y Accesorios DEMO",
+    "productos": 27,
+    "variantes": 94,
+    "usuarios": 7,
+    "tablas": 47
+  },
+  "agroquimica": {
+    "base": "pos_demo_agroquimica",
+    "nombre": "Agroinsumos Campo Claro DEMO",
+    "productos": 26,
+    "variantes": 26,
+    "usuarios": 7,
+    "tablas": 47
+  },
+  "restaurante": {
+    "base": "pos_demo_restaurante",
+    "nombre": "Café y Pizzería La Terraza DEMO",
+    "productos": 29,
+    "variantes": 39,
+    "usuarios": 7,
+    "tablas": 47
+  },
+  "ferreteria": {
+    "base": "pos_demo_ferreteria",
+    "nombre": "Ferretería Tornillo Firme DEMO",
+    "productos": 33,
+    "variantes": 33,
+    "usuarios": 7,
+    "tablas": 47
+  }
+}
