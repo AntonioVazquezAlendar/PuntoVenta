@@ -1,0 +1,770 @@
+MANUAL DE USUARIO - PUNTOVENTA
+Fecha de elaboración: 14 de noviembre de 2026
+Guía de la versión actual del proyecto
+===============================================================================
+
+1. PARA QUÉ SIRVE EL SISTEMA
+
+PuntoVenta permite registrar ventas de productos y servicios, controlar caja e
+inventario, administrar compras, clientes, créditos, gastos y pagos a proveedores.
+También permite consultar reportes, imprimir comprobantes y generar respaldos.
+
+Es una aplicación web local: se utiliza desde el navegador mientras el servidor
+del negocio está disponible. No permite cobrar ventas sin conexión al servidor.
+No emite facturas electrónicas ni procesa cargos bancarios. Los pagos con tarjeta,
+transferencia y otros medios deben realizarse por separado y después registrarse.
+
+Los menús y botones disponibles dependen de los permisos de tu cuenta. Que una
+opción aparezca en este manual no significa que todos los usuarios puedan usarla.
+
+2. ACCESO Y NAVEGACIÓN
+
+1) Abre la dirección de la instalación en tu navegador. En el equipo servidor,
+   según la configuración documentada del proyecto, puede ser:
+   http://localhost:8080/PuntoVenta/public/
+   Desde otra computadora utiliza la dirección que indique el administrador.
+2) Escribe tu usuario y contraseña e inicia sesión.
+3) En una instalación sin usuarios, sigue el formulario de creación del primer
+   administrador y después inicia sesión con la cuenta que acabas de crear.
+4) Usa el menú lateral para cambiar de sección. En celular, abre el botón Menú.
+5) Al terminar utiliza Cerrar sesión. Esto no sustituye el cierre del turno de caja.
+
+No hay una contraseña universal para las cuentas del negocio. Solicita tu acceso
+al administrador y utiliza tu propia cuenta para conservar la responsabilidad de
+cada operación.
+
+En Inicio puedes consultar los indicadores disponibles para tu cuenta: ventas y
+gastos del día, cajas abiertas, cuentas pendientes e inventario por reponer. Usa
+Actualizar resumen para consultar nuevamente la información.
+
+3. PREPARACIÓN INICIAL DEL NEGOCIO
+
+El administrador debe revisar, antes de comenzar a operar:
+
+- Configuración administrativa: nombre, datos de contacto, ticket, logo y colores.
+- Métodos de pago que realmente acepta el negocio.
+- Roles, permisos y cuentas del personal.
+- Ubicaciones de venta y resguardo, y cajas asociadas a ubicaciones de venta.
+- Categorías, productos, variantes, precios, impuestos y existencias iniciales.
+- Proveedores y clientes, cuando sean necesarios.
+
+No es necesario repetir esta preparación todos los días.
+
+4. ABRIR CAJA Y COMENZAR LA JORNADA
+
+Desde Punto de venta:
+1) Si no tienes un turno abierto, selecciona una Caja disponible.
+2) Cuenta el dinero que dejas en el cajón e introdúcelo como Efectivo inicial.
+3) Agrega notas de apertura si corresponde.
+4) Pulsa Abrir caja y vender.
+
+También puedes abrirla desde Caja > Abrir turno, indicando caja, fondo inicial y
+notas, y pulsando Confirmar apertura.
+
+Solo puede existir un turno abierto por caja y por usuario. Necesitas permiso para
+operar caja. Las ventas se realizan exclusivamente desde tu propio turno abierto,
+incluso si eres administrador. Si no hay cajas disponibles, consulta al responsable.
+
+5. REALIZAR UNA VENTA
+
+1) Entra a Punto de venta con tu caja abierta.
+2) Elige la interfaz Búsqueda o Mosaico. Usar por defecto guarda tu preferencia.
+3) Busca por nombre, SKU o código registrado, o escanea el código del producto.
+   En Búsqueda, la lista comienza vacía hasta que realices una consulta.
+4) Agrega los productos al Ticket actual. Usa Cargar más productos si aparece.
+5) Revisa cantidades, precios y descuentos. Cambiar precios o aplicar descuentos
+   requiere los permisos correspondientes.
+6) Selecciona un cliente registrado si quieres vincular la venta a su historial.
+   Puedes buscarlo por nombre o teléfono. Escribir un nombre sin seleccionar una
+   ficha solamente guarda ese texto en el ticket; no crea un cliente.
+7) Si existe un cliente predeterminado, se selecciona al iniciar el ticket. Puedes
+   cambiarlo o quitarlo para esa venta. Si omites cliente se usa Público general.
+8) Agrega notas del ticket cuando sea necesario.
+9) Revisa subtotal, impuestos y total calculados por el sistema.
+10) En Cobro, selecciona el método y captura el importe correspondiente. Para un
+    pago mixto, utiliza Agregar otro método y distribuye el importe.
+11) Si recibes efectivo, verifica el dinero recibido y el cambio mostrado.
+12) Confirma los pagos recibidos y el crédito indicado, y pulsa Completar venta.
+13) Espera la confirmación y revisa el ticket. Usa Imprimir ticket para abrir la
+    impresión del navegador; revisa la impresora, papel y vista previa.
+14) Utiliza Nueva venta para atender al siguiente cliente.
+
+Las cantidades se registran en la unidad base del producto. Un código de paquete
+agrega las unidades base que tenga configuradas; verifica siempre la cantidad.
+Los servicios no descuentan inventario. El sistema permite existencias negativas;
+revisa la disponibilidad física para evitar vender mercancía que no puedas entregar.
+
+Ver existencias muestra el saldo por ubicación de una variante. Esta consulta no
+traspasa mercancía ni cambia la ubicación de tu caja. El stock en resguardo no se
+incluye como disponible para venta.
+
+Pantalla completa amplía la terminal cuando lo permite el navegador. Volver al
+menú restaura la navegación y conserva la caja y el ticket actual.
+
+IMPORTANTE: registrar tarjeta o transferencia significa confirmar un pago que ya
+recibiste; el sistema no cobra automáticamente a una terminal o cuenta bancaria.
+
+6. TICKETS PENDIENTES, PAUSAS Y COBROS INTERRUMPIDOS
+
+El sistema protege el ticket durante la captura mediante guardado en el navegador
+y en el servidor. Revisa el estado de guardado visible; una copia local todavía
+no sincronizada puede perderse si borras los datos del navegador.
+
+Para pausar una venta:
+1) Pulsa Poner en espera y confirma lo que solicite la pantalla.
+2) Inicia o continúa otra venta.
+3) Entra en Tickets pendientes para localizar el ticket guardado.
+4) Recupéralo y revisa productos, precios actuales, cliente y cobro antes de vender.
+
+Los tickets pendientes no reservan existencias ni registran ventas o dinero.
+Cada usuario puede continuar y cobrar sus propios tickets. El administrador puede
+revisar los de otros usuarios y descartarlos con un motivo, pero no cobrarlos por
+ellos. Para usar un ticket de otro turno se requiere crear una copia explícita en
+la caja propia actual, siguiendo las opciones que muestre el sistema.
+
+Si no vas a completar un ticket, utiliza la opción de descartar y confirma.
+Antes de cerrar caja debes cobrar o descartar todos los pendientes del turno.
+
+Si el cobro pierde la respuesta o queda por verificar:
+- Mantén el ticket y sigue el estado que indique la pantalla.
+- Usa Reintentar cobro pendiente para consultar o completar el mismo intento.
+- Si la venta ya quedó registrada, el sistema recupera su comprobante.
+- No crees otra venta para repetir el mismo cobro mientras el resultado sea incierto.
+
+Si hay un conflicto entre pestañas, sigue las opciones para recuperar la versión
+del servidor o conservar la copia local como otro ticket. Revisa cuál corresponde
+antes de confirmar; evita editar el mismo ticket en varias pestañas.
+
+7. CONSULTAR E IMPRIMIR VENTAS
+
+1) Abre Punto de venta > Ventas y tickets.
+2) Localiza la venta; usa Cargar anteriores si es necesario.
+3) Abre Ver ticket y revisa folio, cliente, productos, pagos y reembolsos.
+4) Pulsa Imprimir ticket si necesitas otra copia.
+
+Los vendedores consultan sus propias ventas. Solo el administrador consulta el
+historial completo de ventas de otros usuarios.
+
+8. DEVOLUCIONES Y CANCELACIONES
+
+Puedes iniciar desde Ver ticket o desde Punto de venta > Devolución por folio.
+En la búsqueda por folio escribe el folio completo, por ejemplo V-00000001.
+
+Cancelar venta:
+- Revierte toda la venta y devuelve su importe.
+- Requiere el turno original propio todavía abierto y ninguna devolución previa.
+- Reingresa la mercancía en la ubicación de la caja original.
+
+Devolver productos:
+- Permite devolver cantidades parciales o totales pendientes de devolución.
+- Puede realizarse desde tu turno abierto aunque el turno original ya esté cerrado.
+- Permite indicar reingreso a la ubicación de tu caja, resguardo activo o descarte
+  sin reingreso. Los servicios no mueven inventario.
+
+Procedimiento:
+1) Localiza la venta y selecciona la operación disponible.
+2) Revisa la caja que registra el reembolso.
+3) Para devolución, indica cantidades y destino de la mercancía.
+4) Escribe el motivo y pulsa Calcular reembolso.
+5) Revisa importes y métodos del pago original disponibles para devolver.
+6) Realiza la devolución del dinero por los medios correspondientes y confirma
+   la recepción de mercancía y el reembolso realizado.
+7) Si no eres administrador, solicita que un administrador revise e introduzca
+   sus credenciales en la autorización de esa operación. Tu sesión se conserva.
+8) Registra la operación y revisa el comprobante.
+
+Necesitas permisos de devolución o cancelación y de operación de caja. La búsqueda
+por folio permite preparar operaciones de tickets ajenos con las autorizaciones
+requeridas; no concede acceso al historial completo de otro vendedor.
+
+El efectivo de caja debe ser suficiente. El sistema registra el reembolso, pero no
+envía transferencias ni revierte cargos bancarios. Los importes usan los datos del
+ticket original y no modifican cortes cerrados.
+
+En una venta a crédito, la devolución primero reduce la deuda pendiente. Solo el
+excedente puede reembolsarse contra dinero realmente recibido. No se entrega dinero
+por una parte del crédito que el cliente todavía no ha pagado.
+
+9. CLIENTES
+
+1) Entra en Clientes y busca por nombre, teléfono o correo.
+2) Para dar de alta una ficha utiliza la opción de crear cliente.
+3) Captura nombre y los datos de contacto, dirección y notas que correspondan.
+4) Guarda y verifica la información. Para cambios posteriores, edita la ficha.
+5) Consulta su historial cuando tengas permiso. Los usuarios distintos del
+   administrador ven únicamente las compras que ellos mismos registraron.
+
+Puedes marcar una ficha activa como cliente predeterminado. Solo existe una para
+todo el negocio: elegir otra reemplaza la anterior. Desmarcarla o desactivarla deja
+el negocio sin predeterminado. Esto no cambia tickets anteriores ni ya iniciados.
+Las ventas antiguas con nombre libre no se vinculan automáticamente a una ficha.
+Desactivar un cliente conserva su historial.
+
+10. CRÉDITO Y ABONOS
+
+Habilitar crédito (administrador):
+1) En Crédito y abonos abre Configurar crédito de un cliente.
+2) Busca un cliente registrado distinto del predeterminado.
+3) Habilita el crédito y define límite total y plazo de 1 a 365 días.
+4) Guarda el límite y plazo. No puede reducirse el límite por debajo de la deuda.
+
+Para vender a crédito selecciona ese cliente en el ticket, usa el método de crédito
+y revisa su disponible. Puedes combinar anticipo y crédito si tienes permiso.
+No se concede crédito a un nombre libre, cliente inactivo o cliente predeterminado.
+El plazo se fija al vender; no se generan intereses o recargos automáticos.
+
+Registrar un abono:
+1) En Crédito y abonos busca al cliente o el folio y abre el crédito de esa venta.
+2) Con tu turno abierto, elige un método de pago distinto de crédito.
+3) Introduce el importe recibido para aplicar, sin superar el saldo pendiente.
+4) Captura efectivo recibido y referencia cuando corresponda, y revisa el cambio.
+5) Confirma la recepción y pulsa Registrar abono. Revisa e imprime el recibo.
+
+Los abonos se aplican a una venta concreta, no se editan ni se eliminan. El efectivo
+entra en la caja donde se recibe el abono. Deshabilitar nuevas ventas a crédito no
+impide cobrar la deuda existente.
+
+11. PRODUCTOS Y CATEGORÍAS
+
+1) En Productos puedes buscar por nombre o SKU y filtrar por categoría y estado.
+2) Usa Categorías para crear o editar las clasificaciones del catálogo.
+3) Pulsa Crear producto o abre la edición de uno existente.
+4) Captura nombre, categoría, descripción, tipo, unidad base e impuesto.
+5) Revisa si el precio incluye impuesto y si corresponde controlar inventario.
+6) Agrega las variantes necesarias, cada una con SKU único, costo sin IVA y precio
+   de venta por unidad base. Revisa los códigos y equivalencias que configures.
+7) Si agregas imágenes, selecciona la predeterminada para catálogo y venta.
+8) Pulsa Guardar producto. Las existencias se administran desde Inventario.
+
+Tipos disponibles: Estándar, Granel, Servicio y Kit (ficha del combo). No supongas
+que crear una ficha de kit configura automáticamente recetas o componentes.
+
+Imágenes: hasta 10 por producto, en JPG, PNG o WebP; cada una de hasta 2 MB y
+4096 x 4096 píxeles. Se admiten hasta 6 MB de imágenes nuevas por guardado.
+La selección de imagen y los cambios de galería se aplican al guardar el producto.
+Desactiva productos o variantes cuando dejen de utilizarse para conservar historial.
+
+12. INVENTARIO Y UBICACIONES
+
+Consulta:
+- En Inventario busca producto o SKU y selecciona ubicación.
+- Filtra variantes activas, stock bajo, existencias negativas o todas.
+- Las cantidades se expresan en unidad base. Historial muestra movimientos,
+  responsable y motivo.
+
+Ajustes de existencia:
+1) Abre la acción de ajuste de la variante y ubicación correctas.
+2) Selecciona Inventario inicial, Entrada por ajuste, Salida por ajuste o Conteo
+   físico. El conteo indica cuánto hay realmente, no cuánto deseas sumar.
+3) Captura cantidad y motivo. Revisa el cambio y la existencia resultante.
+4) Pulsa Registrar movimiento.
+
+El historial no se edita: un error se corrige con otro movimiento justificado.
+Evita registrar por ajuste una entrada de compra que después recibirás también en
+Compras, porque duplicaría el ingreso de mercancía.
+
+Ubicaciones:
+- Usa Ubicaciones para crear o editar tienda, bodega o resguardo, según permisos.
+- Disponible para venta identifica stock utilizable para vender; Resguardo mantiene
+  stock físico excluido del disponible comercial.
+- Una ubicación debe quedar sin existencias antes de desactivarse.
+
+Traspasos y mermas:
+1) Desde la variante en Existencias, elige la operación correspondiente.
+2) Para traspaso selecciona destino; para merma revisa la baja definitiva.
+3) Captura cantidad y motivo, revisa el resultado y confirma.
+4) Consulta los documentos en Traspasos y mermas.
+
+Ambas operaciones requieren saldo suficiente en el origen y permisos específicos.
+Un traspaso registra salida y entrada; una merma registra una baja definitiva.
+No cambian precios ni costos.
+
+13. ALERTAS Y REPOSICIÓN
+
+1) Abre Inventario > Alertas y reposición.
+2) En Por reponer filtra producto, ubicación y situación, y pulsa Consultar.
+3) Revisa existencia, mínimo y faltante para mínimo.
+4) Usa Descargar lista para compras (CSV) si necesitas compartir la lista.
+5) Con permiso, entra a Configurar mínimos y define el mínimo por ubicación o
+   selecciona Usar el mínimo general del catálogo; después guarda.
+
+Solo se alertan ubicaciones activas disponibles para venta. Un mínimo de cero
+desactiva su alerta. Llegar exactamente al mínimo genera alerta aunque el faltante
+sea cero. La lista no crea compras automáticamente: revisa si conviene traspasar
+desde otra ubicación y verifica conteos cuando existan cantidades negativas.
+
+14. PROVEEDORES Y COMPRAS
+
+1) En Compras abre Proveedores y registra o revisa los datos del proveedor.
+2) Crea una compra, selecciona proveedor y ubicación de recepción.
+3) Agrega variantes, cantidades y costos sin IVA; revisa impuestos y totales.
+4) Captura referencia o factura, notas y condición de pago cuando corresponda.
+   Si la condición es crédito, indica el vencimiento.
+5) Guarda la compra en el estado que corresponda: borrador o pedida.
+6) Al recibir físicamente todo el pedido, abre la compra y pulsa Recibir mercancía.
+7) Verifica el detalle y confirma la recepción.
+
+Guardar un borrador o pedido no aumenta inventario. La recepción es total, registra
+las existencias y recalcula el costo promedio; conserva los precios de venta.
+Una compra recibida se paga por separado en Cuentas por pagar. Elegir Contado no
+registra automáticamente un pago ni retira dinero de caja.
+La edición y cancelación dependen del estado; revisa las acciones disponibles.
+
+15. CUENTAS POR PAGAR
+
+1) En Cuentas por pagar busca por folio, proveedor o factura y filtra el estado.
+2) Abre una compra recibida y revisa su saldo y pagos.
+3) Si está Por conciliar, el administrador debe revisar sus registros y confirmar
+   una sola vez el saldo inicial, condición, vencimiento si aplica y motivo.
+4) Para pagar, selecciona Efectivo de mi caja u Otra cuenta o fondos externos.
+5) Desde caja necesitas tu turno abierto y efectivo suficiente. Para fondos
+   externos identifica la cuenta o los fondos utilizados y el método.
+6) Captura importe sin exceder el saldo, concepto y referencia si corresponde.
+7) Confirma el pago ya realizado, pulsa Registrar pago y revisa el comprobante.
+
+No se registran anticipos de compras pendientes o canceladas en este módulo.
+Los pagos no se editan ni se eliminan. Los externos no afectan caja ni ejecutan
+transferencias. No registres otra salida manual por un pago hecho desde caja.
+
+16. GASTOS DEL NEGOCIO
+
+1) En Gastos del negocio pulsa Registrar gasto.
+2) Selecciona categoría, fecha y origen del dinero.
+3) Si sale de caja, usa tu turno abierto y efectivo suficiente; la fecha es hoy.
+4) Si se pagó con fondos externos, identifica la cuenta o fondos y método. La fecha
+   real puede ser desde 2023 hasta hoy, sin fechas futuras.
+5) Captura el total pagado, incluidos sus impuestos, concepto y, si corresponde,
+   beneficiario y referencia.
+6) Confirma que el gasto está pagado y no lo registraste antes como salida.
+7) Pulsa Registrar gasto y revisa o imprime el comprobante.
+
+También puedes usar Registrar gasto desde Punto de venta. La ventana conserva tu
+ticket y fija el gasto a la caja actual y la fecha de hoy. Al guardar vuelves a la
+venta. Si sales sin guardar, puedes seguir capturando o descartar solo ese gasto.
+
+Consulta gastos por fechas, categoría, origen o texto. Solo el administrador
+administra las categorías y consulta todos los usuarios; los demás ven sus propios
+registros. Los gastos registrados no se editan ni se eliminan desde el sistema.
+
+No registres como gasto un retiro para depósito ni un pago de compra a proveedor.
+Un gasto de caja ya genera su salida: no repitas esa salida manualmente.
+
+17. MOVIMIENTOS Y CIERRE DE CAJA
+
+Durante la jornada:
+1) En Caja abre tu turno o utiliza Continuar mi turno.
+2) Consulta el resumen y pulsa Actualizar turno para refrescarlo.
+3) Usa Entrada de efectivo o Salida de efectivo para movimientos adicionales que
+   correspondan, capturando monto y motivo.
+
+No vuelvas a capturar cobros, abonos, reembolsos, gastos o pagos a proveedores como
+movimientos manuales: esas operaciones ya afectan el efectivo automáticamente.
+No se permite retirar más efectivo del esperado. Los movimientos no se editan.
+
+Al finalizar:
+1) Resuelve todos los tickets pendientes del turno: cóbralos o descártalos.
+2) Abre el detalle de tu turno y actualiza el resumen.
+3) Cuenta el efectivo físico del cajón.
+4) Pulsa Cerrar turno y hacer corte y captura el efectivo contado.
+5) Si hay diferencia, revisa el conteo y registra la nota requerida.
+6) Marca la confirmación y completa el cierre.
+7) Verifica que el turno aparezca cerrado. Después cierra tu sesión.
+
+Efectivo esperado = fondo inicial + cobros de ventas en efectivo + abonos en
+efectivo + entradas - salidas - reembolsos en efectivo - pagos a proveedores desde
+caja. Los gastos ya están incluidos en salidas y no se restan otra vez.
+Se cuenta el efectivo aplicado a la venta, no el recibido antes de entregar cambio.
+
+Si otra operación cambia el resumen antes de cerrar, actualízalo y vuelve a revisar
+el corte. Los cortes cerrados conservan su información histórica.
+
+18. REPORTES DE VENTAS
+
+1) En Reportes de ventas selecciona Desde y Hasta y pulsa Consultar.
+2) Aplica filtros de cajero o caja según tu acceso. El periodo máximo es de
+   366 días, con fechas a partir de 2023.
+3) Revisa ventas, reembolsos, netos, impuestos y utilidad estimada, junto con los
+   desgloses por día, cajero, caja, métodos y productos.
+4) Consulta por separado abonos, pagos a proveedores y gastos registrados.
+5) Usa Imprimir reporte o Exportar Excel. La impresión incluye la página visible
+   de movimientos; Excel incluye los movimientos del filtro hasta 10,000.
+
+Las fechas se interpretan en horario de Ciudad de México. Una devolución se resta
+el día en que se registra, aunque la venta sea anterior; por eso un día puede tener
+neto negativo. Los abonos no son ventas nuevas y se informan por separado.
+
+La utilidad estimada usa venta neta sin impuestos menos costo histórico neto.
+La utilidad menos gastos resta además los gastos registrados. Son estimaciones,
+no un cálculo fiscal; no incluyen todas las posibles comisiones, mermas o salidas
+sin clasificar. Los pagos a proveedores no se restan otra vez de esa utilidad.
+El administrador consulta todo; otros usuarios ven sus propias operaciones.
+
+19. USUARIOS, ROLES Y CONFIGURACIÓN
+
+Usuarios y acceso:
+- Crea la cuenta con nombre, usuario, rol, contraseña y estado.
+- Para cambiar datos abre la edición. La nueva contraseña es opcional al editar;
+  dejarla vacía conserva la actual.
+- Desactiva cuentas que ya no deban entrar. Sus operaciones históricas permanecen.
+
+Roles y permisos:
+- Selecciona un rol, revisa sus permisos y pulsa Guardar permisos.
+- Puedes crear roles y tomar otro como plantilla, ajustando sus casillas.
+- El rol Administrador está protegido. Solo el administrador asigna los permisos
+  reservados a esa función. Las opciones Próximamente no habilitan módulos actuales.
+
+Configuración administrativa (administrador):
+- Negocio y ticket: captura datos, contacto, encabezado y mensaje final; revisa la
+  vista previa y pulsa Guardar datos y ticket.
+- Logo y colores: ajusta identidad visual y guarda ese formulario.
+- Métodos de pago: crea o edita nombre y estado. El tipo se define al crear y no se
+  cambia después. Debe permanecer al menos un método de efectivo activo.
+- Administración: accesos a usuarios, roles, cajas, ubicaciones y otras áreas.
+
+Cada formulario se guarda por separado. Los cambios de datos del ticket se aplican
+a nuevas ventas; los tickets anteriores conservan su información. Moneda y zona
+horaria son valores fijos. Capturar RFC no genera facturación electrónica.
+Después de cambiar métodos de pago, actualiza el contexto del punto de venta.
+
+20. RESPALDOS Y RESTAURACIÓN (ADMINISTRADOR)
+
+Crear una copia:
+1) En Respaldos captura y repite una contraseña de al menos 8 caracteres.
+2) Pulsa Crear respaldo cifrado y espera el resultado.
+3) Descarga el ZIP desde el historial y guarda una copia fuera de esta computadora.
+4) Conserva su contraseña en un lugar seguro: no puede recuperarse. Es distinta
+   de la contraseña de acceso al sistema.
+
+Restaurar una copia SUSTITUYE todos los datos actuales, incluidos usuarios y
+contraseñas, y cierra todas las sesiones. Planifica la operación con el responsable
+del negocio y utiliza una copia de la misma versión del sistema.
+
+1) Cierra los turnos de caja actuales y conserva un respaldo reciente.
+2) Selecciona el ZIP (hasta 256 MB), o elige Revisar en el historial.
+3) Captura la contraseña de esa copia y pulsa Revisar respaldo.
+4) Revisa contenido, fechas y avisos; esta revisión todavía no sustituye datos.
+5) Para continuar, introduce tu contraseña actual de administrador, escribe
+   RESTAURAR DATOS y marca la confirmación.
+6) Pulsa Sustituir datos y restaurar y espera el resultado.
+7) Vuelve a iniciar sesión con una cuenta incluida en la copia restaurada y revisa
+   los datos recuperados y los turnos que contenga.
+
+Se guarda una copia previa con la misma contraseña del respaldo que restauras.
+Si aparece un problema de recuperación, conserva los archivos y contacta al
+administrador; no elimines archivos para intentar desbloquear el sistema.
+
+21. BITÁCORA DE ACTIVIDAD
+
+Solo el administrador puede consultarla. Selecciona fechas, usuario u operación y
+pulsa Consultar; abre Detalle para revisar responsable, referencia y cambios.
+El periodo máximo por consulta es de 366 días. Los registros no se editan ni se
+eliminan desde la pantalla y no contienen contraseñas. Algunos registros anteriores
+pueden aparecer como historial incorporado. Restaurar un respaldo también recupera
+la bitácora que contiene esa copia.
+
+22. PROBLEMAS FRECUENTES
+
+No puedo entrar:
+Revisa usuario y contraseña y consulta al administrador si tu cuenta está inactiva.
+Si el navegador no abre la página, verifica la dirección y disponibilidad del servidor.
+
+No aparece un menú o botón:
+Solicita al administrador que revise los permisos de tu cuenta.
+
+No puedo vender:
+Comprueba que tengas turno propio abierto, permisos y comunicación con el servidor.
+Revisa los mensajes de validación del ticket y del cobro.
+
+El producto no aparece al buscar o escanear:
+Comprueba nombre, SKU, código registrado y estado activo de producto y variante.
+
+No puedo cerrar caja:
+Resuelve tickets pendientes y cobros por verificar. Actualiza el resumen, vuelve
+a contar el efectivo y añade nota cuando exista una diferencia.
+
+No hay efectivo suficiente para un gasto, pago o reembolso:
+Revisa el dinero físico y los movimientos registrados. Corrige la causa o utiliza
+un origen permitido que refleje lo que realmente ocurrió.
+
+Una venta o pago parece no haberse guardado:
+Revisa el estado y su comprobante antes de repetir la operación. En un cobro
+interrumpido utiliza Reintentar cobro pendiente para evitar duplicarlo.
+
+El inventario no coincide:
+Verifica unidad base, ubicación y movimientos. Realiza conteo físico y registra
+el ajuste justificado si corresponde. No cambies cantidades sin revisar la causa.
+
+No imprime:
+Revisa impresora y papel en el diálogo del navegador. Puedes volver a abrir el
+ticket o comprobante y repetir la impresión sin registrar otra operación.
+
+Aparece un conflicto de edición o información desactualizada:
+Recarga o recupera la versión que indique la pantalla y revisa los datos antes de
+guardar nuevamente. Conserva cualquier información pendiente que necesites.
+
+23. RUTINA DIARIA RECOMENDADA
+
+Al abrir: inicia sesión con tu cuenta, cuenta el fondo, abre caja y revisa pendientes.
+Durante el día: verifica tickets y cambio, registra cada operación una sola vez y
+conserva sus comprobantes. Revisa alertas de inventario cuando corresponda.
+Al cerrar: resuelve pendientes, actualiza el turno, cuenta efectivo, registra el
+corte y cierra sesión. El responsable debe descargar respaldos periódicamente.
+
+24. EJEMPLO COMPLETO DE UNA JORNADA: DE LA APERTURA AL CORTE
+
+Este ejercicio es ilustrativo. Los importes y nombres son de ejemplo; si lo
+capturas en la instalación del negocio, se registrarán operaciones reales en sus
+reportes. Para practicar utiliza un entorno de prueba preparado por el responsable.
+
+ESCENARIO Y PREPARACIÓN
+
+- Cajera: Ana, con cuenta propia y permisos para las operaciones del ejercicio.
+- Caja: Caja mostrador, asociada a la ubicación de venta Tienda.
+- Fondo inicial físico: $500.00.
+- Producto: Termo, precio final por pieza $100.00, con impuestos incluidos.
+- Existencia inicial del termo en Tienda: 20 piezas.
+- Métodos activos: efectivo, tarjeta y crédito del cliente.
+- Cliente registrado: Luis, distinto del predeterminado, sin deuda inicial y con
+  crédito habilitado por el administrador, límite $1,000.00 y plazo de 30 días.
+- Categoría de gasto disponible: Insumos.
+- Un administrador estará disponible para autorizar la devolución.
+
+El catálogo ya debe tener configurados el precio final y los impuestos. Revisa que
+los totales calculados coincidan con el ejercicio antes de completar cada venta.
+No se realizan compras, pagos a proveedores ni entradas o salidas manuales durante
+esta jornada; solo las operaciones descritas a continuación.
+
+PASO 1. ABRIR CAJA CON $500.00
+
+1) Ana inicia sesión y entra en Punto de venta.
+2) Selecciona Caja mostrador como caja disponible.
+3) Cuenta $500.00 físicos e introduce 500.00 en Efectivo inicial.
+4) Escribe, si desea, la nota: Fondo de cambio al inicio de jornada.
+5) Pulsa Abrir caja y vender y verifica que aparezca su caja y turno.
+
+Situación: efectivo esperado $500.00; ventas $0.00; existencia 20 termos.
+El fondo sirve para dar cambio y no se cuenta como venta.
+
+PASO 2. VENTA 1: DOS TERMOS EN EFECTIVO
+
+1) Busca Termo y agrega 2 piezas al ticket.
+2) Comprueba el total: 2 x $100.00 = $200.00.
+3) Deja Público general o el cliente que corresponda al ejercicio.
+4) Selecciona efectivo y registra un pago aplicado de $200.00.
+5) El cliente entrega $500.00: indica ese efectivo recibido y verifica que el
+   cambio sea $300.00. Cuenta y entrega el cambio físicamente.
+6) Marca la confirmación y pulsa Completar venta.
+7) Revisa el ticket, imprímelo si corresponde y anota su folio para la devolución.
+
+Resultado: venta $200.00; ingreso neto al cajón $200.00, aunque recibiste $500.00.
+Efectivo esperado: $700.00. Existencia: 18 termos.
+
+PASO 3. VENTA 2: TRES TERMOS CON PAGO MIXTO
+
+1) Pulsa Nueva venta y agrega 3 termos.
+2) Verifica un total de $300.00.
+3) Registra $150.00 aplicados en efectivo; el cliente entrega exactamente $150.00.
+4) Usa Agregar otro método y selecciona tarjeta por los otros $150.00.
+5) Realiza y verifica el cobro de tarjeta en la terminal externa.
+6) Cuando ambos pagos estén recibidos, confirma y completa la venta.
+7) Revisa e imprime el ticket si corresponde.
+
+Resultado: venta $300.00, de la cual solo $150.00 entra al cajón.
+Efectivo esperado: $850.00. Existencia: 15 termos.
+Ventas acumuladas: $500.00. La tarjeta no se suma al efectivo físico.
+
+PASO 4. PONER EN ESPERA Y RECUPERAR LA VENTA 3
+
+1) Inicia otra venta, selecciona la ficha de Luis y agrega 3 termos: total $300.00.
+2) Luis necesita esperar antes de pagar. Pulsa Poner en espera y confirma.
+3) Comprueba que el ticket aparezca en Tickets pendientes.
+
+Mientras está pendiente, esta venta no mueve dinero ni existencias: siguen
+$850.00 esperados en caja y 15 termos en Tienda. Tampoco reserva esos productos.
+
+4) Cuando Luis regrese, abre Tickets pendientes y recupera su ticket.
+5) Revisa cliente, cantidades y total recalculado.
+6) Luis paga $100.00 en efectivo y deja $200.00 a crédito. Registra ambos métodos:
+   efectivo aplicado $100.00 y crédito $200.00.
+7) Verifica que el crédito esté permitido y dentro del disponible del cliente.
+8) Confirma el efectivo recibido y la deuda indicada, completa la venta y conserva
+   el folio para registrar el abono posterior.
+
+Resultado: venta $300.00; ingreso al cajón $100.00; deuda de Luis $200.00.
+Efectivo esperado: $950.00. Existencia: 12 termos.
+Ventas acumuladas: $800.00. El crédito de $200.00 es deuda, no efectivo recibido.
+
+PASO 5. REGISTRAR UN GASTO DE $40.00 DESDE CAJA
+
+1) Abre Gastos del negocio > Registrar gasto.
+2) Selecciona Insumos, origen Efectivo de mi caja y el turno de Ana.
+3) Captura $40.00 como importe total pagado y concepto: Insumos de limpieza.
+4) Comprueba que el gasto ya se pagó físicamente con dinero del cajón.
+5) Confirma y pulsa Registrar gasto; revisa su comprobante.
+
+Resultado: efectivo esperado $910.00. Las ventas siguen siendo $800.00.
+Este gasto ya registra la salida de caja. No hagas otra Salida de efectivo por
+los mismos $40.00 y no lo registres como pago a proveedor.
+
+PASO 6. RECIBIR UN ABONO DE LUIS POR $100.00
+
+1) Luis regresa y entrega $100.00 para pagar parte de su deuda.
+2) En Crédito y abonos busca a Luis o el folio de la venta 3 y abre ese crédito.
+3) Selecciona efectivo y tu caja abierta; captura un abono de $100.00.
+4) Comprueba que el efectivo recibido sea $100.00 y no haya cambio.
+5) Confirma la recepción y pulsa Registrar abono. Revisa e imprime el recibo.
+
+Resultado: deuda de Luis $100.00; efectivo esperado $1,010.00.
+Las ventas acumuladas continúan en $800.00: el abono cobra parte de una venta
+existente y no crea una venta nueva. El inventario sigue en 12 termos.
+
+PASO 7. DEVOLVER UN TERMO DE LA VENTA 1
+
+1) El primer cliente devuelve 1 de los 2 termos, en condiciones de reingreso.
+2) Abre Devolución por folio y busca el folio completo de la venta 1.
+3) Selecciona Devolver productos e indica cantidad 1.
+4) Elige reingresar la pieza en la ubicación de tu caja, Tienda.
+5) Escribe un motivo, por ejemplo: Cliente devuelve una pieza sin uso.
+6) Pulsa Calcular reembolso y revisa que corresponda devolver $100.00 en efectivo.
+7) Revisa con el administrador la operación, recibe la pieza y entrega los
+   $100.00 al cliente; confirma los hechos en la pantalla.
+8) Al registrar, el administrador introduce sus credenciales para autorizar la
+   operación de Ana. Espera la confirmación y revisa el comprobante.
+
+Resultado: efectivo esperado $910.00; existencia final 13 termos.
+Ventas originales $800.00, devolución $100.00, ventas netas $700.00.
+La deuda de Luis permanece en $100.00: la devolución fue de otro ticket.
+No registres una salida manual adicional por este reembolso.
+
+PASO 8. REVISAR LA JORNADA ANTES DE CERRAR
+
+1) En Tickets pendientes comprueba que no quede ningún ticket sin resolver ni
+   cobro por verificar. La venta en espera del paso 4 ya debe estar cobrada.
+2) En Ventas y tickets revisa las tres ventas y la devolución.
+3) En Caja abre el turno de Ana y pulsa Actualizar turno.
+4) Comprueba los importes del resumen con esta conciliación:
+
+   Concepto                                      Efecto en efectivo
+   ----------------------------------------------------------------
+   Fondo inicial                                       + $500.00
+   Venta 1: efectivo aplicado                           + $200.00
+   Venta 2: parte en efectivo                           + $150.00
+   Venta 3: anticipo en efectivo                        + $100.00
+   Abono de Luis                                       + $100.00
+   Gasto de insumos                                     - $40.00
+   Devolución de la venta 1                             - $100.00
+   ----------------------------------------------------------------
+   EFECTIVO ESPERADO AL CIERRE                            $910.00
+
+En el resumen de caja, Cobros de ventas en efectivo debe sumar $450.00 y Abonos
+de clientes en efectivo $100.00. Las salidas incluyen el gasto de $40.00 y los
+reembolsos muestran $100.00. Gastos ya incluidos en las salidas es informativo:
+no vuelvas a restarlo. No hay entradas adicionales ni pagos a proveedores.
+
+Comprobaciones complementarias:
+- Ventas originales: $200.00 + $300.00 + $300.00 = $800.00.
+- Ventas netas con impuestos: $800.00 - $100.00 = $700.00.
+- Cobro con tarjeta: $150.00; no está dentro de los $910.00 del cajón.
+- Crédito original: $200.00; abono: $100.00; saldo por cobrar: $100.00.
+- Inventario: 20 - 2 - 3 - 3 + 1 devuelto = 13 termos.
+
+Ventas netas y efectivo del corte son cifras diferentes: el cajón incluye fondo,
+abonos y salidas, mientras que parte de las ventas se pagó con tarjeta o crédito.
+
+PASO 9. CONTAR EL EFECTIVO Y SACAR EL CORTE
+
+1) Cuenta físicamente todo el dinero del cajón. Por ejemplo:
+   1 billete de $500 + 1 de $200 + 2 de $100 + 1 moneda de $10 = $910.00.
+2) En el turno actualizado pulsa Cerrar turno y hacer corte.
+3) Captura $910.00 como efectivo contado. Incluye el fondo que sigue en el cajón;
+   no captures únicamente lo que consideras ganancia o venta del día.
+4) Revisa la diferencia: contado $910.00 - esperado $910.00 = $0.00.
+5) Marca la confirmación de conteo y completa el cierre.
+6) Verifica que el turno aparezca Cerrado y que su detalle conserve:
+   efectivo esperado $910.00, contado $910.00 y diferencia $0.00.
+7) Conserva la información del corte según el procedimiento del negocio y utiliza
+   Cerrar sesión cuando termines.
+
+Si contaras $900.00, habría una diferencia de -$10.00. Vuelve a contar y revisa
+comprobantes; si la diferencia persiste, captura el monto real y la nota requerida.
+No inventes una entrada o salida para forzar que el corte quede en cero.
+Si el sistema informa que cambió el resumen, actualízalo y revisa otra vez antes
+de confirmar el cierre.
+
+PASO 10. REVISIÓN DEL RESPONSABLE
+
+Con permisos, consulta Reportes de ventas para la fecha y caja del ejercicio.
+Verifica $800.00 de ventas originales, $100.00 de reembolsos y $700.00 netos;
+revisa por separado el abono de $100.00 y el gasto de $40.00. Puedes usar Imprimir
+reporte o Exportar Excel para conservar ese reporte, que es distinto del corte.
+Si hay otras operaciones en el filtro, sus importes también aparecerán.
+
+La utilidad no se obtiene restando el fondo al efectivo contado: depende del costo
+histórico y de los gastos. Este ejemplo no fija un costo para el termo, por lo que
+no calcula utilidad. Al finalizar, el administrador puede generar y descargar el
+respaldo del negocio siguiendo la sección 20.
+
+25. LICENCIA, PRUEBA Y RENOVACIONES
+
+NOTA TEMPORAL (17/11/2026): el módulo está oculto y su bloqueo está deshabilitado
+para continuar con otros detalles del sistema. El código, las llaves y el emisor
+se conservan. Para reactivarlo, el responsable técnico cambia a true el valor de
+app/Config/Licencias.php. Las instrucciones siguientes aplican cuando se habilite.
+La pausa no cambia las fechas de una licencia o prueba que ya estuviera iniciada.
+
+Después de iniciar sesión encontrarás Licencia y activación, encima de las
+secciones administrativas. Si estás en Punto de venta, usa Volver al menú para
+consultarla. El panel muestra el plan, su vencimiento y el código de instalación.
+
+Primera prueba:
+1) El administrador abre Licencia y activación.
+2) Pulsa Iniciar prueba de 15 días. La prueba empieza en ese momento.
+3) Se ofrece una sola vez por instalación. No solicita internet ni datos de pago.
+4) Revisa los días restantes; la prueba no incluye días adicionales de gracia.
+
+Comprar o renovar:
+1) Pulsa Copiar código y comparte el código completo PV- con tu proveedor.
+2) Solicita el plan mensual (30 días) o anual (365 días) y realiza el pago acordado
+   por separado. El sistema no cobra automáticamente.
+3) El proveedor entrega una clave que empieza por PV1.
+4) Como administrador, pégala completa en Clave de licencia y pulsa Activar clave.
+5) Verifica el nuevo plan y vencimiento. Se conservan ventas, clientes e inventario.
+
+Cada renovación emitida suma su periodo a la vigencia pagada que lleve registrada
+el proveedor, o comienza desde la emisión si esa vigencia ya terminó. Repetir la
+misma clave no agrega tiempo. Si pierdes tu clave, pide que te reenvíen la misma.
+Las fechas se muestran en horario de Ciudad de México.
+
+Las licencias mensual y anual tienen tres días adicionales de gracia. Al vencer
+también esa gracia se bloquean nuevas operaciones, incluyendo ventas, apertura
+de turnos, abonos, pagos, devoluciones y cambios administrativos. Puedes seguir
+consultando información, imprimir, hacer respaldos, descartar tickets pendientes,
+cerrar una caja abierta e introducir una nueva clave. Tus datos no se eliminan.
+
+Para un cobro por verificar, actualiza Tickets pendientes y consulta su resultado.
+Si la venta ya quedó confirmada, puedes consultar su ticket. Si no se confirmó,
+renueva antes de cobrarla o descártala según las comprobaciones del sistema.
+
+La licencia cubre el servidor del negocio y todas las cajas conectadas a esa misma
+instalación. Cambiar el nombre de la computadora servidor o trasladar la instalación
+puede cambiar su código; solicita al proveedor la clave correspondiente.
+Restaurar un respaldo del negocio no reinicia la prueba ni amplía la licencia.
+
+Si aparece un aviso de reloj incorrecto, corrige fecha y hora del servidor. No
+borres archivos para intentar renovar o reiniciar la prueba. Si hay archivos
+dañados o el problema continúa, conserva la instalación y contacta al proveedor.
+
+PARA EL PROVEEDOR: GENERAR LAS CLAVES
+
+Abre herramientas/licencias/abrir-emisor.cmd, elige mensual o anual, introduce el
+código de instalación y el nombre del negocio, y escribe la contraseña privada
+del emisor. Entrega al cliente el TXT creado en storage/licencias-emitidas.
+Consulta herramientas/licencias/LEEME.txt para preparación, recuperación y uso
+por terminal. El emisor requiere Node.js 18 o posterior.
+
+La llave privada, su contraseña y el historial de emisiones se conservan solo en
+tu equipo; nunca los incluyas al instalar el sistema en un negocio. Debes entregar
+únicamente la llave pública incluida en app/Config/licencia_publica.pem junto con
+la aplicación. Respalda tus archivos privados por separado de los datos del negocio.
+
+FIN DEL MANUAL

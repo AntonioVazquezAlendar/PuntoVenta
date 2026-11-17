@@ -1,5 +1,43 @@
 # PuntoVenta
 
+## Licencias locales
+
+Pausa temporal solicitada el 17/11/2026: app/Config/Licencias.php devuelve false.
+Oculta panel y avisos, no carga el JS, deshabilita las rutas de activación y omite
+el bloqueo de operaciones por licencia. No modifica archivos de estado, pruebas,
+llaves ni el emisor. Para reactivar todo, cambiar ese único valor a true. Las fechas
+de licencias ya iniciadas se conservan; esta pausa no extiende su vencimiento.
+
+Licencia por instalación del servidor, compartida por sus cajas. Panel Licencia y
+activación tras iniciar sesión: prueba explícita de 15 días una sola vez; claves
+mensuales de 30 días y anuales de 365 días con tres días de gracia para planes
+pagados. Activación exclusiva del administrador con CSRF; consulta autenticada.
+API central protege escrituras por defecto incluso para administrador. Vencida o
+sin activar permite consultar, respaldar/restaurar, activar, descartar/liberar
+pendientes y cerrar turnos existentes; no abre turnos ni registra operaciones nuevas.
+
+Claves PV1 con payload firmado RSA-3072/SHA-256, negocio, instalación, serie y fechas
+absolutas. Solo la llave pública se distribuye. Herramienta Node.js 18+ del proveedor
+en herramientas/licencias (asistente Windows y CLI): privada PKCS8 cifrada y registro
+acumulativo de emisiones fuera de Git. El emisor preparado en este equipo conserva
+su recuperación únicamente en storage/emisor-privado/RECUPERACION.txt; excluir toda
+esa carpeta, emisiones y herramientas al entregar clientes. Conservar el PEM público
+en actualizaciones. Ver herramientas/licencias/LEEME.txt y sección 25 del manual.
+
+Estado local en storage/licencia bajo bloqueo y reemplazo de archivo; prueba y
+máximo de reloj observado no forman parte del respaldo/restauración del negocio.
+No borrar en actualizaciones. Identidad combina semilla local y nombre de servidor;
+cambiar servidor/nombre exige reemisión. Retroceso mayor a cinco minutos bloquea
+nuevas operaciones. Estado dañado falla cerrado. Protección offline limitada ante
+control del código/archivos o clonación completa de equipo; no verifica pagos en
+línea. No se aplicaron licencias ni se consumió la prueba real durante validación.
+
+Pruebas: tests/licencias_integracion.py (69 controles PHP, emisor real, firmas entre
+Node/PHP, renovación acumulada y cinco inicios de prueba concurrentes) y
+tests/licencias_http.py (estado/reloj/sesiones aislados y cuentas QA temporales que
+retira al terminar; auth, CSRF, roles, bloqueo de escrituras, renovación y gracia).
+Revisión visual del panel vencido y rechazo de clave inválida en escritorio/móvil.
+
 ## Platform
 Web local en AppServ, Apache en el puerto 8080.
 

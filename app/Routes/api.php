@@ -12,6 +12,31 @@ if ($uri !== $base && strpos($uri, $base . '/') !== 0) {
 
 $path = substr($uri, strlen($base));
 
+require_once __DIR__ . '/../Services/Licencia.php';
+if (in_array($path, array('/licencia', '/licencia/prueba', '/licencia/activar'), true)) {
+    if (!Licencia::habilitada()) throw new HttpError('Ruta no encontrada.', 404);
+    $allowed = $path === '/licencia' ? 'GET' : 'POST';
+    if ($method !== $allowed) { header('Allow: ' . $allowed); throw new HttpError('Método no permitido.', 405); }
+    $auth = new Auth((new Database())->connect());
+    $actor = $auth->usuario();
+    $license = new Licencia();
+    if ($method === 'GET') Response::json(true, 'Estado de licencia.', $license->estado());
+    $auth->administrador();
+    Auth::csrf();
+    $raw = file_get_contents('php://input', false, null, 0, 8193);
+    if (strlen($raw) > 8192) throw new HttpError('La clave supera el tamaño permitido.', 413);
+    $data = json_decode($raw, true);
+    if (!is_array($data) || substr(ltrim($raw), 0, 1) !== '{') throw new HttpError('Envía un objeto JSON válido.', 400);
+    $result = $path === '/licencia/prueba' ? $license->iniciarPrueba() : $license->activar(isset($data['clave']) ? $data['clave'] : null);
+    Response::json(true, 'Licencia actualizada.', $result);
+}
+if (Licencia::habilitada() && !Licencia::permitidaSinLicencia($method, $path)) {
+    // Autenticación y CSRF antes de revelar el estado o atender una escritura.
+    (new Auth((new Database())->connect()))->usuario();
+    Auth::csrf();
+    (new Licencia())->proteger($method, $path);
+}
+
 $configMethod=preg_match('#^/configuracion/metodos/([1-9][0-9]*)$#D',$path,$configMatch);
 if(in_array($path,array('/configuracion','/configuracion/metodos'),true)||$configMethod){
     $allowed=$configMethod?array('PUT'):($path==='/configuracion'?array('GET','PUT'):array('POST'));

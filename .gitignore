@@ -1,2 +1,7 @@
 
 /storage/demo_database.json
+/storage/licencia/
+/storage/emisor-privado/
+/storage/licencias-emitidas/
+/tests/tmp/licencias*/
+/tests/tmp/licencias-*.jpg

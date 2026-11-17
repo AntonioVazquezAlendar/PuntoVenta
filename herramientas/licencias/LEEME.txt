@@ -1,0 +1,115 @@
+EMISOR PRIVADO DE LICENCIAS - PUNTOVENTA
+===============================================================================
+
+ESTA HERRAMIENTA ES PARA EL PROVEEDOR, NO PARA EL CLIENTE.
+
+Requisitos: Node.js 18 o posterior en el equipo emisor. El negocio solo necesita
+PHP con OpenSSL, además de los requisitos habituales de PuntoVenta. El emisor no
+necesita conectarse a la base de datos ni a internet.
+
+USO EN WINDOWS
+
+1. Abre herramientas/licencias/abrir-emisor.cmd con doble clic.
+2. Si no hay llaves, el asistente las prepara y pide una contraseña de al menos
+   12 caracteres. Conservarás esa misma contraseña para emitir renovaciones.
+3. Elige mensual (30 días) o anual (365 días).
+4. Pega el código que el cliente copia desde Licencia y activación, y su negocio.
+5. Introduce la contraseña privada. No se muestra al escribir.
+6. Entrega el contenido del TXT creado en storage/licencias-emitidas al cliente.
+7. El administrador del negocio pega la clave y pulsa Activar clave.
+
+El programa no sobrescribe llaves ni archivos de claves existentes. Si la llave
+pública existe pero falta la privada, recupera tu copia: no crees otro emisor para
+las mismas instalaciones. Cambiar de par de llaves invalida las claves anteriores.
+
+ARCHIVOS QUE DEBES CONSERVAR SOLO TÚ
+
+storage/emisor-privado/privada.pem: llave privada cifrada; no distribuir.
+storage/emisor-privado/emisiones.json: historial, claves y vencimientos emitidos.
+storage/emisor-privado/RECUPERACION.txt: si existe, contiene la contraseña inicial
+  generada al preparar el emisor en este equipo. Guárdala fuera de la instalación
+  del cliente junto con una copia segura de tus llaves. No se guarda en Git.
+storage/licencias-emitidas/: claves generadas para entrega; no distribuir en lote.
+
+La contraseña no puede recuperarse de privada.pem. Respalda por separado el
+directorio privado, su contraseña y el registro de emisiones. Los respaldos del
+negocio NO incluyen estos archivos ni el estado de licencia.
+
+QUÉ ENTREGAR AL NEGOCIO
+
+Incluye app/Config/licencia_publica.pem en todas las instalaciones: únicamente
+permite comprobar firmas y no sirve para generar claves. Conserva el mismo PEM
+en actualizaciones. NO incluyas herramientas/licencias, storage/emisor-privado,
+storage/licencias-emitidas, tests ni tus datos/credenciales del entorno de trabajo.
+Nunca copies storage/licencia de un negocio a otro. Una instalación nueva genera
+su propio código. Las reglas .htaccess del proyecto protegen los archivos privados
+frente al acceso web; conserva esa configuración.
+
+VIGENCIA Y RENOVACIONES
+
+- Prueba: un administrador pulsa Iniciar prueba de 15 días. No empieza al instalar
+  ni al consultar la página. Solo una vez por instalación y sin periodo de gracia.
+- Mensual: 30 días. Anual: 365 días. Son periodos exactos, no meses calendario.
+- La herramienta suma el periodo a la mayor vigencia que YA EMITIÓ para ese código,
+  o al momento actual si ya venció. Emitir otra clave suma otro periodo, aunque la
+  anterior no se haya activado. Reenvía la clave guardada si el cliente la pierde;
+  no emitas una nueva por error. Un cambio de nombre no reinicia el historial.
+- No se suman días cada vez que el cliente pega la misma clave: las fechas están
+  firmadas. Repetir la activación de la clave actual conserva el mismo vencimiento.
+- No se acepta una clave anterior que acorte la vigencia actual.
+- Cada clave pagada incluye tres días adicionales de gracia en el sistema. La
+  renovación se suma al vencimiento pagado, no al final de la gracia.
+- Las fechas se muestran en Ciudad de México. La comprobación usa el reloj del
+  servidor del negocio, no el de cada caja conectada.
+
+AL VENCER
+
+La API bloquea por defecto escrituras nuevas: ventas, aperturas de caja, compras,
+abonos, gastos, pagos, devoluciones, cambios de catálogo y configuración.
+Siguen disponibles consultas, reportes, impresión, respaldos, inicio/cierre de
+sesión, activación, descarte de tickets pendientes y cierre de turnos ya abiertos.
+Si un cobro quedó por verificar, actualiza Tickets pendientes y consulta el ticket:
+una venta ya confirmada se puede consultar. Si no se confirmó, renueva antes de
+cobrarlo o descártalo siguiendo las comprobaciones del sistema para cerrar caja.
+
+No hay eliminación de datos, cargos automáticos ni conexión a un servidor de
+licencias. No se envían datos del negocio al proveedor.
+
+CAMBIOS DE EQUIPO, RESPALDOS Y LIMITACIONES
+
+El código combina una identidad aleatoria de la instalación y el nombre del
+servidor. Un cambio de nombre de la PC o traslado requiere solicitar una clave
+para el código nuevo. Las cajas de la misma instalación comparten la licencia.
+No vincula hardware físico de forma fuerte: equipos clonados con el mismo nombre
+y estado pueden compartir identidad. Un usuario con control del código/archivos
+locales puede intentar alterar el control; no existe protección absoluta offline.
+
+No borres ni reemplaces storage/licencia durante actualizaciones. Consérvalo en
+una copia administrativa aparte para recuperar el mismo servidor. Restaurar un
+respaldo de datos del negocio no modifica la licencia, la prueba ni el máximo de
+fecha visto. Si estado.json está dañado, se bloquean nuevas operaciones hasta que
+el proveedor revise el caso; nunca se reinicia silenciosamente la prueba.
+
+Retroceder el reloj más de cinco minutos respecto al máximo observado bloquea
+operaciones nuevas. Corrige la fecha del servidor. Adelantar mucho el reloj también
+puede causar bloqueo al corregirlo: conserva estado.json y contacta al proveedor.
+No elimines ese archivo para resolver errores de fecha.
+
+USO POR TERMINAL (DESDE LA RAÍZ DEL PROYECTO)
+
+Preparar una vez:
+node herramientas/licencias/emisor.js iniciar --directorio storage/emisor-privado --publica app/Config/licencia_publica.pem
+
+Emitir un mes:
+node herramientas/licencias/emisor.js emitir --directorio storage/emisor-privado --instalacion PV-CODIGO --negocio "Mi negocio" --plan mensual --salida storage/licencias-emitidas/cliente-mensual.txt
+
+Emitir un año: el mismo comando con --plan anual y otra ruta de salida.
+Reemplaza PV-CODIGO por el código completo real. No escribas tu contraseña como
+argumento. En una ejecución automatizada puede usarse PV_LICENCIA_PASSWORD como
+variable de entorno temporal; no la incluyas en scripts ni archivos distribuidos.
+
+Si el emisor se interrumpe, revisa emisiones.json antes de emitir otra clave. La
+última clave puede haberse guardado allí aunque no llegara al TXT de salida.
+Si quedó emisiones.lock o emisiones.json.tmp, verifica que no haya otro emisor
+ejecutándose, conserva copia del registro y revisa esos archivos antes de retirar
+el bloqueo. No borres el historial: determina las renovaciones acumuladas.

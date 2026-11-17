@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../../app/Services/Licencia.php';
+$licenciasHabilitadas = Licencia::habilitada();
+?>
 <!doctype html>
 <html lang="es">
 <head>
@@ -8,6 +12,9 @@
     <link id="brand-styles" rel="stylesheet" href="/PuntoVenta/public/api/empresa/tema.css">
     <script src="/PuntoVenta/public/assets/js/admin.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/admin.js') ?>" defer></script>
     <script src="/PuntoVenta/public/assets/js/configuracion.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/configuracion.js') ?>" defer></script>
+    <?php if ($licenciasHabilitadas): ?>
+    <script src="/PuntoVenta/public/assets/js/licencias.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/licencias.js') ?>" defer></script>
+    <?php endif; ?>
     <script src="/PuntoVenta/public/assets/js/catalogo.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/catalogo.js') ?>" defer></script>
     <script src="/PuntoVenta/public/assets/js/inventario.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/inventario.js') ?>" defer></script>
     <script src="/PuntoVenta/public/assets/js/alertas-inventario.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/alertas-inventario.js') ?>" defer></script>
@@ -37,6 +44,7 @@
 <button id="menu-backdrop" class="menu-backdrop" type="button" aria-label="Cerrar menú lateral" hidden></button>
 <main>
     <p id="global-status" role="status" aria-live="polite">Conectando con el sistema…</p>
+    <?php if ($licenciasHabilitadas) require __DIR__ . '/../licencias/index.php'; ?>
 
     <section id="access-view" class="access" hidden aria-labelledby="access-title">
         <div class="intro">
