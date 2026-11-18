@@ -7,14 +7,51 @@
     let permissionCatalog = [], permissionsDirty = false, permissionRoleId = null;
     let roleDraft = null;
 
-    function closeMenu(focus=false){
-        document.body.classList.remove('sidebar-open');$('menu-toggle').setAttribute('aria-expanded','false');$('menu-backdrop').hidden=true;
+    $('sidebar-brand-logo').addEventListener('error',()=>{$('sidebar-brand-logo').hidden=true;$('sidebar-logo-fallback').hidden=false;});
+
+    const desktopMenu=window.matchMedia('(min-width:801px)');
+    function setMenu(open,focus=false){
+        const modal=open&&!desktopMenu.matches;
+        document.body.classList.toggle('sidebar-open',open);$('menu-toggle').setAttribute('aria-expanded',String(open));$('menu-toggle').setAttribute('aria-label',open?'Cerrar menú':'Abrir menú');$('app-sidebar').inert=!open;
+        document.querySelector('main').inert=modal;document.querySelector('footer').inert=modal;
         if(focus)$('menu-toggle').focus();
+        else if(modal)$('menu-close').focus();
     }
-    $('menu-toggle').addEventListener('click',()=>{const opening=!document.body.classList.contains('sidebar-open');document.body.classList.toggle('sidebar-open',opening);$('menu-toggle').setAttribute('aria-expanded',String(opening));$('menu-backdrop').hidden=!opening;if(opening)$('menu-close').focus();});
+    function closeMenu(focus=false){setMenu(false,focus);}
+    function syncMenuGroups(reset=false){
+        document.querySelectorAll('#admin-nav .nav-group').forEach(group=>{
+            const available=!!group.querySelector('button:not([hidden])');
+            if(group.hidden===available)group.hidden=!available;
+            if(reset)group.open=available&&group.dataset.menuGroup==='ventas';
+        });
+        const active=$('admin-nav').querySelector('button[aria-current="page"]:not([hidden])');
+        const group=active&&active.closest('.nav-group');
+        if(group)group.open=true;
+    }
+    new MutationObserver(records=>{
+        if(records.some(record=>record.target.matches('button')))syncMenuGroups();
+    }).observe($('admin-nav'),{attributes:true,subtree:true,attributeFilter:['hidden','aria-current']});
+    function sizeMenu(){document.body.style.setProperty('--menu-header-height',document.querySelector('.topbar').getBoundingClientRect().height+'px');}
+    if(window.ResizeObserver)new ResizeObserver(sizeMenu).observe(document.querySelector('.topbar'));
+    else window.addEventListener('resize',sizeMenu);
+    $('menu-toggle').addEventListener('click',()=>{
+        if(document.body.classList.contains('sidebar-open')){closeMenu(true);return;}
+        sizeMenu();setMenu(true);
+    });
+    function menuBreakpoint(){if(document.body.classList.contains('has-navigation'))setMenu(desktopMenu.matches);}
+    if(desktopMenu.addEventListener)desktopMenu.addEventListener('change',menuBreakpoint);else desktopMenu.addListener(menuBreakpoint);
     $('menu-close').addEventListener('click',()=>closeMenu(true));$('menu-backdrop').addEventListener('click',()=>closeMenu(true));
-    $('admin-nav').addEventListener('click',event=>{if(event.target.closest('button'))closeMenu();});
-    document.addEventListener('keydown',event=>{if(event.key==='Escape'&&document.body.classList.contains('sidebar-open'))closeMenu(true);});
+    $('admin-nav').addEventListener('click',event=>{if(event.target.closest('button')&&!desktopMenu.matches)closeMenu(true);});
+    document.addEventListener('keydown',event=>{
+        if(!document.body.classList.contains('sidebar-open'))return;
+        if(event.key==='Escape'){closeMenu(true);return;}
+        if(event.key==='Tab'&&!desktopMenu.matches){
+            const buttons=[...document.querySelectorAll('#menu-toggle, #app-sidebar button, #app-sidebar summary')].filter(button=>!button.disabled&&button.getClientRects().length);
+            const first=buttons[0],last=buttons[buttons.length-1];
+            if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+            else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+        }
+    });
 
     async function api(path, method = 'GET', data) {
         const options = {method, credentials: 'same-origin', headers: {'Accept': 'application/json'}};
@@ -57,7 +94,7 @@
         $('inventory-view').hidden = true;
         $('purchases-view').hidden = true;
         $('cash-view').hidden = true;
-        $('sales-view').hidden = true;$('clients-view').hidden=true;$('reports-view').hidden=true;$('credits-view').hidden=true;$('payables-view').hidden=true;$('expenses-view').hidden=true;$('backups-view').hidden=true;$('home-view').hidden=true;$('audit-view').hidden=true;$('nav-audit').removeAttribute('aria-current');$('nav-home').removeAttribute('aria-current');$('nav-backups').removeAttribute('aria-current');$('nav-expenses').removeAttribute('aria-current');$('nav-payables').removeAttribute('aria-current');$('nav-credits').removeAttribute('aria-current');$('nav-reports').removeAttribute('aria-current');
+        $('sales-view').hidden = true;$('clients-view').hidden=true;$('reports-view').hidden=true;$('credits-view').hidden=true;$('payables-view').hidden=true;$('expenses-view').hidden=true;$('backups-view').hidden=true;$('home-view').hidden=true;$('orders-view').hidden=true;$('nav-orders').removeAttribute('aria-current');$('audit-view').hidden=true;$('nav-audit').removeAttribute('aria-current');$('nav-home').removeAttribute('aria-current');$('nav-backups').removeAttribute('aria-current');$('nav-expenses').removeAttribute('aria-current');$('nav-payables').removeAttribute('aria-current');$('nav-credits').removeAttribute('aria-current');$('nav-reports').removeAttribute('aria-current');
         $('admin-nav').hidden = true;
         $('welcome-view').hidden = true;
         $('session-bar').hidden = true;
@@ -79,21 +116,23 @@
         $('access-view').hidden = true;
         $('access-form').reset();
         $('session-bar').hidden = false;
-        $('session-name').textContent = current.nombre + ' · ' + current.rol_nombre;
+        $('session-name').textContent = 'Bienvenido, ' + current.nombre;
+        $('session-name').title = current.rol_nombre;
         const admin = !!current.permisos.todo;
         const catalog = admin || !!current.permisos.ver_productos;
         const inventory = admin || !!current.permisos.ver_inventario;
         const purchases = admin || !!current.permisos.hacer_compras;
         const cash = admin || !!current.permisos.operar_caja;
+        const orders=admin;$('nav-orders').hidden=!orders;
         const clients=admin||!!current.permisos.ver_clientes;
         const expenses=admin||!!current.permisos.ver_gastos;$('nav-expenses').hidden=!expenses;
         const payables=admin||!!current.permisos.ver_cuentas_pagar;$('nav-payables').hidden=!payables;
         const credits=admin||!!current.permisos.ver_creditos;$('nav-credits').hidden=!credits;
         const reports=admin||!!current.permisos.ver_reportes;$('nav-reports').hidden=!reports;
         const sales = admin || !!current.permisos.vender || !!current.permisos.ver_ventas;
-        $('admin-nav').hidden = !admin && !catalog && !inventory && !purchases && !cash && !sales && !clients && !reports && !credits && !payables && !expenses;
-        const navigation=!$('admin-nav').hidden;document.body.classList.toggle('has-navigation',navigation);$('app-sidebar').hidden=!navigation;$('menu-toggle').hidden=!navigation;closeMenu();
-        $('nav-clients').hidden=!clients;$('nav-clients').removeAttribute('aria-current');$('clients-view').hidden=true;$('reports-view').hidden=true;$('credits-view').hidden=true;$('payables-view').hidden=true;$('expenses-view').hidden=true;$('backups-view').hidden=true;$('home-view').hidden=true;$('audit-view').hidden=true;$('nav-audit').removeAttribute('aria-current');$('nav-home').removeAttribute('aria-current');$('nav-backups').removeAttribute('aria-current');$('nav-expenses').removeAttribute('aria-current');$('nav-payables').removeAttribute('aria-current');$('nav-credits').removeAttribute('aria-current');$('nav-reports').removeAttribute('aria-current');
+        $('admin-nav').hidden = !admin && !catalog && !inventory && !purchases && !cash && !sales && !clients && !reports && !credits && !payables && !expenses && !orders;
+        const navigation=!$('admin-nav').hidden;document.body.classList.toggle('has-navigation',navigation);$('app-sidebar').hidden=!navigation;$('menu-toggle').hidden=!navigation;setMenu(navigation&&desktopMenu.matches);
+        $('nav-clients').hidden=!clients;$('nav-clients').removeAttribute('aria-current');$('clients-view').hidden=true;$('reports-view').hidden=true;$('credits-view').hidden=true;$('payables-view').hidden=true;$('expenses-view').hidden=true;$('backups-view').hidden=true;$('home-view').hidden=true;$('orders-view').hidden=true;$('nav-orders').removeAttribute('aria-current');$('audit-view').hidden=true;$('nav-audit').removeAttribute('aria-current');$('nav-home').removeAttribute('aria-current');$('nav-backups').removeAttribute('aria-current');$('nav-expenses').removeAttribute('aria-current');$('nav-payables').removeAttribute('aria-current');$('nav-credits').removeAttribute('aria-current');$('nav-reports').removeAttribute('aria-current');
         $('nav-sales').hidden=!sales;$('nav-sales').removeAttribute('aria-current');$('sales-view').hidden=true;
         $('nav-cash').hidden = !cash;$('nav-cash').removeAttribute('aria-current');$('cash-view').hidden = true;
         $('nav-purchases').hidden = !purchases;
@@ -113,6 +152,7 @@
         $('nav-company').removeAttribute('aria-current');
         $('users-view').hidden = true;$('nav-users').removeAttribute('aria-current');$('home-view').hidden=!admin;if(admin)$('nav-home').setAttribute('aria-current','page');
         $('welcome-view').hidden = admin;
+        syncMenuGroups(true);
         status('');
         if (!admin) {
             $('welcome-title').textContent = 'Hola, ' + current.nombre;
@@ -216,7 +256,7 @@
         if ($('user-role').disabled) { data.rol_id = $('user-role').value; data.activo = $('user-active').value; }
         try {
             const saved = await api(editingId ? '/usuarios/' + editingId : '/usuarios', editingId ? 'PUT' : 'POST', data);
-            if (String(saved.id) === String(current.id)) { current = saved; $('session-name').textContent = current.nombre + ' · ' + current.rol_nombre; }
+            if (String(saved.id) === String(current.id)) { current = saved; $('session-name').textContent = 'Bienvenido, ' + current.nombre; $('session-name').title = current.rol_nombre; }
             const edited = editingId !== null;
             closeEditor(); await loadUsers(); status(edited ? 'Cambios guardados.' : 'Usuario creado. Ya puede iniciar sesión.');
             $('new-user').focus();
@@ -260,6 +300,11 @@
 
     function applyBrand(brand) {
         $('brand-name').textContent = brand.nombre_comercial;
+        $('sidebar-brand-name').textContent = brand.nombre_comercial;
+        $('sidebar-brand-logo').hidden = !brand.logo_url;
+        $('sidebar-logo-fallback').hidden = !!brand.logo_url;
+        if(brand.logo_url)$('sidebar-brand-logo').src=brand.logo_url;
+        else $('sidebar-brand-logo').removeAttribute('src');
         $('footer-brand').textContent = brand.nombre_comercial;
         document.title = brand.nombre_comercial + ' · Administración';
         $('brand-logo').hidden = !brand.logo_url;
@@ -305,7 +350,7 @@
     }
 
     $('nav-company').addEventListener('click', () => {
-        if(window.PuntoVenta.leaveBackups&&!window.PuntoVenta.leaveBackups()){return false;}if(window.PuntoVenta.leaveExpenses&&!window.PuntoVenta.leaveExpenses()){return;}if(window.PuntoVenta.leavePayables&&!window.PuntoVenta.leavePayables()){return;}if(window.PuntoVenta.leaveCredits&&!window.PuntoVenta.leaveCredits()){return;}if(window.PuntoVenta.leaveClients&&!window.PuntoVenta.leaveClients()){return;}$('clients-view').hidden=true;$('reports-view').hidden=true;$('credits-view').hidden=true;$('payables-view').hidden=true;$('expenses-view').hidden=true;$('backups-view').hidden=true;$('home-view').hidden=true;$('audit-view').hidden=true;$('nav-audit').removeAttribute('aria-current');$('nav-home').removeAttribute('aria-current');$('nav-backups').removeAttribute('aria-current');$('nav-expenses').removeAttribute('aria-current');$('nav-payables').removeAttribute('aria-current');$('nav-credits').removeAttribute('aria-current');$('nav-reports').removeAttribute('aria-current');$('nav-clients').removeAttribute('aria-current');
+        if(window.PuntoVenta.leaveBackups&&!window.PuntoVenta.leaveBackups()){return false;}if(window.PuntoVenta.leaveExpenses&&!window.PuntoVenta.leaveExpenses()){return;}if(window.PuntoVenta.leavePayables&&!window.PuntoVenta.leavePayables()){return;}if(window.PuntoVenta.leaveCredits&&!window.PuntoVenta.leaveCredits()){return;}if(window.PuntoVenta.leaveClients&&!window.PuntoVenta.leaveClients()){return;}$('clients-view').hidden=true;$('reports-view').hidden=true;$('credits-view').hidden=true;$('payables-view').hidden=true;$('expenses-view').hidden=true;$('backups-view').hidden=true;$('home-view').hidden=true;$('orders-view').hidden=true;$('nav-orders').removeAttribute('aria-current');$('audit-view').hidden=true;$('nav-audit').removeAttribute('aria-current');$('nav-home').removeAttribute('aria-current');$('nav-backups').removeAttribute('aria-current');$('nav-expenses').removeAttribute('aria-current');$('nav-payables').removeAttribute('aria-current');$('nav-credits').removeAttribute('aria-current');$('nav-reports').removeAttribute('aria-current');$('nav-clients').removeAttribute('aria-current');
         if(window.PuntoVenta.leaveSales&&!window.PuntoVenta.leaveSales()){return;}$('sales-view').hidden=true;$('nav-sales').removeAttribute('aria-current');
         if(window.PuntoVenta.leaveCash&&!window.PuntoVenta.leaveCash()){return;}
         $('cash-view').hidden=true;$('nav-cash').removeAttribute('aria-current');
@@ -323,7 +368,7 @@
         fillCompany(); status('');
     });
     $('nav-users').addEventListener('click', async () => {
-        if(window.PuntoVenta.leaveBackups&&!window.PuntoVenta.leaveBackups()){return false;}if(window.PuntoVenta.leaveExpenses&&!window.PuntoVenta.leaveExpenses()){return;}if(window.PuntoVenta.leavePayables&&!window.PuntoVenta.leavePayables()){return;}if(window.PuntoVenta.leaveCredits&&!window.PuntoVenta.leaveCredits()){return;}if(window.PuntoVenta.leaveClients&&!window.PuntoVenta.leaveClients()){return;}$('clients-view').hidden=true;$('reports-view').hidden=true;$('credits-view').hidden=true;$('payables-view').hidden=true;$('expenses-view').hidden=true;$('backups-view').hidden=true;$('home-view').hidden=true;$('audit-view').hidden=true;$('nav-audit').removeAttribute('aria-current');$('nav-home').removeAttribute('aria-current');$('nav-backups').removeAttribute('aria-current');$('nav-expenses').removeAttribute('aria-current');$('nav-payables').removeAttribute('aria-current');$('nav-credits').removeAttribute('aria-current');$('nav-reports').removeAttribute('aria-current');$('nav-clients').removeAttribute('aria-current');
+        if(window.PuntoVenta.leaveBackups&&!window.PuntoVenta.leaveBackups()){return false;}if(window.PuntoVenta.leaveExpenses&&!window.PuntoVenta.leaveExpenses()){return;}if(window.PuntoVenta.leavePayables&&!window.PuntoVenta.leavePayables()){return;}if(window.PuntoVenta.leaveCredits&&!window.PuntoVenta.leaveCredits()){return;}if(window.PuntoVenta.leaveClients&&!window.PuntoVenta.leaveClients()){return;}$('clients-view').hidden=true;$('reports-view').hidden=true;$('credits-view').hidden=true;$('payables-view').hidden=true;$('expenses-view').hidden=true;$('backups-view').hidden=true;$('home-view').hidden=true;$('orders-view').hidden=true;$('nav-orders').removeAttribute('aria-current');$('audit-view').hidden=true;$('nav-audit').removeAttribute('aria-current');$('nav-home').removeAttribute('aria-current');$('nav-backups').removeAttribute('aria-current');$('nav-expenses').removeAttribute('aria-current');$('nav-payables').removeAttribute('aria-current');$('nav-credits').removeAttribute('aria-current');$('nav-reports').removeAttribute('aria-current');$('nav-clients').removeAttribute('aria-current');
         if(window.PuntoVenta.leaveSales&&!window.PuntoVenta.leaveSales()){return;}$('sales-view').hidden=true;$('nav-sales').removeAttribute('aria-current');
         if(window.PuntoVenta.leaveCash&&!window.PuntoVenta.leaveCash()){return;}
         $('cash-view').hidden=true;$('nav-cash').removeAttribute('aria-current');
@@ -499,7 +544,7 @@
     });
 
     $('nav-permissions').addEventListener('click', async () => {
-        if(window.PuntoVenta.leaveBackups&&!window.PuntoVenta.leaveBackups()){return false;}if(window.PuntoVenta.leaveExpenses&&!window.PuntoVenta.leaveExpenses()){return;}if(window.PuntoVenta.leavePayables&&!window.PuntoVenta.leavePayables()){return;}if(window.PuntoVenta.leaveCredits&&!window.PuntoVenta.leaveCredits()){return;}if(window.PuntoVenta.leaveClients&&!window.PuntoVenta.leaveClients()){return;}$('clients-view').hidden=true;$('reports-view').hidden=true;$('credits-view').hidden=true;$('payables-view').hidden=true;$('expenses-view').hidden=true;$('backups-view').hidden=true;$('home-view').hidden=true;$('audit-view').hidden=true;$('nav-audit').removeAttribute('aria-current');$('nav-home').removeAttribute('aria-current');$('nav-backups').removeAttribute('aria-current');$('nav-expenses').removeAttribute('aria-current');$('nav-payables').removeAttribute('aria-current');$('nav-credits').removeAttribute('aria-current');$('nav-reports').removeAttribute('aria-current');$('nav-clients').removeAttribute('aria-current');
+        if(window.PuntoVenta.leaveBackups&&!window.PuntoVenta.leaveBackups()){return false;}if(window.PuntoVenta.leaveExpenses&&!window.PuntoVenta.leaveExpenses()){return;}if(window.PuntoVenta.leavePayables&&!window.PuntoVenta.leavePayables()){return;}if(window.PuntoVenta.leaveCredits&&!window.PuntoVenta.leaveCredits()){return;}if(window.PuntoVenta.leaveClients&&!window.PuntoVenta.leaveClients()){return;}$('clients-view').hidden=true;$('reports-view').hidden=true;$('credits-view').hidden=true;$('payables-view').hidden=true;$('expenses-view').hidden=true;$('backups-view').hidden=true;$('home-view').hidden=true;$('orders-view').hidden=true;$('nav-orders').removeAttribute('aria-current');$('audit-view').hidden=true;$('nav-audit').removeAttribute('aria-current');$('nav-home').removeAttribute('aria-current');$('nav-backups').removeAttribute('aria-current');$('nav-expenses').removeAttribute('aria-current');$('nav-payables').removeAttribute('aria-current');$('nav-credits').removeAttribute('aria-current');$('nav-reports').removeAttribute('aria-current');$('nav-clients').removeAttribute('aria-current');
         if(window.PuntoVenta.leaveSales&&!window.PuntoVenta.leaveSales()){return;}$('sales-view').hidden=true;$('nav-sales').removeAttribute('aria-current');
         if(window.PuntoVenta.leaveCash&&!window.PuntoVenta.leaveCash()){return;}
         $('cash-view').hidden=true;$('nav-cash').removeAttribute('aria-current');
@@ -559,6 +604,7 @@
         api, status, current: () => current,
         apiBytes: async(path,body,offset)=>{const response=await fetch(base+path,{method:'POST',credentials:'same-origin',headers:{'X-CSRF-Token':csrf,'X-Backup-Offset':String(offset),'Content-Type':'application/octet-stream'},body});const result=await response.json();if(!response.ok||!result.success)throw new Error(result.message||'No se pudo cargar el archivo.');return result.data;},
         openCatalog: () => {
+            if(window.PuntoVenta.leaveOrders&&!window.PuntoVenta.leaveOrders())return false;
             if(window.PuntoVenta.leaveConfiguration&&!window.PuntoVenta.leaveConfiguration()){return false;}
             if(window.PuntoVenta.leaveBackups&&!window.PuntoVenta.leaveBackups()){return false;}if(window.PuntoVenta.leaveExpenses&&!window.PuntoVenta.leaveExpenses()){return false;}if(window.PuntoVenta.leavePayables&&!window.PuntoVenta.leavePayables()){return false;}if(window.PuntoVenta.leaveCredits&&!window.PuntoVenta.leaveCredits()){return false;}if(window.PuntoVenta.leaveClients&&!window.PuntoVenta.leaveClients()){return false;}
             if(window.PuntoVenta.leaveSales&&!window.PuntoVenta.leaveSales()){return false;}
@@ -568,8 +614,8 @@
             if (!leavePermissions()) { return false; }
             if (companyDirty && !window.confirm('Tienes cambios sin guardar en Mi negocio. ¿Quieres descartarlos?')) { return false; }
             companyDirty = false;
-            ['users-view','company-view','permissions-view','welcome-view','inventory-view','purchases-view','cash-view','sales-view','clients-view','reports-view','credits-view','payables-view','expenses-view','backups-view','home-view','audit-view'].forEach(id => { $(id).hidden = true; });
-            ['nav-users','nav-company','nav-permissions','nav-inventory','nav-purchases','nav-cash','nav-sales','nav-clients','nav-reports','nav-credits','nav-payables','nav-expenses','nav-backups','nav-home','nav-audit'].forEach(id => $(id).removeAttribute('aria-current'));
+            ['users-view','company-view','permissions-view','welcome-view','inventory-view','purchases-view','cash-view','sales-view','clients-view','reports-view','credits-view','payables-view','expenses-view','backups-view','home-view','audit-view','orders-view'].forEach(id => { $(id).hidden = true; });
+            ['nav-users','nav-company','nav-permissions','nav-inventory','nav-purchases','nav-cash','nav-sales','nav-clients','nav-reports','nav-credits','nav-payables','nav-expenses','nav-backups','nav-home','nav-audit','nav-orders'].forEach(id => $(id).removeAttribute('aria-current'));
             $('products-view').hidden = false; $('nav-products').setAttribute('aria-current','page');
             return true;
         }

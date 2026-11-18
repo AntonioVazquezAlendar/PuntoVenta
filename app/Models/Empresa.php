@@ -86,6 +86,15 @@ class Empresa
         return (1.05 / ($luz + .05)) >= (($luz + .05) / .05) ? '#FFFFFF' : '#000000';
     }
 
+    private static function tinteTabla($color, $porcentaje)
+    {
+        $rgb = array_map('hexdec', str_split(substr($color, 1), 2));
+        $rgb = array_map(function ($canal) use ($porcentaje) {
+            return (int) round(255 + ($canal - 255) * $porcentaje / 100);
+        }, $rgb);
+        return sprintf('#%02X%02X%02X', $rgb[0], $rgb[1], $rgb[2]);
+    }
+
     public function estilos()
     {
         $e = $this->obtener();
@@ -96,6 +105,7 @@ class Empresa
         $onP = self::textoContraste($p); $onS = self::textoContraste($s);
         header('Content-Type: text/css; charset=utf-8');
         echo ':root{--brand-primary:' . $p . ';--brand-secondary:' . $s . ';--brand-accent:' . $a . ';--on-primary:' . $onP . ';--on-secondary:' . $onS . ';}';
+        echo ':root{--grid-stripe:' . self::tinteTabla($p, 8) . ';--grid-hover:' . self::tinteTabla($a, 12) . ';--grid-focus:' . self::tinteTabla($p, 14) . ';--grid-border:' . self::tinteTabla($p, 22) . ';}';
         exit;
     }
 }

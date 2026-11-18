@@ -5,3 +5,6 @@
 /storage/licencias-emitidas/
 /tests/tmp/licencias*/
 /tests/tmp/licencias-*.jpg
+/tests/tmp/pedidos*/
+/portal-pedidos/.dev.vars*
+/portal-pedidos/.local/

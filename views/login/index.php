@@ -12,6 +12,7 @@ $licenciasHabilitadas = Licencia::habilitada();
     <link id="brand-styles" rel="stylesheet" href="/PuntoVenta/public/api/empresa/tema.css">
     <script src="/PuntoVenta/public/assets/js/admin.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/admin.js') ?>" defer></script>
     <script src="/PuntoVenta/public/assets/js/configuracion.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/configuracion.js') ?>" defer></script>
+    <script src="/PuntoVenta/public/assets/js/tablas.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/tablas.js') ?>" defer></script>
     <?php if ($licenciasHabilitadas): ?>
     <script src="/PuntoVenta/public/assets/js/licencias.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/licencias.js') ?>" defer></script>
     <?php endif; ?>
@@ -30,18 +31,66 @@ $licenciasHabilitadas = Licencia::habilitada();
     <script src="/PuntoVenta/public/assets/js/inicio.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/inicio.js') ?>" defer></script>
     <script src="/PuntoVenta/public/assets/js/bitacora.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/bitacora.js') ?>" defer></script>
     <script src="/PuntoVenta/public/assets/js/pos-borradores.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/pos-borradores.js') ?>" defer></script>
+    <script src="/PuntoVenta/public/assets/js/pedidos.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/pedidos.js') ?>" defer></script>
+    <script src="/PuntoVenta/public/assets/js/pedidos-catalogo.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/pedidos-catalogo.js') ?>" defer></script>
+    <script src="/PuntoVenta/public/assets/js/pedidos-crear.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/pedidos-crear.js') ?>" defer></script>
     <script src="/PuntoVenta/public/assets/js/ventas.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/ventas.js') ?>" defer></script>
 </head>
 <body>
 <header class="topbar">
-    <button id="menu-toggle" data-icon="bars" class="secondary" type="button" aria-controls="app-sidebar" aria-expanded="false" hidden>Menú</button>
+    <button id="menu-toggle" class="secondary menu-toggle" type="button" aria-label="Abrir menú" aria-controls="app-sidebar" aria-expanded="false" hidden><span class="hamburger" aria-hidden="true"><span></span><span></span><span></span></span></button>
     <a class="brand" href="/PuntoVenta/public/"><img id="brand-logo" alt="" hidden><span id="brand-name">PuntoVenta</span></a>
     <div id="session-bar" hidden><span id="session-name"></span><button id="logout" data-icon="right-from-bracket" class="secondary" type="button">Cerrar sesión</button></div>
 </header>
-<aside id="app-sidebar" class="app-sidebar" hidden aria-label="Menú principal"><div class="sidebar-heading"><h2>Menú principal</h2><button id="menu-close" data-icon="xmark" class="secondary" type="button">Cerrar menú</button></div>
-    <nav id="admin-nav" class="admin-nav" aria-label="Secciones del sistema" hidden><button id="nav-home" data-icon="store" type="button" hidden>Inicio</button><button id="nav-sales" data-icon="cash-register" type="button" hidden>Punto de venta</button><button id="nav-products" data-icon="box" type="button" hidden>Productos</button><button id="nav-inventory" data-icon="boxes-stacked" type="button" hidden>Inventario</button><button id="nav-purchases" data-icon="cart-shopping" type="button" hidden>Compras</button><button id="nav-cash" data-icon="wallet" type="button" hidden>Caja</button><button id="nav-clients" data-icon="users" type="button" hidden>Clientes</button><button id="nav-expenses" data-icon="money-bill-transfer" type="button" hidden>Gastos del negocio</button><button id="nav-payables" data-icon="cart-shopping" type="button" hidden>Cuentas por pagar</button><button id="nav-credits" data-icon="money-bill-transfer" type="button" hidden>Crédito y abonos</button><button id="nav-reports" data-icon="receipt" type="button" hidden>Reportes de ventas</button><button id="nav-users" data-icon="user-shield" type="button" aria-current="page">Usuarios y acceso</button><button id="nav-permissions" data-icon="shield-halved" type="button">Roles y permisos</button><button id="nav-company" data-icon="store" type="button">Configuración administrativa</button><button id="nav-backups" data-icon="floppy-disk" type="button" hidden>Respaldos</button><button id="nav-audit" data-icon="receipt" type="button" hidden>Bitácora de actividad</button></nav>
+<aside id="app-sidebar" class="app-sidebar" hidden aria-label="Menú principal">
+    <div class="sidebar-brand"><div class="sidebar-logo-frame"><img id="sidebar-brand-logo" alt="" hidden><span id="sidebar-logo-fallback" aria-hidden="true">PV</span></div><strong id="sidebar-brand-name">PuntoVenta</strong></div>
+    <div class="sidebar-heading"><h2>Menú principal</h2><button id="menu-close" data-icon="xmark" class="secondary" type="button">Cerrar menú</button></div>
+    <nav id="admin-nav" class="admin-nav" aria-label="Secciones del sistema" hidden>
+        <button id="nav-home" data-icon="store" type="button" hidden>Inicio</button>
+        <details class="nav-group" data-menu-group="ventas" open>
+            <summary>Ventas y clientes</summary>
+            <div class="nav-group-items">
+                <button id="nav-orders" data-icon="receipt" type="button" hidden>Pedidos</button>
+                <button id="nav-sales" data-icon="cash-register" type="button" hidden>Punto de venta</button>
+                <button id="nav-cash" data-icon="wallet" type="button" hidden>Caja</button>
+                <button id="nav-clients" data-icon="users" type="button" hidden>Clientes</button>
+            </div>
+        </details>
+        <details class="nav-group" data-menu-group="inventario">
+            <summary>Productos e inventario</summary>
+            <div class="nav-group-items">
+                <button id="nav-products" data-icon="box" type="button" hidden>Productos</button>
+                <button id="nav-inventory" data-icon="boxes-stacked" type="button" hidden>Inventario</button>
+                <button id="nav-purchases" data-icon="cart-shopping" type="button" hidden>Compras</button>
+            </div>
+        </details>
+        <details class="nav-group" data-menu-group="finanzas">
+            <summary>Finanzas</summary>
+            <div class="nav-group-items">
+                <button id="nav-credits" data-icon="money-bill-transfer" type="button" hidden>Crédito y abonos</button>
+                <button id="nav-payables" data-icon="cart-shopping" type="button" hidden>Cuentas por pagar</button>
+                <button id="nav-expenses" data-icon="money-bill-transfer" type="button" hidden>Gastos del negocio</button>
+            </div>
+        </details>
+        <details class="nav-group" data-menu-group="reportes">
+            <summary>Reportes y control</summary>
+            <div class="nav-group-items">
+                <button id="nav-reports" data-icon="receipt" type="button" hidden>Reportes de ventas</button>
+                <button id="nav-audit" data-icon="receipt" type="button" hidden>Bitácora de actividad</button>
+            </div>
+        </details>
+        <details class="nav-group" data-menu-group="administracion">
+            <summary>Administración</summary>
+            <div class="nav-group-items">
+                <button id="nav-users" data-icon="user-shield" type="button" aria-current="page">Usuarios y acceso</button>
+                <button id="nav-permissions" data-icon="shield-halved" type="button">Roles y permisos</button>
+                <button id="nav-company" data-icon="store" type="button">Configuración administrativa</button>
+                <button id="nav-backups" data-icon="floppy-disk" type="button" hidden>Respaldos</button>
+            </div>
+        </details>
+    </nav>
 </aside>
-<button id="menu-backdrop" class="menu-backdrop" type="button" aria-label="Cerrar menú lateral" hidden></button>
+<button id="menu-backdrop" class="menu-backdrop" type="button" aria-label="Cerrar menú lateral" tabindex="-1"></button>
 <main>
     <p id="global-status" role="status" aria-live="polite">Conectando con el sistema…</p>
     <?php if ($licenciasHabilitadas) require __DIR__ . '/../licencias/index.php'; ?>
@@ -138,6 +187,7 @@ $licenciasHabilitadas = Licencia::habilitada();
     <?php require __DIR__ . '/../compras/index.php'; ?>
     <?php require __DIR__ . '/../caja/index.php'; ?>
     <?php require __DIR__ . '/../ventas/index.php'; ?>
+    <?php require __DIR__ . '/../pedidos/index.php'; ?>
     <?php require __DIR__ . '/../clientes/index.php'; ?>
     <?php require __DIR__ . '/../reportes/index.php'; ?>
     <?php require __DIR__ . '/../creditos/index.php'; ?>

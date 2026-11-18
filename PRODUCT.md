@@ -1,5 +1,132 @@
 # PuntoVenta
 
+## Pedidos desde el celular
+
+Portal actual en PHP/AppServ (migración 023). Clientes acceden a
+/PuntoVenta/public/pedidos-clientes/ y el personal al POS habitual, ambos en el
+puerto 8080 local. public/index.php atiende las rutas públicas antes de iniciar
+la sesión administrativa. PortalClienteController devuelve catálogo público,
+recibe JSON y sirve solo imágenes de productos activos/logo; sin consultas
+públicas de pedidos, contactos, costos ni existencias por ubicación.
+
+Pedido::guardarCaptura comparte validación, precios y persistencia entre pedidos
+internos autenticados y públicos. El recibo público es mínimo. La versión del
+catálogo se comprueba dentro de la transacción, con productos bloqueados al leer
+precios; reintentos previos devuelven el mismo recibo aunque el catálogo cambie.
+Se mantiene el límite de 30 pedidos nuevos/IP/hora usando hash en limites_portal;
+se valida origen, Content-Type, tamaño, contactos, cantidades y cotizaciones.
+No se confía en precios enviados por el cliente ni en cabeceras de IP de proxy.
+Los pedidos públicos se guardan en MySQL y aparecen directamente en el POS.
+
+Modo PHP por defecto en conexion_pedidos; publicar/sincronizar no requieren red
+ni otro proceso. UI de cotizaciones elimina URL, clave y publicación. El modo
+remoto se conserva solo para compatibilidad con el prototipo anterior y sus pruebas.
+El lanzador .cmd abre la URL PHP. El proceso de Node del puerto 8788 fue detenido.
+Migrador CLI verifica la identidad del SQLite anterior e importa solo pedidos
+faltantes; no sobrescribe sus estados locales ni elimina el archivo anterior.
+En este equipo había un pedido anterior ya guardado en MySQL y se conservó.
+
+Pruebas nuevas sin Node: 51 solicitudes HTTP y 8 comprobaciones PHP/MySQL en base
+QA aislada, incluyendo precios/cotizaciones, versión, privacidad, origen, límite,
+reintentos concurrentes, llegada al POS, preparación sin mover stock y cobro único.
+Navegador: pedido mixto PHP, recepción sin sincronizar, paso al POS por $212 y
+galería del negocio desde la ruta pública de imágenes. Documentación de actualización
+por Git y migración en ACTUALIZAR_OTRA_MAQUINA.txt. La descripción del Worker/SQLite
+que sigue corresponde al prototipo histórico, conservado como referencia.
+
+Captura interna de pedidos desde el catálogo privado: selección en mosaico/ficha,
+resumen con cantidades editables, nombre y celular requeridos, notas opcionales.
+POST /pedidos exige administrador y CSRF, valida variantes activas/unidades,
+recalcula importes con precios e impuestos actuales y guarda una instantánea con
+folio PL. Hasta 100 renglones y 10000 unidades por artículo. No exige caja abierta,
+no reserva stock, no registra venta ni crea automáticamente un cliente registrado.
+Las excepciones de cotización conservan precios nulos y requieren precio acordado
+al convertir. El pedido se consulta desde Pedidos guardados y usa la conversión
+existente a un único borrador y cobro transaccional.
+
+Migración 022 agrega origen (portal/local) y solicitud_huella. Una UUID y la huella
+canónica de actor/contacto/líneas permiten recuperar el pedido en reintentos y
+rechazar cambiar datos con la misma clave. La sincronización del portal excluye
+los pedidos locales. El guardado incierto congela edición y permite verificar la
+misma solicitud; sessionStorage conserva ese intento por negocio/usuario hasta
+confirmarlo. Nuevos eventos pedido_creado en bitácora. Pruebas ampliadas a 60:
+captura sin portal ni caja, contacto, unidades, duplicados, permisos, preparación,
+cobro único y exclusión de sincronización. Navegador: pedido de dos piezas y un
+servicio, datos del cliente, folio y paso al POS por $370 con precio acordado.
+
+Catálogo privado dentro de Pedidos: GET /pedidos/catalogo exige administrador y
+consulta Producto::listarActivos, imágenes autenticadas y existencias de todas
+las ubicaciones directamente en MySQL, sin depender del portal ni de Node.
+Incluye ubicaciones sin fila de existencias como cero, inactivas identificadas,
+servicios sin inventario, precio final con impuesto y marca de cotización. No
+filtra por stock ni limita a ubicaciones de venta; no devuelve costos. Consulta
+al entrar, por Actualizar catálogo o cada 30 segundos mientras esté visible y
+sin formulario de traspaso abierto. Filtros de categoría, búsqueda y ubicación,
+mosaicos y ficha con galería y desglose de existencias.
+
+Desde la ficha se captura origen/destino activo, cantidad, motivo y confirmación
+de entrega física. Reutiliza POST /almacen/traspasos y Almacen::registrar con
+bloqueos, validación de saldo y clave idempotente; conserva cantidad global,
+precios e historial. Ante resultado incierto bloquea edición y permite reintentar
+la misma solicitud. Conserva el pendiente en sessionStorage separado por negocio
+y usuario para verificarlo después de recargar la pestaña. Pedidos de clientes y
+configuración del portal quedan en una sección separada; los controles del portal
+no se muestran en el catálogo privado. No se publican existencias por ubicación.
+
+Pruebas de integración ampliadas a 46: precio privado actualizado sin publicación,
+consulta sin portal disponible, todas las ubicaciones, exclusión de no administradores,
+traspaso y reintento único, conservación global, saldos nuevos y origen insuficiente.
+Navegador QA: catálogo, ficha, cambio Bodega 42→40 y Tienda 11→13 con folio de traspaso.
+
+Portal separado en portal-pedidos: Worker ESM/D1 y prueba local Node 24/SQLite.
+El administrador es el único que consulta y opera Pedidos en el POS. Se exige
+permisos.todo en servidor, incluso si un rol anterior conserva ver_pedidos o
+gestionar_pedidos. El menú se oculta en cuentas no administradoras.
+
+Catálogo de todas las variantes activas, sin filtrar por existencia. Hasta 1000;
+se informa si se exceden en vez de truncar. Mosaicos con foto, categoría/búsqueda,
+Ver más con galería (hasta 10 fotos), descripción completa, SKU, variante, unidad,
+tipo y características simples de datos_extra. Copias de imágenes optimizadas
+con GD, hasta 960 px/85 KB por foto, publicadas por SHA-256 mediante puente privado
+y servidas como recursos separados. No cambia originales ni inventa fotografías.
+D1 media se agrega mediante migración 0001; SQLite local actualiza su user_version.
+
+Migración 021 agrega catalogo_pedidos.cotizacion. La tabla conserva excepciones de
+precio; ya no es una lista de inclusión. Los marcados publican quote_only=true y
+price_cents=null, sin el precio interno. Categoría y atributos se normalizan en el
+Worker. Pedidos mixtos suman solo precios conocidos y señalan requires_quote; no
+presentan una cotización como venta gratuita. La instantánea guarda líneas con
+precio/importe null y la necesidad de cotización.
+
+Antes de preparar un ticket, Pedido exige precios positivos para los artículos por
+cotizar. Se registran en bitácora y en el borrador, conservando los precios generales
+del producto. El POS recupera el precio acordado sin sustituirlo por el catálogo.
+Pedidos vendidos muestran el total de la venta asociada. Preparar exige turno propio
+abierto, recupera un único borrador y no mueve dinero ni inventario. Venta::cobrar
+finaliza el pedido dentro de la misma transacción; reintentos reutilizan el resultado.
+Ticket descartado permite preparar otra vez; uno activo de otra caja bloquea la toma.
+
+Puente privado con clave PEDIDOS_BRIDGE_KEY, URL raíz HTTPS (loopback HTTP para
+prueba local), cursor y estados versionados. API del POS autenticada y con CSRF.
+Portal público sin consulta de pedidos/personas; valida cantidades, precios, origen,
+tamaño y reintentos. No exporta costos, contraseñas ni historial de ventas. Permite
+recogida y pago en tienda, sin entregas, cobros web o mensajes automáticos. El celular
+no tiene verificación SMS. Estados nuevo/confirmado/listo/en_venta/vendido/cancelado;
+sincronización manual o cada minuto mientras el listado esté visible.
+
+Pruebas: 40 solicitudes Worker y 46 comprobaciones PHP/MySQL en base QA temporal.
+Cubren privacidad, acceso exclusivo de administrador aun con permisos heredados,
+catálogo completo sin stock, cotizaciones sin filtración de precio, validación del
+precio acordado, mezcla de importes, galerías, cobro único, inventario, venta normal
+y recuperación de estado vendido. Navegador: mosaicos móvil/escritorio, categorías,
+galería, pedido sin precio y conversión al POS conservando el importe acordado.
+
+Migraciones/conexión aplicadas y catálogo completo publicado solo en local. Falta
+publicación en internet: Sites no respondió; no hay ID ni URL pública. Binding DB,
+Worker y migraciones preparados. Guía en portal-pedidos/README.md y sección 26 del
+manual. Respaldar por separado MySQL y SQLite/D1; estados finales no sincronizados
+antes de restaurar requieren conciliar pedidos y ventas posteriores al respaldo.
+
 ## Licencias locales
 
 Pausa temporal solicitada el 17/11/2026: app/Config/Licencias.php devuelve false.
@@ -55,7 +182,7 @@ Caja: configuración de cajas en ubicaciones activas de venta; un turno abierto 
 
 Ventas: mostrador con búsqueda por nombre/SKU y códigos registrados, cantidades base y conversión de códigos de paquete. Pantalla Punto de venta: vista de terminal que ocupa toda la ventana, con pantalla completa del navegador al pulsar su acceso cuando esté permitido. Botón Volver al menú restaura la navegación sin cerrar caja ni descartar el ticket. Productos, ticket y cobro en columnas, adaptados a pantallas pequeñas. si el usuario conectado tiene turno abierto, entra directamente a vender; de lo contrario muestra apertura con cajas libres, efectivo inicial y responsable fijo de la sesión. Abrir requiere operar_caja; sin ese permiso se indica solicitarlo al administrador. Solo se permite vender en el turno propio, incluso a administradores y supervisores. Caja conserva su supervisión administrativa. Siempre en ubicación de venta. Cotización y recálculo por servidor; precio/costo/tasa/nombre quedan guardados, se validan permisos de descuentos y cambios de precio. Cobro mixto con efectivo, tarjetas, transferencias, vales u otros métodos activos; se registran pagos ya recibidos, sin integrar terminal bancaria. Existencias, movimientos, ticket y pagos se guardan juntos, con protección de reintentos. Servicios no mueven inventario; se permite inventario negativo conforme al diseño inicial. Tickets consultables por su vendedor; solo el administrador puede consultar los de otros usuarios; impresión mediante el navegador. Crédito y abonos habilitados según las reglas del módulo Crédito y abonos. Los datos del negocio y de los métodos aplicados se conservan en cada ticket.
 
-Navegación administrativa: menú lateral izquierdo fijo en escritorio, desplegable mediante Menú en celular. Las secciones respetan los permisos de la sesión y el punto de venta conserva su vista completa.
+Navegación administrativa: barra lateral de 224 px con logo enmarcado y nombre del negocio arriba, encabezado blanco compacto con hamburguesa y saludo Bienvenido. Abierta al iniciar en escritorio; se contrae con transición desplazando el contenido. En celular funciona como panel superpuesto con fondo atenuado, cierre con Escape/clic fuera y control del foco. Conserva permisos y movimiento reducido. La marca lateral se sincroniza con Configuración administrativa. Logo, nombre y encabezado del menú permanecen fijos; solo la lista de opciones tiene scroll independiente. Las secciones respetan los permisos de la sesión y el punto de venta conserva su vista completa.
 
 Imágenes: galería de hasta 10 imágenes por producto, JPG/PNG/WebP de hasta 2 MB y 4096 × 4096 px; hasta 6 MB nuevos por guardado. Una sola predeterminada, automática para la primera o al quedar una; retirar la principal selecciona la primera restante. Cambios de galería y ficha se guardan juntos, con control de edición concurrente. La principal se muestra en catálogo y punto de venta. Consulta autenticada y edición sujeta a editar_productos.
 
@@ -187,3 +314,9 @@ Pruebas de configuración: tests/configuracion.php crea una base qa_config_* ais
 Demos por giro: scripts/demos contiene cinco SQL autónomos MySQL 8 para pos_demo_abarrotes, pos_demo_ropa, pos_demo_agroquimica, pos_demo_restaurante y pos_demo_ferreteria (148 productos / 225 variantes), generados desde las estructuras instaladas sin copiar datos del negocio. Cada demo incluye siete cuentas con contraseña ficticia de pruebas Admin1.1, seis roles, clientes/crédito sin deuda, proveedores, cajas sin turnos abiertos, ubicaciones, stock inicial y movimientos coincidentes, mínimos y métodos de pago. Inventario y casos específicos por giro; restaurante es venta directa de artículos, sin recetas/mesas/comandas, y agroinsumos sin lotes ni recomendaciones. Tasas y precios ilustrativos. Las cinco bases se instalaron sin seleccionar ninguna; la aplicación conserva su base original.
 
 Instalador CLI y .cmd por giro: crean solo si la base no existe, verifican estructura y no sobrescriben las pruebas al repetirse. --activar selecciona una demo mediante storage/demo_database.json, ignorado por Git; Database::connect consulta esa selección y admite omitirla solo en CLI para el instalador. No se modifican las credenciales ni el nombre de base original del archivo de configuración. volver_original.cmd retira la selección. Cambio bajo bloqueo exclusivo compartido con la aplicación y rechazado ante recuperación de respaldo pendiente; invalida sesiones mediante la época existente para no reutilizar usuarios/tickets locales del contexto anterior. La selección afecta a toda la instalación. Pruebas: tests/demos.php valida importación de cada SQL y ciclo venta/corte en bases temporales independientes; tests/demos_instalador.py valida activación/regreso y conservación usando configuración temporal, incluso ante selección inválida. Bases y sesiones del negocio permanecen intactas. Uso y alcances en scripts/demos/LEEME.md.
+
+
+Tablas administrativas: encabezados con el color secundario y contraste automático; filas pares con :nth-child(even) en un tinte del primario, impares blancas, hover con tinte del acento y foco con tinte del primario. Empresa::estilos emite las variables --grid-* sin cambiar los colores guardados. Se aplica a tablas en .table-scroll solo en pantalla. tablas.js agrega controles nativos details/summary para Contraer tabla y Expandir tabla, incluidos listados dinámicos. No modifica filas ni filtros; abre contenido inválido y tablas al imprimir, restaurando su estado después. El ticket de venta y el carrito de cobro quedan fuera del plegado. Verificado en navegador: referencia del menú en escritorio/móvil, colapso del panel, filas alternadas y plegado de Productos mediante clic y Enter.
+
+
+Menú por áreas: Inicio queda directo; bloques independientes Ventas y clientes (Punto de venta, Caja, Pedidos, Clientes), Productos e inventario (Productos, Inventario, Compras), Finanzas (Crédito y abonos, Cuentas por pagar, Gastos), Reportes y control (Reportes, Bitácora) y Administración (Usuarios, Roles, Configuración, Respaldos). Los details/summary se pliegan con clic, Enter o Espacio; se ocultan los grupos sin opciones autorizadas y se abre el de la sección activa. Se mantiene el logo fijo, scroll solo en opciones y la hamburguesa animada. Verificado con administrador y operador QA de permisos limitados, escritorio y celular, navegación por Tab y Escape.

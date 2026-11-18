@@ -37,6 +37,25 @@ if (Licencia::habilitada() && !Licencia::permitidaSinLicencia($method, $path)) {
     (new Licencia())->proteger($method, $path);
 }
 
+$pedidoRoute=preg_match('#^/pedidos/([1-9][0-9]*)(?:/(estado|preparar))?$#D',$path,$pedidoMatch);
+if(in_array($path,array('/pedidos','/pedidos/catalogo','/pedidos/configuracion','/pedidos/publicar','/pedidos/sincronizar'),true)||$pedidoRoute){
+    $action=$pedidoRoute?(isset($pedidoMatch[2])?$pedidoMatch[2]:'detalle'):($path==='/pedidos'?($method==='POST'?'crear':'listar'):substr($path,9));
+    $allowed=$action==='configuracion'?array('GET','PUT'):(in_array($action,array('listar','detalle','catalogo'),true)?array('GET'):array('POST'));
+    if(!in_array($method,$allowed,true)){header('Allow: '.implode(', ',$allowed));throw new HttpError('Método no permitido.',405);}
+    $db=(new Database())->connect();$actor=(new Auth($db))->usuario();require_once __DIR__.'/../Models/Pedido.php';$model=new Pedido($db);
+    $data=array();if($method!=='GET'){Auth::csrf();$raw=file_get_contents('php://input',false,null,0,65537);if(strlen($raw)>65536)throw new HttpError('Solicitud demasiado grande.',413);$data=json_decode($raw,true);if(!is_array($data)||substr(ltrim($raw),0,1)!=='{')throw new HttpError('Envía un objeto JSON válido.',400);}
+    if($action==='crear')$result=$model->crearLocal($data,$actor['id']);
+    elseif($action==='catalogo')$result=$model->catalogoInterno($actor['id']);
+    elseif($action==='listar')$result=$model->listar($_GET,$actor['id']);
+    elseif($action==='detalle')$result=$model->obtener($pedidoMatch[1],$actor['id']);
+    elseif($action==='configuracion')$result=$method==='GET'?$model->configuracion($actor['id']):$model->configurar($data,$actor['id']);
+    elseif($action==='publicar')$result=$model->publicar($actor['id']);
+    elseif($action==='sincronizar')$result=$model->sincronizar($actor['id']);
+    elseif($action==='estado')$result=$model->estado($pedidoMatch[1],$data,$actor['id']);
+    else $result=$model->preparar($pedidoMatch[1],$data,$actor['id']);
+    Response::json(true,'Pedidos actualizados.',$result);
+}
+
 $configMethod=preg_match('#^/configuracion/metodos/([1-9][0-9]*)$#D',$path,$configMatch);
 if(in_array($path,array('/configuracion','/configuracion/metodos'),true)||$configMethod){
     $allowed=$configMethod?array('PUT'):($path==='/configuracion'?array('GET','PUT'):array('POST'));

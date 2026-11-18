@@ -1,0 +1,96 @@
+ACTUALIZAR PUNTOVENTA EN OTRA MÁQUINA
+====================================
+
+Git transporta código y archivos de migración. No copia ventas, inventario,
+clientes, fotos subidas ni registros de la base de datos de un negocio a otro.
+
+1. EN EL EQUIPO DONDE SE HICIERON LOS CAMBIOS
+
+Los cambios de código deben estar confirmados y enviados al repositorio:
+
+git status
+git add <archivos del cambio>
+git commit -m "Integra pedidos y portal de clientes en PHP"
+git push origin main
+
+No incluyas storage privado, logs, respaldos, .dev.vars, .local, contraseñas ni
+archivos del emisor de licencias. Las fotos y logos del negocio viajan mediante
+los respaldos del sistema, no mediante este cambio de código.
+
+2. ANTES DE ACTUALIZAR LA OTRA MÁQUINA
+
+- Genera y descarga un respaldo desde el apartado Respaldos del POS.
+- Termina las operaciones activas y cierra las pestañas del POS mientras actualizas.
+- Si usabas el portal anterior, cierra su ventana de Node del puerto 8788 antes
+  de migrar, para que no reciba pedidos después de leer la base anterior.
+- Conserva portal-pedidos/.local/portal.sqlite y los archivos asociados si existen.
+  No borres esa carpeta: puede contener pedidos aún no descargados.
+
+3. ACTUALIZAR EL CÓDIGO
+
+Abre Git Bash o una terminal en la carpeta de PuntoVenta de esa máquina:
+
+git status
+git pull --ff-only origin main
+
+Si Git informa cambios locales o un conflicto, revisa esos cambios antes de seguir.
+No uses git reset --hard para resolverlo: podría eliminar trabajo de esa máquina.
+
+4. ACTUALIZAR LA BASE DE DATOS
+
+AppServ y MySQL deben estar iniciados. Usa la configuración de base de datos de
+esa instalación; no reemplaces sus credenciales por las de otro equipo.
+
+Opción sencilla: abre por doble clic
+
+scripts\pedidos\actualizar-appserv.cmd
+
+O desde la raíz del proyecto con PHP CLI configurado:
+
+php scripts/pedidos/migrar-a-php.php
+
+En AppServ, si la terminal no carga las extensiones, usa:
+
+php -d extension_dir=C:/AppServ/php7/ext -d extension=php_pdo_mysql.dll -d extension=php_pdo_sqlite.dll scripts/pedidos/migrar-a-php.php
+
+El script crea o actualiza la estructura de Pedidos de las migraciones 020, 021,
+022 y 023. No necesita ejecutar SQL manualmente. Se puede repetir: no duplica
+pedidos ni borra las ventas, clientes, productos o existencias actuales.
+
+Si existe el SQLite del portal anterior, comprueba su identidad e importa solo
+los pedidos que falten en MySQL. Los ya recibidos conservan su estado y ticket.
+PDO SQLite se usa solo para leer esa base antigua; el portal nuevo utiliza MySQL.
+Si la base anterior pertenece a otra instalación, el script se detiene y no la
+mezcla con el negocio. Conserva los archivos y revisa qué instalación corresponde.
+
+Si esa máquina es una instalación distinta, este proceso conserva SUS datos.
+Si lo que quieres es trasladar el MISMO negocio completo desde la primera PC,
+utiliza también el flujo de respaldar/restaurar del POS, de forma coordinada;
+no copies solamente archivos SQL o de MySQL sobre una base en uso.
+
+5. COMPROBAR Y VOLVER A OPERAR
+
+Abre y actualiza con Ctrl + F5:
+
+Personal: http://localhost:8080/PuntoVenta/public/
+Clientes: http://localhost:8080/PuntoVenta/public/pedidos-clientes/
+
+Revisa productos, imágenes, cotizaciones y pedidos anteriores. El catálogo ya
+no se publica: toma los datos actuales del POS. Los pedidos llegan directamente
+a Pedidos guardados. No abras Node ni uses el puerto 8788.
+
+Desde un celular en el mismo Wi-Fi, cambia localhost por la IPv4 de la PC. Por
+ejemplo: http://IP-DE-LA-PC:8080/PuntoVenta/public/pedidos-clientes/
+
+6. CUANDO SE PUBLIQUE EN INTERNET
+
+Con PHP/MySQL, Apache con las reglas .htaccess y HTTPS, manteniendo la ruta actual:
+
+Clientes: https://tu-dominio.example/PuntoVenta/public/pedidos-clientes/
+Personal: https://tu-dominio.example/PuntoVenta/public/
+
+Son ejemplos, no enlaces publicados. Sustituye el dominio por el real. Comparte
+el enlace de clientes por WhatsApp, redes o QR; el personal entra con su propia
+cuenta y los permisos asignados. Mantén las reglas que bloquean app/, storage/,
+scripts/, .git y archivos privados fuera de public. Cambiar la carpeta base exige
+adaptar las rutas del proyecto; no basta con renombrarla en el servidor.

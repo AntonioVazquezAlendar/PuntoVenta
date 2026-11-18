@@ -26,7 +26,11 @@ opción aparezca en este manual no significa que todos los usuarios puedan usarl
 2) Escribe tu usuario y contraseña e inicia sesión.
 3) En una instalación sin usuarios, sigue el formulario de creación del primer
    administrador y después inicia sesión con la cuenta que acabas de crear.
-4) Usa el menú lateral para cambiar de sección. En celular, abre el botón Menú.
+4) En computadora, el menú lateral muestra el logo y nombre del negocio arriba;
+   el encabezado muestra el botón hamburguesa y el saludo de tu usuario. Usa ese
+   botón para contraer o expandir la barra. En celular, pulsa la hamburguesa para
+   desplegar las secciones; se cierra al elegir una, con Escape, Cerrar menú o
+   pulsando fuera del panel.
 5) Al terminar utiliza Cerrar sesión. Esto no sustituye el cierre del turno de caja.
 
 No hay una contraseña universal para las cuentas del negocio. Solicita tu acceso
@@ -49,6 +53,22 @@ El administrador debe revisar, antes de comenzar a operar:
 - Proveedores y clientes, cuando sean necesarios.
 
 No es necesario repetir esta preparación todos los días.
+
+El menú separa las opciones en bloques que puedes contraer y expandir pulsando
+su título o usando Enter o Espacio:
+- Ventas y clientes: Punto de venta, Caja, Pedidos y Clientes.
+- Productos e inventario: Productos, Inventario y Compras.
+- Finanzas: Crédito y abonos, Cuentas por pagar y Gastos del negocio.
+- Reportes y control: Reportes de ventas y Bitácora de actividad.
+- Administración: Usuarios y acceso, Roles y permisos, Configuración y Respaldos.
+Inicio queda como acceso directo. Solo verás opciones y bloques permitidos para
+tu cuenta. El bloque de la sección actual se abre para ayudarte a ubicarla.
+
+Las tablas administrativas usan los colores del negocio y alternan el fondo de
+las filas para facilitar su lectura. Pulsa Contraer tabla en la cabecera de un
+listado para ocultarlo y Expandir tabla para mostrarlo de nuevo. También puedes
+activar el control con Enter o Espacio. Contraer no borra datos ni cambia filtros.
+Las tablas se incluyen al imprimir aunque estén contraídas en pantalla.
 
 4. ABRIR CAJA Y COMENZAR LA JORNADA
 
@@ -766,5 +786,164 @@ La llave privada, su contraseña y el historial de emisiones se conservan solo e
 tu equipo; nunca los incluyas al instalar el sistema en un negocio. Debes entregar
 únicamente la llave pública incluida en app/Config/licencia_publica.pem junto con
 la aplicación. Respalda tus archivos privados por separado de los datos del negocio.
+
+26. PEDIDOS, CATÁLOGO PRIVADO Y PORTAL DE CLIENTES
+
+CATÁLOGO PRIVADO DEL ADMINISTRADOR
+
+Al entrar a Pedidos se abre Catálogo y existencias. Este catálogo toma los
+productos, precios e imágenes directamente del POS. No requiere publicar,
+conectar el portal ni encender el servidor Node. Se actualiza al entrar, con
+Actualizar catálogo y cada 30 segundos mientras esté visible y no haya un
+traspaso en preparación. Solo el administrador tiene acceso.
+
+Muestra todos los productos y servicios activos, incluso sin existencias.
+Puedes filtrar por categoría, buscar nombre/variante/SKU y elegir la ubicación
+cuyas existencias quieres ver. El filtro de ubicación no oculta productos sin
+stock. Todas las ubicaciones incluye venta, bodega y resguardo, incluso ubicaciones
+inactivas identificadas como tales. El total físico incluye esas ubicaciones;
+no equivale a la cantidad disponible para vender desde una caja específica.
+
+Ver más y ubicaciones abre la ficha con imágenes originales, descripción,
+características, precio actual con impuestos y existencias por ubicación. El
+administrador ve el precio interno aunque el portal de clientes indique cotización.
+Los servicios sin control de inventario no tienen acción de traspaso.
+
+ARMAR UN PEDIDO DESDE EL CATÁLOGO PRIVADO
+
+1) Abre Pedidos > Catálogo y existencias y busca los productos del cliente.
+2) Pulsa Agregar al pedido en cada mosaico o desde la ficha del producto.
+   Puedes cambiar de categoría o ubicación sin perder la selección.
+3) Pulsa Revisar pedido en la barra inferior. Cambia las cantidades o quita
+   artículos si hace falta. Se admiten hasta 100 productos distintos.
+4) Escribe el nombre y el celular del cliente; las notas son opcionales.
+5) Pulsa Guardar pedido. Se genera un folio PL y se abre su detalle. No necesitas
+   tener caja abierta para guardarlo. No se crean automáticamente clientes
+   registrados; nombre y celular quedan como datos de contacto de este pedido.
+6) Cuando vayas a cobrarlo, abre tu caja y usa Pasar a venta. Para artículos por
+   cotizar debes indicar antes el precio acordado. Revisa el ticket y sus pagos
+   y completa la venta normalmente.
+
+El pedido también se puede recuperar desde Pedidos guardados, buscando por
+folio, nombre o celular. Su origen se indica como Catálogo interno. Guardar no
+reserva ni descuenta inventario, no registra dinero ni realiza un traspaso.
+Puedes solicitar artículos sin existencias, pero debes disponer de mercancía
+vendible en la ubicación de la caja al cobrar. Los traspasos se hacen por separado.
+
+Si falla la respuesta al guardar, usa Reintentar guardado. La misma solicitud
+recupera el pedido ya creado y no lo duplica. El intento pendiente se conserva
+en esta pestaña, separado por negocio y usuario. No borres el almacenamiento
+mientras haya un guardado pendiente. Si intentas salir con un pedido sin guardar,
+el sistema te permite decidir si quieres descartarlo.
+
+Este flujo trabaja directamente en PHP/AppServ, sin necesitar Node, conexión al
+portal ni publicación. Los pedidos internos no se envían al portal de clientes.
+
+TRASPASAR DESDE LA FICHA
+
+1) Abre Ver más y ubicaciones en el producto deseado.
+2) Pulsa Traspasar en la ubicación que tenga mercancía disponible.
+3) Revisa el origen y selecciona otra ubicación activa como destino.
+4) Captura la cantidad y el motivo. Revisa los saldos antes y después.
+5) Entrega físicamente la mercancía y marca la confirmación de entrega.
+6) Pulsa Confirmar traspaso. El sistema valida el saldo actual, registra un folio
+   TR y actualiza origen y destino. La existencia global y el precio no cambian.
+
+El movimiento usa el mismo registro e historial que Inventario. No es una venta,
+no mueve efectivo y no transfiere mercancía físicamente por sí solo. Si el origen
+ya no tiene suficiente existencia, actualiza y corrige la cantidad.
+Si no llega la confirmación, usa Reintentar traspaso para verificar la misma
+solicitud sin duplicarla. El pendiente se conserva en esta pestaña y se recupera
+al volver a entrar con el mismo usuario y negocio. No borres el almacenamiento
+del navegador mientras haya un traspaso pendiente de verificar.
+
+PORTAL DE CLIENTES EN APPSERV / PHP
+
+El portal y el POS ahora funcionan en la misma instalación de AppServ:
+- Clientes: http://localhost:8080/PuntoVenta/public/pedidos-clientes/
+- Administración y personal: http://localhost:8080/PuntoVenta/public/
+
+Solo necesitas AppServ iniciado; no arranques Node ni uses el puerto 8788.
+portal-pedidos/abrir-portal.cmd abre la dirección nueva en el navegador.
+Desde un celular en el mismo Wi-Fi usa la IPv4 de la PC en lugar de localhost,
+por ejemplo http://IP-DE-LA-PC:8080/PuntoVenta/public/pedidos-clientes/.
+
+El portal consulta directamente productos, precios y fotos del POS. Muestra todos
+los artículos activos aunque no tengan existencias. Sus mosaicos incluyen filtro
+por categoría, búsqueda y Ver más con descripción, galería y características.
+Los clientes no ven costos, existencias por ubicación ni pantallas administrativas.
+
+Los pedidos enviados se guardan directamente en Pedidos guardados. No necesitan
+sincronizarse con otro servidor. El administrador puede usar Actualizar pedidos
+o esperar la actualización del listado. Desde ahí abre el pedido y lo pasa a venta.
+El catálogo privado y los traspasos siguen siendo exclusivos del administrador.
+
+PRODUCTOS O SERVICIOS CON PRECIO VARIABLE
+
+En Pedidos guardados pulsa Cotizaciones del portal. Marca los artículos cuyo
+precio debe acordarse con el cliente y pulsa Guardar cotizaciones. Se reflejan
+al actualizar el portal, sin publicar ni introducir direcciones o claves.
+Los cambios no modifican el precio interno del catálogo del POS.
+
+El cliente puede mezclar productos con precio y por cotizar. El portal muestra
+el importe conocido y señala los pendientes; nunca los presenta como gratuitos.
+Al pasar a venta, captura un precio mayor que cero en Precio acordado para cada
+renglón por cotizar. Se usa el mismo criterio de impuestos que el campo Precio
+unitario del POS. Revisa el importe definitivo con el cliente antes de cobrar.
+
+ACTUALIZAR DESDE OTRA MÁQUINA
+
+Git actualiza el código; la base de datos se actualiza mediante migraciones.
+Después de respaldar, hacer git pull y cerrar el portal anterior de Node, ejecuta
+scripts/pedidos/actualizar-appserv.cmd o el comando explicado en
+ACTUALIZAR_OTRA_MAQUINA.txt. El script conserva los pedidos anteriores y aplica
+la estructura nueva sin borrar ventas, clientes, productos ni existencias.
+Los pedidos nuevos del portal PHP forman parte del respaldo habitual del POS.
+Conserva la copia SQLite anterior hasta verificar la migración.
+
+ENLACES CUANDO SE PUBLIQUE EN INTERNET
+
+Con un dominio real y HTTPS, manteniendo la ruta del proyecto, por ejemplo:
+Clientes: https://tu-dominio.example/PuntoVenta/public/pedidos-clientes/
+Personal: https://tu-dominio.example/PuntoVenta/public/
+
+Son ejemplos; se sustituye tu-dominio.example por el dominio de la instalación.
+Comparte el enlace de clientes por WhatsApp, redes o QR. Cada empleado usa su
+cuenta en el enlace del personal y solo accede a sus permisos. Instalar el sitio
+en internet es un paso adicional; localhost solo funciona en la PC del negocio.
+
+EJEMPLO COMPLETO: DEL CELULAR AL CORTE DE CAJA
+
+1) El administrador abre su caja, por ejemplo con $500.00 de fondo.
+2) Una clienta entra al portal, filtra por categoría y abre Ver más para revisar
+   fotos y descripción. Agrega dos productos de $100.00 cada uno.
+3) Escribe nombre, celular y notas, envía el pedido y conserva el folio. Si falla
+   la conexión, usa Reintentar para consultar o completar el mismo envío.
+4) El administrador abre Pedidos y pulsa Actualizar pedidos. Con la lista
+   visible también se sincroniza cada minuto. Busca por folio, nombre o celular.
+5) Abre Ver pedido, revisa disponibilidad y pulsa Confirmar pedido. Cuando la
+   mercancía esté preparada puede pulsar Marcar listo. El celular se usa para
+   contactar al cliente por los medios habituales; no se envía un SMS automático.
+6) Pulsa Pasar a venta. Si hay artículos por cotizar, define sus precios antes.
+   Se crea un único ticket en su caja; si ya existía, se recupera ese mismo.
+7) Revisa cantidades y precios. El pedido no reserva mercancía: aunque se pudo
+   pedir sin existencias, la venta requiere cumplir la validación de inventario.
+8) Cobra, por ejemplo, $200.00 en efectivo. Solo al completar la venta se mueve
+   inventario y dinero, y el pedido queda Vendido con su venta asociada.
+9) Cierra caja y genera su corte normalmente. Si esa fue la única operación y
+   no hubo otros movimientos, el efectivo esperado será $700.00: $500.00 de
+   apertura más $200.00 de venta. El pedido solo no suma dinero al corte.
+
+Estados: Nuevo, Confirmado, Listo, En venta, Vendido y Cancelado. Para cancelar,
+indica el motivo. Si hay un ticket activo, primero resuélvelo o descártalo.
+Después puedes cancelar o preparar nuevamente. Un pedido vendido o cancelado
+no se convierte otra vez. Un ticket de otra caja o usuario no se puede tomar.
+No registres otra venta para resolver un cobro pendiente sin comprobar primero
+el resultado del ticket asociado.
+
+El portal es para recoger y pagar en el negocio; no procesa pagos en línea,
+entregas ni notificaciones automáticas. El celular no tiene verificación SMS.
+Los pedidos nuevos del portal PHP se respaldan junto con el POS en MySQL.
+Detalles de instalación y límites de imágenes en portal-pedidos/README.md.
 
 FIN DEL MANUAL

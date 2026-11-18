@@ -1,0 +1,8 @@
+dist/
+site.tar.gz
+.dev.vars
+.dev.vars.*
+.local/
+.env*
+!.env.example
+node_modules/

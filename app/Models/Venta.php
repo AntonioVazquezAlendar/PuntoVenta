@@ -173,6 +173,7 @@ class Venta
             $insert=$this->db->prepare('INSERT INTO pagos_venta (venta_id,metodo_pago_id,monto,recibido,cambio,referencia,tipo_metodo,nombre_metodo) VALUES (?,?,?,?,?,?,?,?)');
             foreach($payments as $pay){$insert->execute(array($id,$pay['metodo_pago_id'],$pay['monto'],$pay['recibido'],$pay['cambio'],$pay['referencia'],$pay['tipo'],$pay['nombre']));}
             if($draftId!==null)$this->db->prepare("UPDATE borradores_venta SET estado='cobrado',venta_id=?,version=version+1,actualizado_en=CURRENT_TIMESTAMP WHERE id=?")->execute(array($id,$draftId));
+            if(isset($datos['pedido_id'])){if(!$draftId)throw new HttpError('El pedido requiere su ticket asociado.',409);require_once __DIR__.'/Pedido.php';Pedido::finalizar($this->db,$draftId,$id,$actorId);}
             $result=array('venta_id'=>$id,'folio'=>$folio,'total'=>$quote['total'],'cambio'=>Caja::dinero($change));
             $this->db->prepare('UPDATE solicitudes_venta SET venta_id=?,resultado=? WHERE id=?')->execute(array($id,json_encode($result),$op['id']));$this->db->commit();return $result;
         }catch(Throwable $e){if($this->db->inTransaction())$this->db->rollBack();throw $e;}

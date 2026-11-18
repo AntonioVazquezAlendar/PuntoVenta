@@ -13,6 +13,8 @@ class Rol
             array('clave' => 'editar_productos', 'nombre' => 'Crear, editar y desactivar productos y categorías', 'grupo' => 'Catálogo', 'disponible' => true),
             array('clave' => 'vender', 'nombre' => 'Realizar ventas y consultar mis tickets', 'grupo' => 'Ventas', 'disponible' => true),
             array('clave' => 'ver_ventas', 'nombre' => 'Consultar mis ventas y tickets', 'grupo' => 'Ventas', 'disponible' => true),
+            array('clave'=>'ver_pedidos','nombre'=>'Pedidos: reservado al administrador','grupo'=>'Pedidos','disponible'=>false),
+            array('clave'=>'gestionar_pedidos','nombre'=>'Gestión de pedidos: reservada al administrador','grupo'=>'Pedidos','disponible'=>false),
             array('clave' => 'dar_descuento', 'nombre' => 'Dar descuentos', 'grupo' => 'Ventas', 'disponible' => true),
             array('clave' => 'cambiar_precio', 'nombre' => 'Cambiar precios al vender', 'grupo' => 'Ventas', 'disponible' => true),
             array('clave' => 'cancelar_venta', 'nombre' => 'Solicitar cancelaciones del turno original abierto', 'grupo' => 'Ventas', 'disponible' => true),
@@ -61,6 +63,7 @@ class Rol
             }
         }
         // Las acciones de venta requieren acceso a ventas.
+        if($datos['permisos']['gestionar_pedidos']&&!$datos['permisos']['ver_pedidos'])throw new HttpError('Activa Consultar pedidos antes de permitir gestionarlos.');
         if($datos['permisos']['editar_clientes']&&!$datos['permisos']['ver_clientes'])throw new HttpError('Activa Consultar clientes antes de permitir editarlos.');
         if ($datos['permisos']['editar_productos'] && !$datos['permisos']['ver_productos']) { throw new HttpError('Activa Consultar productos antes de permitir editar el catálogo.'); }
         if ($datos['permisos']['ajustar_inventario'] && !$datos['permisos']['ver_inventario']) { throw new HttpError('Activa Consultar existencias e historial antes de permitir ajustes.'); }
